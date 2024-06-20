@@ -10,7 +10,7 @@
 
 开启 WSL 的硬件要求及方法在此处不多赘述, 需要了解请自行查阅.
 
-> 如果您有安装 VMware Workstation 或者 Oracle Vitrual Box 等 Type-2 类型的虚拟机. 推荐改用 Hyper-V, 否则其运行的虚拟机性能可能会受到影响.
+> 如果您有安装 VMware Workstation, Oracle Vitrual Box 等 Type-2 类型的虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
 开启后, 在 Windows 终端 (管理员权限) 中执行以下命令:
 ```Batch
