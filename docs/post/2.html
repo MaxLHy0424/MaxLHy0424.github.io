@@ -11,19 +11,19 @@
     </script>
 <meta name="description" content="在 Windows 上开发 Linux 软件时, WSL2 常常是不二之选.
 
-但是, WSL2 可以做到开箱即用, 且只需简单设置的发行版, 几乎都是 Debian 系的. Arch Linux 用户想要使用 WSL2 在 Windows 上进行 Linux 软件开发, 配置部分已经难道了一大批人...
+但是, WSL2 上开箱即用的 Linux 发行版, 几乎都是 Debian 系的. 用户想要在 WSL2 上使用 Arch Linux, 连配置部分就已经难道了一大批人...
 
 本教程将帮助您在 WSL2 上使用 Arch Linux!
 
-> 适用于 Windows 11 22H2 以上版本, 其以下的版本可能会出现各种问题.
+> 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
-开启 WSL 的硬件要求及方法在此处不多赘述, 需要了解请自行查阅.
+WSL2 的硬件要求及启用方法在此处不多赘述, 请自行查阅.
 
-> 如果您有安装 VMware Workstation, Oracle Vitrual Box 等 Type-2 类型的虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
+> 如果您有安装 VMware Workstation, Oracle Vitrual Box 等寄居型虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
-开启后, 在 Windows 终端 (管理员权限) 中执行以下命令:
+启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:
 ```Batch
 wsl --update && wsl --update --pre-release
 ```
@@ -229,22 +229,22 @@ Include = /etc/pacman.d/mirrorlist
 # *? 预告*
 
 WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL2 中使用!。">
-<meta property="og:title" content="下江小春都能看懂的 WSL2 安装配置 Arch Linux 保姆级指南!">
+<meta property="og:title" content="下江小春都能看懂的 Arch Linux for WSL2 安装/配置指南!">
 <meta property="og:description" content="在 Windows 上开发 Linux 软件时, WSL2 常常是不二之选.
 
-但是, WSL2 可以做到开箱即用, 且只需简单设置的发行版, 几乎都是 Debian 系的. Arch Linux 用户想要使用 WSL2 在 Windows 上进行 Linux 软件开发, 配置部分已经难道了一大批人...
+但是, WSL2 上开箱即用的 Linux 发行版, 几乎都是 Debian 系的. 用户想要在 WSL2 上使用 Arch Linux, 连配置部分就已经难道了一大批人...
 
 本教程将帮助您在 WSL2 上使用 Arch Linux!
 
-> 适用于 Windows 11 22H2 以上版本, 其以下的版本可能会出现各种问题.
+> 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
-开启 WSL 的硬件要求及方法在此处不多赘述, 需要了解请自行查阅.
+WSL2 的硬件要求及启用方法在此处不多赘述, 请自行查阅.
 
-> 如果您有安装 VMware Workstation, Oracle Vitrual Box 等 Type-2 类型的虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
+> 如果您有安装 VMware Workstation, Oracle Vitrual Box 等寄居型虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
-开启后, 在 Windows 终端 (管理员权限) 中执行以下命令:
+启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:
 ```Batch
 wsl --update && wsl --update --pre-release
 ```
@@ -453,7 +453,7 @@ WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/2.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/142279449?v=4">
-<title>下江小春都能看懂的 WSL2 安装配置 Arch Linux 保姆级指南!</title>
+<title>下江小春都能看懂的 Arch Linux for WSL2 安装/配置指南!</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 </head>
@@ -484,7 +484,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">下江小春都能看懂的 WSL2 安装配置 Arch Linux 保姆级指南!</h1>
+<h1 class="postTitle">下江小春都能看懂的 Arch Linux for WSL2 安装/配置指南!</h1>
 <div class="title-right">
     <a href="https://MaxLHy0424.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -509,17 +509,17 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><p>在 Windows 上开发 Linux 软件时, WSL2 常常是不二之选.</p>
-<p>但是, WSL2 可以做到开箱即用, 且只需简单设置的发行版, 几乎都是 Debian 系的. Arch Linux 用户想要使用 WSL2 在 Windows 上进行 Linux 软件开发, 配置部分已经难道了一大批人...</p>
+<p>但是, WSL2 上开箱即用的 Linux 发行版, 几乎都是 Debian 系的. 用户想要在 WSL2 上使用 Arch Linux, 连配置部分就已经难道了一大批人...</p>
 <p>本教程将帮助您在 WSL2 上使用 Arch Linux!</p>
 <blockquote>
-<p>适用于 Windows 11 22H2 以上版本, 其以下的版本可能会出现各种问题.</p>
+<p>适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.</p>
 </blockquote>
 <h1>0 准备工作</h1>
-<p>开启 WSL 的硬件要求及方法在此处不多赘述, 需要了解请自行查阅.</p>
+<p>WSL2 的硬件要求及启用方法在此处不多赘述, 请自行查阅.</p>
 <blockquote>
-<p>如果您有安装 VMware Workstation, Oracle Vitrual Box 等 Type-2 类型的虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.</p>
+<p>如果您有安装 VMware Workstation, Oracle Vitrual Box 等寄居型虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.</p>
 </blockquote>
-<p>开启后, 在 Windows 终端 (管理员权限) 中执行以下命令:</p>
+<p>启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:</p>
 <div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">wsl</span> --update <span class="pl-k">&amp;&amp;</span> <span class="pl-k">wsl</span> --update --pre-release</pre></div>
 <p>接着, 在当前的 Windows 用户目录下创建文件<code class="notranslate">.wslconfig</code>, 在文件中添加以下内容:</p>
 <pre class="notranslate"><code class="notranslate">[wsl2]
