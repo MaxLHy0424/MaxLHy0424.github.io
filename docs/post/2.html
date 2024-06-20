@@ -9,19 +9,19 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="在 Windows 上开发 Linux 软件时, WSL2 常常是不二之选.
+<meta name="description" content="在 Windows 上开发 Linux 软件时, WSL2 常为不二之选.
 
-但是, WSL2 上开箱即用的 Linux 发行版, 几乎都是 Debian 系的. 用户想要在 WSL2 上使用 Arch Linux, 连配置部分就已经难道了一大批人...
+但是, WSL2 上开箱即用的 GNU/Linux 发行版, 几乎都是基于 Debian Project 的. 想要在 WSL2 上使用 Arch Linux, 配置较为麻烦.
 
-本教程将帮助您在 WSL2 上使用 Arch Linux!
+本教程将帮助您在 WSL2 上安装并配置 Arch Linux!
 
 > 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
-WSL2 的硬件要求及启用方法在此处不多赘述, 请自行查阅.
+WSL2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 
-> 如果您有安装 VMware Workstation, Oracle Vitrual Box 等寄居型虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
+> 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
 启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:
 ```Batch
@@ -41,17 +41,17 @@ autoMemoryReclaim=gradual
 sparseVhd=true
 ```
 
-然后, 在 Microsoft Store 中搜索 'Arch WSL', 点击下图中所示的软件 (一般为第1个):
+然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
 
-![image](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
+![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
 
 按照正常流程安装, 打开, 创建账户. 
 
-# 1 进入 root 用户
+# 1 登录`root`用户并修改密码
 
-执行`sudo su`, 通过`passwd root`修改密码.
+执行`sudo su`进入`root`用户后, 通过`passwd root`修改`root`用户密码.
 
-# 2 配置 nano
+# 2 配置 GNU Nano 文本编辑器
 
 打开`/etc/nanorc`, 在末尾追加:
 ```
@@ -229,20 +229,20 @@ Include = /etc/pacman.d/mirrorlist
 # *? 预告*
 
 WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL2 中使用!。">
-<meta property="og:title" content="下江小春都能看懂的 Arch Linux for WSL2 安装/配置指南!">
-<meta property="og:description" content="在 Windows 上开发 Linux 软件时, WSL2 常常是不二之选.
+<meta property="og:title" content="下江小春都能看懂的 Arch Linux for WSL2 安装与配置指南!">
+<meta property="og:description" content="在 Windows 上开发 Linux 软件时, WSL2 常为不二之选.
 
-但是, WSL2 上开箱即用的 Linux 发行版, 几乎都是 Debian 系的. 用户想要在 WSL2 上使用 Arch Linux, 连配置部分就已经难道了一大批人...
+但是, WSL2 上开箱即用的 GNU/Linux 发行版, 几乎都是基于 Debian Project 的. 想要在 WSL2 上使用 Arch Linux, 配置较为麻烦.
 
-本教程将帮助您在 WSL2 上使用 Arch Linux!
+本教程将帮助您在 WSL2 上安装并配置 Arch Linux!
 
 > 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
-WSL2 的硬件要求及启用方法在此处不多赘述, 请自行查阅.
+WSL2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 
-> 如果您有安装 VMware Workstation, Oracle Vitrual Box 等寄居型虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
+> 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
 启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:
 ```Batch
@@ -262,17 +262,17 @@ autoMemoryReclaim=gradual
 sparseVhd=true
 ```
 
-然后, 在 Microsoft Store 中搜索 'Arch WSL', 点击下图中所示的软件 (一般为第1个):
+然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
 
-![image](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
+![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
 
 按照正常流程安装, 打开, 创建账户. 
 
-# 1 进入 root 用户
+# 1 登录`root`用户并修改密码
 
-执行`sudo su`, 通过`passwd root`修改密码.
+执行`sudo su`进入`root`用户后, 通过`passwd root`修改`root`用户密码.
 
-# 2 配置 nano
+# 2 配置 GNU Nano 文本编辑器
 
 打开`/etc/nanorc`, 在末尾追加:
 ```
@@ -453,7 +453,7 @@ WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/2.html">
 <meta property="og:image" content="https://avatars.githubusercontent.com/u/142279449?v=4">
-<title>下江小春都能看懂的 Arch Linux for WSL2 安装/配置指南!</title>
+<title>下江小春都能看懂的 Arch Linux for WSL2 安装与配置指南!</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 </head>
@@ -484,7 +484,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">下江小春都能看懂的 Arch Linux for WSL2 安装/配置指南!</h1>
+<h1 class="postTitle">下江小春都能看懂的 Arch Linux for WSL2 安装与配置指南!</h1>
 <div class="title-right">
     <a href="https://MaxLHy0424.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -508,16 +508,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>在 Windows 上开发 Linux 软件时, WSL2 常常是不二之选.</p>
-<p>但是, WSL2 上开箱即用的 Linux 发行版, 几乎都是 Debian 系的. 用户想要在 WSL2 上使用 Arch Linux, 连配置部分就已经难道了一大批人...</p>
-<p>本教程将帮助您在 WSL2 上使用 Arch Linux!</p>
+<div class="markdown-body" id="postBody"><p>在 Windows 上开发 Linux 软件时, WSL2 常为不二之选.</p>
+<p>但是, WSL2 上开箱即用的 GNU/Linux 发行版, 几乎都是基于 Debian Project 的. 想要在 WSL2 上使用 Arch Linux, 配置较为麻烦.</p>
+<p>本教程将帮助您在 WSL2 上安装并配置 Arch Linux!</p>
 <blockquote>
 <p>适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.</p>
 </blockquote>
 <h1>0 准备工作</h1>
-<p>WSL2 的硬件要求及启用方法在此处不多赘述, 请自行查阅.</p>
+<p>WSL2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.</p>
 <blockquote>
-<p>如果您有安装 VMware Workstation, Oracle Vitrual Box 等寄居型虚拟机, 推荐改用 Hyper-V. 否则其运行的虚拟机性能可能会受到影响.</p>
+<p>如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.</p>
 </blockquote>
 <p>启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:</p>
 <div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">wsl</span> --update <span class="pl-k">&amp;&amp;</span> <span class="pl-k">wsl</span> --update --pre-release</pre></div>
@@ -532,12 +532,12 @@ autoProxy=true
 autoMemoryReclaim=gradual
 sparseVhd=true
 </code></pre>
-<p>然后, 在 Microsoft Store 中搜索 "Arch WSL", 点击下图中所示的软件 (一般为第1个):</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178"><img src="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178" alt="image" style="max-width: 100%;"></a></p>
+<p>然后, 在 Microsoft Store 中搜索<code class="notranslate">Arch WSL</code>, 点击下图中所示的软件 (一般为第1个):</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178"><img src="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178" alt="Microsoft Store 搜索结果的局部截图" style="max-width: 100%;"></a></p>
 <p>按照正常流程安装, 打开, 创建账户.</p>
-<h1>1 进入 root 用户</h1>
-<p>执行<code class="notranslate">sudo su</code>, 通过<code class="notranslate">passwd root</code>修改密码.</p>
-<h1>2 配置 nano</h1>
+<h1>1 登录<code class="notranslate">root</code>用户并修改密码</h1>
+<p>执行<code class="notranslate">sudo su</code>进入<code class="notranslate">root</code>用户后, 通过<code class="notranslate">passwd root</code>修改<code class="notranslate">root</code>用户密码.</p>
+<h1>2 配置 GNU Nano 文本编辑器</h1>
 <p>打开<code class="notranslate">/etc/nanorc</code>, 在末尾追加:</p>
 <pre class="notranslate"><code class="notranslate">bind ^X cut main
 bind ^C copy main
