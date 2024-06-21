@@ -10,12 +10,12 @@
     "UTC":8,
     "themeMode":"manual",
     "dayTheme":"light",
-    "nightTheme":"dark-blue",
+    "nightTheme":"dark_colorblind",
     "urlMode":"issue",
     "style":"",
     "script":"",
     "indexStyle":"",
     "indexScript":"",
     "showPostSource":1,
-    "bottomText":"⚠️转载请注明出处"
+    "bottomText":"⚠️ 转载请注明出处"
 }
