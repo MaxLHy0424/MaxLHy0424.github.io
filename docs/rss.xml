@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Fri, 21 Jun 2024 12:08:54 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>手把手教您编译适用于 WSL2 的 Linux Kernel</title><link>https://MaxLHy0424.github.io/post/3.html</link><description>&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 22 Jun 2024 13:54:06 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>终究是小学毕业了</title><link>https://MaxLHy0424.github.io/post/4.html</link><description>&gt; 本文原定于今天下午 7 点发布, 但因为突然有事, 延迟到了现在, 深感抱歉.&#13;
+&#13;
+不知不觉间, 小学六年时光匆匆而去. 今天起, 我已不再是一名小学生. 鲜艳的红领巾摆放在柜子的一角, 校徽随手丢在抽屉的深处, 校服消沉在了衣柜中. 以往朝夕相处的同学, 现在只存于照片里了. 小学六年, 每一次的欢乐, 哭泣, 振作, 都沉入了昨日的夕阳. 小学生活, 至此告一段落, 画上了圆满的句号.&#13;
+&#13;
+六年, 9600 节课, 240 个星期, 12 个学期, 一张试卷考散了一群人, 最后只留下一张照片和一声再见. 六年, 书齐了, 人却散了, 和朝夕相处的同学们坐到站了, 也该下车了...下车后，新的列车依旧坐满了人, 可惜, 已经不是原来那群人了...&#13;
+&#13;
+还记得那每天两声 '老师好' 和 '老师再见', 到现在, 只剩 '有缘再见'. 时光匆匆中, 每个鲜活的人使我难忘. 我的同学, 我的老师, 现在他们都沉于我的漫漫的记忆长河中了. 那些快乐的时光, 都将在我内心深处如宝石般闪闪发光. 明明已是黑夜, 但我仍可见昨日的夕阳...&#13;
+&#13;
+我将永远铭记这一切, 直到永远...&#13;
+&#13;
+我的故事尚未画下句号, 大家的故事尚未画下句号. 你我的故事, 仍需继续写下去, 直到人生终末的句号. 这样的时刻会在不久的将来重演, 而你我, 仍然走着自己的人生之路. 我们回首夕阳, 更要看向远方, 将我们的 '青春剧' 继续演下去...&#13;
+&#13;
+&gt; 谨以此文献给我亲爱的同学, 老师, 以及我的母校. 愿我们都能书写出自己人生的辉煌篇章.。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/4.html</guid><pubDate>Sat, 22 Jun 2024 13:53:41 +0000</pubDate></item><item><title>手把手教您编译适用于 WSL2 的 Linux Kernel</title><link>https://MaxLHy0424.github.io/post/3.html</link><description>&#13;
 WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.&#13;
 &#13;
 首先声明, 这可能会导致部分 GNU/Linux 发行版不稳定, 软件包无法运行等问题. 所以不建议在生产环境中替换 WSL2 的 Linux Kernel.&#13;
