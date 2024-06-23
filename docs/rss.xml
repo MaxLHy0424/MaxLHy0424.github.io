@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sun, 23 Jun 2024 01:40:38 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>终究是小学毕业了</title><link>https://MaxLHy0424.github.io/post/4.html</link><description>&gt; 本文原定于今天下午 7 点发布, 但因为突然有事, 延迟到了现在, 深感抱歉.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sun, 23 Jun 2024 02:02:44 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>终究是小学毕业了</title><link>https://MaxLHy0424.github.io/post/4.html</link><description>&gt; 本文原定于今天下午 7 点发布, 但因为突然有事, 延迟到了现在, 深感抱歉.&#13;
 &#13;
 不知不觉间, 小学六年时光匆匆而去. 今天起, 我已不再是一名小学生. 鲜艳的红领巾摆放在柜子的一角, 校徽随手丢在抽屉的深处, 校服消沉在了衣柜中. 以往朝夕相处的同学, 现在只存于照片里了. 小学六年, 每一次的欢乐, 哭泣, 振作, 都沉入了昨日的夕阳. 小学生活, 至此告一段落, 画上了圆满的句号.&#13;
 &#13;
@@ -311,4 +311,9 @@ Include = /etc/pacman.d/mirrorlist&#13;
 &#13;
 WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL2 中使用!。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/2.html</guid><pubDate>Thu, 20 Jun 2024 11:15:36 +0000</pubDate></item><item><title>欢迎!</title><link>https://MaxLHy0424.github.io/post/1.html</link><description>欢迎来到我 *MaxLHy0424* 的博客 ヾ(≧▽≦*)o&#13;
 日后这里将会发布**我整理的一些资源**, 和**我自己写的文章 (包括但不限于教程, 同人文)**.&#13;
-感兴趣的话, 可以将本网站加入浏览器收藏夹, 或者推荐给其他人, 感激不尽!。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/1.html</guid><pubDate>Thu, 20 Jun 2024 09:44:09 +0000</pubDate></item></channel></rss>
+感兴趣的话, 可以将本网站加入浏览器收藏夹, 或者推荐给其他人, 感激不尽!&#13;
+&#13;
+我的个人账号:&#13;
+ - [Bilibili](https://space.bilibili.com/1678066522)&#13;
+ - [MineBBS](https://www.minebbs.com/members/maxlhy.88192/)&#13;
+ - [GitHub](https://github.com/MaxLHy0424)。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/1.html</guid><pubDate>Thu, 20 Jun 2024 09:44:09 +0000</pubDate></item></channel></rss>
