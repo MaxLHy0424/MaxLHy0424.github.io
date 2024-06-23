@@ -170,7 +170,7 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 pacman-key --init && pacman-key --lsign-key 'farseerfc@archlinux.org' && pacman -Sy archlinuxcn-keyring blackarch-keyring
 ```
 
-执行以下命令安装 yay 稳定版 (开发版把第一个`yay`改为`yay-git`):
+执行以下命令安装 yay 稳定版 (安装开发版把`yay`改为`yay-git`):
 ````Bash
 pacman -S yay
 ````
@@ -209,7 +209,7 @@ echo \
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | tee /etc/tmpfiles.d/wslg.conf && echo -e '[boot]\nsystemd=true' | tee -a /etc/wsl.conf
 ```
 
-# 6 善后工作
+# 6 善后工作及后续使用注意事项
 
 执行以下命令:
 ```Bash
@@ -390,7 +390,7 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 pacman-key --init && pacman-key --lsign-key 'farseerfc@archlinux.org' && pacman -Sy archlinuxcn-keyring blackarch-keyring
 ```
 
-执行以下命令安装 yay 稳定版 (开发版把第一个`yay`改为`yay-git`):
+执行以下命令安装 yay 稳定版 (安装开发版把`yay`改为`yay-git`):
 ````Bash
 pacman -S yay
 ````
@@ -429,7 +429,7 @@ echo \
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | tee /etc/tmpfiles.d/wslg.conf && echo -e '[boot]\nsystemd=true' | tee -a /etc/wsl.conf
 ```
 
-# 6 善后工作
+# 6 善后工作及后续使用注意事项
 
 执行以下命令:
 ```Bash
@@ -638,7 +638,7 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 </code></pre>
 <p>执行以命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">pacman-key --init <span class="pl-k">&amp;&amp;</span> pacman-key --lsign-key <span class="pl-s"><span class="pl-pds">"</span>farseerfc@archlinux.org<span class="pl-pds">"</span></span> <span class="pl-k">&amp;&amp;</span> pacman -Sy archlinuxcn-keyring blackarch-keyring</pre></div>
-<p>执行以下命令安装 yay 稳定版 (开发版把第一个<code class="notranslate">yay</code>改为<code class="notranslate">yay-git</code>):</p>
+<p>执行以下命令安装 yay 稳定版 (安装开发版把<code class="notranslate">yay</code>改为<code class="notranslate">yay-git</code>):</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">pacman -S yay</pre></div>
 <h1>4 汉化</h1>
 <p>打开<code class="notranslate">/etc/locale.gen</code>, 找到以下两行:</p>
@@ -660,7 +660,7 @@ export LANG=zh_CN.UTF-8:en_US.UTF-8
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> \
 <span class="pl-s"><span class="pl-pds">'</span># Type Path           Mode UID  GID  Age Argument</span>
 <span class="pl-s">L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix<span class="pl-pds">'</span></span> <span class="pl-k">|</span> tee /etc/tmpfiles.d/wslg.conf <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">echo</span> -e <span class="pl-s"><span class="pl-pds">"</span>[boot]\nsystemd=true<span class="pl-pds">"</span></span> <span class="pl-k">|</span> tee -a /etc/wsl.conf</pre></div>
-<h1>6 善后工作</h1>
+<h1>6 善后工作及后续使用注意事项</h1>
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">pacman -Syyu <span class="pl-k">&amp;&amp;</span> yay -S net-tools tree sed python wget <span class="pl-k">&amp;&amp;</span> yay -Rns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span> <span class="pl-k">&amp;&amp;</span> yay -Scc <span class="pl-k">&amp;&amp;</span> rm -rf /tmp/<span class="pl-k">*</span></pre></div>
 <p>如果后续需要安装软件源<code class="notranslate">blackarch</code>内的软件包, 推荐在此之前先打开<code class="notranslate">/etc/pacman.conf</code>, 注释以下几行:</p>
@@ -729,7 +729,11 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n\n","padding:5p
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
 function openComments(){
     cm=document.getElementById("comments");
     cmButton=document.getElementById("cmButton");

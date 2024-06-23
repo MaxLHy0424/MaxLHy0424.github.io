@@ -159,7 +159,7 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 pacman-key --init && pacman-key --lsign-key "farseerfc@archlinux.org" && pacman -Sy archlinuxcn-keyring blackarch-keyring
 ```
 
-执行以下命令安装 yay 稳定版 (开发版把第一个`yay`改为`yay-git`):
+执行以下命令安装 yay 稳定版 (安装开发版把`yay`改为`yay-git`):
 ````Bash
 pacman -S yay
 ````
@@ -198,7 +198,7 @@ echo \
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | tee /etc/tmpfiles.d/wslg.conf && echo -e "[boot]\nsystemd=true" | tee -a /etc/wsl.conf
 ```
 
-# 6 善后工作
+# 6 善后工作及后续使用注意事项
 
 执行以下命令:
 ```Bash
