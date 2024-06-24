@@ -56,7 +56,7 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
                --enable-rfxcodec \
                --enable-mp3lame \
                --enable-pixman \
-               --enable-vsock \
+               --enable-vsock
 ```
 
 接下来, 在当前目录执行:
@@ -71,6 +71,7 @@ makepkg -si
 
 再次返回上一级目录, 进入目录`linux-vm-tools/arch`, 执行:
 ```Bash
+./makepkg.sh
 sudo ./install-config.sh
 ```
 
