@@ -42,9 +42,8 @@ git clone https://aur.archlinux.org/xrdp-devel-git.git
 git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
 ```
 
-接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将花括号内包裹的文本替换为:
+接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将参数部分的文本替换为:
 ```Makefile
-   cd $pkgname
    ./configure --prefix=/usr \
                --sysconfdir=/etc \
                --localstatedir=/var \
@@ -58,7 +57,6 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
                --enable-mp3lame \
                --enable-pixman \
                --enable-vsock \
-   make V=0
 ```
 
 接下来, 在当前目录执行:
