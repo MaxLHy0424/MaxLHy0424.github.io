@@ -14,7 +14,8 @@ WSL2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 
 启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:
 ```Batch
-wsl --update && wsl --update --pre-release
+wsl --update
+wsl --update --pre-release
 ```
 
 接着, 在当前的 Windows 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
@@ -156,7 +157,9 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 
 执行以命令:
 ```Bash
-pacman-key --init && pacman-key --lsign-key "farseerfc@archlinux.org" && pacman -Sy archlinuxcn-keyring blackarch-keyring
+pacman-key --init
+pacman-key --lsign-key "farseerfc@archlinux.org"
+pacman -Sy archlinuxcn-keyring blackarch-keyring
 ```
 
 执行以下命令安装 yay 稳定版 (安装开发版把`yay`改为`yay-git`):
@@ -186,7 +189,8 @@ export LANG=zh_CN.UTF-8:en_US.UTF-8
 
 然后执行以下命令:
 ```Bash
-pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji && locale-gen
+pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji
+locale-gen
 ```
 
 # 5 解决 WSLg 及 Systemd 问题
@@ -195,14 +199,19 @@ pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-mic
 ```Bash
 echo \
 '# Type Path           Mode UID  GID  Age Argument
-L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | tee /etc/tmpfiles.d/wslg.conf && echo -e "[boot]\nsystemd=true" | tee -a /etc/wsl.conf
+L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | tee /etc/tmpfiles.d/wslg.conf
+echo -e "[boot]\nsystemd=true" | tee -a /etc/wsl.conf
 ```
 
 # 6 善后工作及后续使用注意事项
 
 执行以下命令:
 ```Bash
-pacman -Syyu && yay -S net-tools tree sed python wget && yay -Rns $(pacman -Qtdq) && yay -Scc && rm -rf /tmp/*
+pacman -Syyu
+yay -S net-tools tree sed python wget
+yay -Rns $(pacman -Qtdq)
+yay -Scc
+rm -rf /tmp/*
 ```
 
 如果后续需要安装软件源`blackarch`内的软件包, 推荐在此之前先打开`/etc/pacman.conf`, 注释以下几行:
