@@ -53,9 +53,8 @@ git clone https://aur.archlinux.org/xrdp-devel-git.git
 git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
 ```
 
-接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将花括号内包裹的文本替换为:
+接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将参数部分的文本替换为:
 ```Makefile
-   cd $pkgname
    ./configure --prefix=/usr \
                --sysconfdir=/etc \
                --localstatedir=/var \
@@ -69,7 +68,6 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
                --enable-mp3lame \
                --enable-pixman \
                --enable-vsock \
-   make V=0
 ```
 
 接下来, 在当前目录执行:
@@ -151,9 +149,8 @@ git clone https://aur.archlinux.org/xrdp-devel-git.git
 git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
 ```
 
-接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将花括号内包裹的文本替换为:
+接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将参数部分的文本替换为:
 ```Makefile
-   cd $pkgname
    ./configure --prefix=/usr \
                --sysconfdir=/etc \
                --localstatedir=/var \
@@ -167,7 +164,6 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
                --enable-mp3lame \
                --enable-pixman \
                --enable-vsock \
-   make V=0
 ```
 
 接下来, 在当前目录执行:
@@ -284,9 +280,8 @@ yay -Rcns python2 ceph</pre></div>
 <div class="highlight highlight-source-shell"><pre class="notranslate">git clone https://github.com/microsoft/linux-vm-tools.git
 git clone https://aur.archlinux.org/xrdp-devel-git.git
 git clone https://aur.archlinux.org/xorgxrdp-devel-git.git</pre></div>
-<p>接着, 打开<code class="notranslate">xrdp-devel-git/PKGBUILD</code>, 找到开头为<code class="notranslate">build()</code>的一行, 将花括号内包裹的文本替换为:</p>
-<div class="highlight highlight-source-makefile"><pre class="notranslate">   cd $pkgname
-   ./configure --prefix=/usr \
+<p>接着, 打开<code class="notranslate">xrdp-devel-git/PKGBUILD</code>, 找到开头为<code class="notranslate">build()</code>的一行, 将参数部分的文本替换为:</p>
+<div class="highlight highlight-source-makefile"><pre class="notranslate">   ./configure --prefix=/usr \
                <span class="pl-smi">--sysconfdir</span>=/etc <span class="pl-cce">\</span>
                --localstatedir=/var <span class="pl-cce">\</span>
                --sbindir=/usr/bin <span class="pl-cce">\</span>
@@ -298,8 +293,7 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git</pre></div>
                --enable-rfxcodec <span class="pl-cce">\</span>
                --enable-mp3lame <span class="pl-cce">\</span>
                --enable-pixman <span class="pl-cce">\</span>
-               --enable-vsock <span class="pl-cce">\</span>
-   make V=0</pre></div>
+               --enable-vsock <span class="pl-cce">\</span></pre></div>
 <p>接下来, 在当前目录执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">makepkg --skipchecksums -si</pre></div>
 <p>然后返回上一级目录, 再进入目录<code class="notranslate">xorgxrdp-devel-git</code>, 执行:</p>
