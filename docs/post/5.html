@@ -67,7 +67,7 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
                --enable-rfxcodec \
                --enable-mp3lame \
                --enable-pixman \
-               --enable-vsock \
+               --enable-vsock
 ```
 
 接下来, 在当前目录执行:
@@ -82,6 +82,7 @@ makepkg -si
 
 再次返回上一级目录, 进入目录`linux-vm-tools/arch`, 执行:
 ```Bash
+./makepkg.sh
 sudo ./install-config.sh
 ```
 
@@ -163,7 +164,7 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
                --enable-rfxcodec \
                --enable-mp3lame \
                --enable-pixman \
-               --enable-vsock \
+               --enable-vsock
 ```
 
 接下来, 在当前目录执行:
@@ -178,6 +179,7 @@ makepkg -si
 
 再次返回上一级目录, 进入目录`linux-vm-tools/arch`, 执行:
 ```Bash
+./makepkg.sh
 sudo ./install-config.sh
 ```
 
@@ -293,13 +295,14 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git</pre></div>
                --enable-rfxcodec <span class="pl-cce">\</span>
                --enable-mp3lame <span class="pl-cce">\</span>
                --enable-pixman <span class="pl-cce">\</span>
-               --enable-vsock <span class="pl-cce">\</span></pre></div>
+               --enable-vsock</pre></div>
 <p>接下来, 在当前目录执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">makepkg --skipchecksums -si</pre></div>
 <p>然后返回上一级目录, 再进入目录<code class="notranslate">xorgxrdp-devel-git</code>, 执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">makepkg -si</pre></div>
 <p>再次返回上一级目录, 进入目录<code class="notranslate">linux-vm-tools/arch</code>, 执行:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo ./install-config.sh</pre></div>
+<div class="highlight highlight-source-shell"><pre class="notranslate">./makepkg.sh
+sudo ./install-config.sh</pre></div>
 <h1>4 解决 XRDP 问题</h1>
 <p>执行以下命令 (仅适用于 KDE Plasma 桌面环境):</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11<span class="pl-pds">"</span></span> <span class="pl-k">&gt;</span> <span class="pl-k">~</span>/.xinitrc</pre></div>
