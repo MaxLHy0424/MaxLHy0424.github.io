@@ -34,7 +34,9 @@ sudo pacman -S base-devel flex bison pahole openssl libelf bc
 
 然后执行以下命令 (将`<File>`替换为您的 Linux Kernel 压缩包文件名, 将`<Dir>`替换为您的 Linux Kernel 压缩包解压后的目录名):
 ```Bash
-cd ~ && tar xf <File> && cd <Dir>
+cd ~
+tar xf <File>
+cd <Dir>
 ```
 
 # 3 编译内核
