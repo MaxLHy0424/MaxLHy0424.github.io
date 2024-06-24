@@ -1,4 +1,3 @@
-
 WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.
 
 首先声明, 这可能会导致部分 GNU/Linux 发行版不稳定, 软件包无法运行等问题. 所以不建议在生产环境中替换 WSL2 的 Linux Kernel.
@@ -33,9 +32,9 @@ sudo pacman -S base-devel flex bison pahole openssl libelf bc
 
 根据具体需求下载对应的 Linux Kernel, 然后通过 Windows 资源管理器复制到前面安装好依赖的 GNU/Linux 发行版的用户家目录中.
 
-然后执行以下命令 (请将`<LinuxKernelArchiveFile>`替换为您的 Linux Kernel 压缩包文件名):
+然后执行以下命令 (将`<File>`替换为您的 Linux Kernel 压缩包文件名, 将`<Dir>`替换为您的 Linux Kernel 压缩包解压后的目录名):
 ```Bash
-cd ~ && tar xf <LinuxKernelArchiveFile> && cd linux*
+cd ~ && tar xf <File> && cd <Dir>
 ```
 
 # 3 编译内核
