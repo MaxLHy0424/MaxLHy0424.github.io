@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Wed, 26 Jun 2024 08:19:57 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 01</title><link>https://MaxLHy0424.github.io/post/6.html</link><description>首先给不知道啥是 CRCSN 的讲讲. 总而言之, 这就是我自己开发的一个小项目, 作用是用来破解学校机房里比较主流的控制软件用的. 当初因为一时冲动而成, 目前正在规划 v5.0.0 大更新.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Wed, 26 Jun 2024 08:42:39 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 01</title><link>https://MaxLHy0424.github.io/post/6.html</link><description>首先给不知道啥是 CRCSN 的讲讲. 总而言之, 这就是我自己开发的一个小项目, 作用是用来破解学校机房里比较主流的控制软件用的. 当初因为一时冲动而成, 目前正在规划 v5.0.0 大更新.&#13;
 &#13;
 大版本更新, 先画个饼吧. v5.0.0 目前规划的更新如下:&#13;
  - ConsoleUI (伪 GUI)&#13;
@@ -9,7 +9,7 @@ ConsoleUI 是在 Bilibili 上看到一个视频 (详见[此处](https://www.bili
 &#13;
 至于重构 '工具箱'...怎么说呢, '工具箱' 这东西从 v4.0.0 添加以来, 使用的人几乎没有, 但大部分的 Bug 却都是这东西的问题...于是折腾了好几个版本后, 忍无可忍才在 v4.9.0 移除. 目前还能再程序内看见它, 但已经被我删的只剩个空壳了. 也算是把那些屎山代码移除了.&#13;
 &#13;
-v5.0.0 的开发分支预计于 2024 年 6 月 26 日 17:30 左右同步至 GitHub 仓库, 还请各位拭目以待!&#13;
+v5.0.0 的开发分支预计于 2024 年 6 月 26 日 17:00 左右同步至 GitHub 仓库, 还请各位拭目以待!&#13;
 &#13;
 GitHub 仓库请点[此处](https://github.com/MaxLHy0424/CRCSN)访问.。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/6.html</guid><pubDate>Tue, 25 Jun 2024 08:06:09 +0000</pubDate></item><item><title>为 Hyper-V 中的 Arch Linux 启用增强会话</title><link>https://MaxLHy0424.github.io/post/5.html</link><description>Hyper-V 去安装 GNU/Linux, 启用增强会话最令人头大. 不清楚是不是 Microsoft 有意为之让大家用 WSL2 还是什么的, 但总归, 这并不容易.&#13;
 &#13;
