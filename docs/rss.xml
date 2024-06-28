@@ -1,5 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Wed, 26 Jun 2024 08:42:39 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 01</title><link>https://MaxLHy0424.github.io/post/6.html</link><description>首先给不知道啥是 CRCSN 的讲讲. 总而言之, 这就是我自己开发的一个小项目, 作用是用来破解学校机房里比较主流的控制软件用的. 当初因为一时冲动而成, 目前正在规划 v5.0.0 大更新.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Fri, 28 Jun 2024 09:50:41 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 02</title><link>https://MaxLHy0424.github.io/post/7.html</link><description>三天过去了, CRCSN v5.0.0 的开发工作快马加鞭进行着, 讲讲这几天的成果吧.&#13;
+&#13;
+### 完全重构&#13;
+&#13;
+目前, 已经完全将核心代码从冗余的函数中拆分出来, 统一放在命名空间`CRCSN`下, 并保存在`module.hpp`中. 之后开发新功能只要向命名空间内添加新函数, 然后在主页创建一个条目就行了.&#13;
+&#13;
+## 实装 ConsoleUI&#13;
+&#13;
+ConsoleUI 目前基本取代了键盘输入选择的方式, 让操作更加简单方便. 经过这几天的打磨, 美观度上也无需担心. 目前的最新开发版本`24w27d`已经基本完成了主页的重构, 具体见下图:&#13;
+![CRCSN 版本 24w27d 的主页](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/49740e9c-bc68-422a-94d2-750ee54cbdeb)&#13;
+&#13;
+v5.0.0 致力让大家更加满意!&#13;
+。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/7.html</guid><pubDate>Fri, 28 Jun 2024 09:50:15 +0000</pubDate></item><item><title>CRCSN 开发小记 01</title><link>https://MaxLHy0424.github.io/post/6.html</link><description>首先给不知道啥是 CRCSN 的讲讲. 总而言之, 这就是我自己开发的一个小项目, 作用是用来破解学校机房里比较主流的控制软件用的. 当初因为一时冲动而成, 目前正在规划 v5.0.0 大更新.&#13;
 &#13;
 大版本更新, 先画个饼吧. v5.0.0 目前规划的更新如下:&#13;
  - ConsoleUI (伪 GUI)&#13;
