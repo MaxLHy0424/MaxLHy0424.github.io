@@ -1,4 +1,4 @@
-WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.
+WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.
 
 首先声明, 这可能会导致部分 GNU/Linux 发行版不稳定, 软件包无法运行等问题. 所以不建议在生产环境中替换 WSL2 的 Linux Kernel.
 
@@ -8,12 +8,12 @@ WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 
 
 # 1 安装依赖
 
-基于 Debian Project 的 GNU/Linux 发行版:
+APT:
 ```Bash
 sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev
 ```
 
-基于 Arch Linux 的 GNU/Linux 发行版:
+Package Manager:
 ```Bash
 sudo pacman -S base-devel flex bison pahole openssl libelf bc
 ```
@@ -45,7 +45,7 @@ cd <Dir>
 
 执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:
 ```Bash
-wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
+wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
 ```
 
 然后执行以下命令来使用全部线程编译内核:
