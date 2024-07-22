@@ -10,7 +10,7 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.
+<meta name="description" content="WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.
 
 首先声明, 这可能会导致部分 GNU/Linux 发行版不稳定, 软件包无法运行等问题. 所以不建议在生产环境中替换 WSL2 的 Linux Kernel.
 
@@ -20,12 +20,12 @@
 
 # 1 安装依赖
 
-基于 Debian Project 的 GNU/Linux 发行版:
+APT:
 ```Bash
 sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev
 ```
 
-基于 Arch Linux 的 GNU/Linux 发行版:
+Package Manager:
 ```Bash
 sudo pacman -S base-devel flex bison pahole openssl libelf bc
 ```
@@ -57,7 +57,7 @@ cd <Dir>
 
 执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:
 ```Bash
-wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
+wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
 ```
 
 然后执行以下命令来使用全部线程编译内核:
@@ -93,7 +93,7 @@ uname -a
 
 Linux Kernel 已经成功替换, 一切大功告成!。">
 <meta property="og:title" content="手把手教您编译适用于 WSL2 的 Linux Kernel">
-<meta property="og:description" content="WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.
+<meta property="og:description" content="WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.
 
 首先声明, 这可能会导致部分 GNU/Linux 发行版不稳定, 软件包无法运行等问题. 所以不建议在生产环境中替换 WSL2 的 Linux Kernel.
 
@@ -103,12 +103,12 @@ Linux Kernel 已经成功替换, 一切大功告成!。">
 
 # 1 安装依赖
 
-基于 Debian Project 的 GNU/Linux 发行版:
+APT:
 ```Bash
 sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev
 ```
 
-基于 Arch Linux 的 GNU/Linux 发行版:
+Package Manager:
 ```Bash
 sudo pacman -S base-devel flex bison pahole openssl libelf bc
 ```
@@ -140,7 +140,7 @@ cd <Dir>
 
 执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:
 ```Bash
-wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
+wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
 ```
 
 然后执行以下命令来使用全部线程编译内核:
@@ -234,14 +234,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是<code class="notranslate">5.15.xxx</code>. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.</p>
+<div class="markdown-body" id="postBody"><p>WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是<code class="notranslate">6.6.xxx</code>. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL2 的 Linux Kernel 的教程才会如此涌现.</p>
 <p>首先声明, 这可能会导致部分 GNU/Linux 发行版不稳定, 软件包无法运行等问题. 所以不建议在生产环境中替换 WSL2 的 Linux Kernel.</p>
 <p>如果您在 WSL2 中使用 Arch Linux, 建议先阅读<a href="https://MaxLHy0424.github.io/post/2.html" rel="nofollow">这篇教程</a>, 对 Arch Linux 进行基本的配置, 然后再阅读本教程.</p>
 <p>如果您能接受这一切, 那么, 开始吧!</p>
 <h1>1 安装依赖</h1>
-<p>基于 Debian Project 的 GNU/Linux 发行版:</p>
+<p>APT:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev</pre></div>
-<p>基于 Arch Linux 的 GNU/Linux 发行版:</p>
+<p>Package Manager:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S base-devel flex bison pahole openssl libelf bc</pre></div>
 <h1>2 下载 Linux Kernel 源代码</h1>
 <p>访问网站 <a href="https://kernel.org" rel="nofollow">"The Linux Kernel Archive"</a>, 等待加载完成后, 可以看到网页中间的 Linux Kernel 源代码存档列表. 在此之前, 我们需要了解 Linux Kernel 的主要开发分支:</p>
@@ -273,7 +273,7 @@ tar xf <span class="pl-k">&lt;</span>File<span class="pl-k">&gt;</span>
 <p>此步骤可能需要代理.</p>
 </blockquote>
 <p>执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl</pre></div>
+<div class="highlight highlight-source-shell"><pre class="notranslate">wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl</pre></div>
 <p>然后执行以下命令来使用全部线程编译内核:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j<span class="pl-s"><span class="pl-pds">$(</span>nproc<span class="pl-pds">)</span></span></pre></div>
 <p>途中的编译配置选择一路按回车即可.</p>
