@@ -26,8 +26,11 @@ networkingMode=mirrored
 dnsTunneling=true
 firewall=true
 autoProxy=true
+defaultVhdSize=137438953472
 [experimental]
 autoMemoryReclaim=gradual
+bestEffortDnsParsing=true
+useWindowsDnsCache=true
 ```
 
 然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
@@ -152,7 +155,6 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 [blackarch]
 SigLevel = Never
 Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
-
 ```
 
 执行以命令:
@@ -225,4 +227,4 @@ Include = /etc/pacman.d/mirrorlist
 
 # *? 预告*
 
-WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`5.15.xxx`. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL2 中使用!
+WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL2 中使用!
