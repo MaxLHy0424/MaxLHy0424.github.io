@@ -45,7 +45,7 @@ cd <Dir>
 
 执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:
 ```Bash
-wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
+wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
 ```
 
 然后执行以下命令来使用全部线程编译内核:
