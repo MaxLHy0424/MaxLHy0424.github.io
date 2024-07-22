@@ -57,7 +57,7 @@ cd <Dir>
 
 执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:
 ```Bash
-wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
+wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
 ```
 
 然后执行以下命令来使用全部线程编译内核:
@@ -140,7 +140,7 @@ cd <Dir>
 
 执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:
 ```Bash
-wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
+wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
 ```
 
 然后执行以下命令来使用全部线程编译内核:
@@ -273,7 +273,7 @@ tar xf <span class="pl-k">&lt;</span>File<span class="pl-k">&gt;</span>
 <p>此步骤可能需要代理.</p>
 </blockquote>
 <p>执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl</pre></div>
+<div class="highlight highlight-source-shell"><pre class="notranslate">wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl</pre></div>
 <p>然后执行以下命令来使用全部线程编译内核:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j<span class="pl-s"><span class="pl-pds">$(</span>nproc<span class="pl-pds">)</span></span></pre></div>
 <p>途中的编译配置选择一路按回车即可.</p>

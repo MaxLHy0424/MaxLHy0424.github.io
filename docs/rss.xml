@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Mon, 22 Jul 2024 08:37:43 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>[Blue Archive 同人] 奇普托斯 "肾" 化危机 (1)</title><link>https://MaxLHy0424.github.io/post/8.html</link><description>'有新进展了吗? ' 玛丽拂去额头上的汗珠.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Mon, 22 Jul 2024 09:31:27 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>[Blue Archive 同人] 奇普托斯 "肾" 化危机 (1)</title><link>https://MaxLHy0424.github.io/post/8.html</link><description>'有新进展了吗? ' 玛丽拂去额头上的汗珠.&#13;
 &#13;
 '暂时还没有. 话说这地方真的会有吗? ' 一名茶会成员回答道.&#13;
 &#13;
@@ -275,7 +275,7 @@ cd &lt;Dir&gt;&#13;
 &#13;
 执行以下命令 Microsoft 的 WSL2 Linux Kernel 配置并保存:&#13;
 ```Bash&#13;
-wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.6.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl&#13;
+wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl&#13;
 ```&#13;
 &#13;
 然后执行以下命令来使用全部线程编译内核:&#13;
