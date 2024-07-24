@@ -188,7 +188,7 @@ LANG=en_GB.UTF-8
 打开`/etc/profile`, 在末尾追加:
 ```
 export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8:en_US.UTF-8
+export LANG=zh_CN.UTF-8:en_GB.UTF-8
 ```
 
 然后执行以下命令:
