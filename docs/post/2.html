@@ -183,16 +183,18 @@ pacman -S yay
 
 # 4 汉化
 
-打开`/etc/locale.gen`, 找到以下两行:
+打开`/etc/locale.gen`, 找到:
 ```
-#en_US.UTF-8 UTF-8
+#en_GB.UTF-8 UTF-8
+```
+```
 #zh_CN.UTF-8 UTF-8
 ```
 将前面的`#`去掉.
 
 打开`/etc/locale.conf`, 在末尾追加:
 ```
-LANG=en_US.UTF-8
+LANG=en_GB.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
@@ -414,16 +416,18 @@ pacman -S yay
 
 # 4 汉化
 
-打开`/etc/locale.gen`, 找到以下两行:
+打开`/etc/locale.gen`, 找到:
 ```
-#en_US.UTF-8 UTF-8
+#en_GB.UTF-8 UTF-8
+```
+```
 #zh_CN.UTF-8 UTF-8
 ```
 将前面的`#`去掉.
 
 打开`/etc/locale.conf`, 在末尾追加:
 ```
-LANG=en_US.UTF-8
+LANG=en_GB.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
@@ -670,13 +674,14 @@ pacman -Sy archlinuxcn-keyring blackarch-keyring</pre></div>
 <p>执行以下命令安装 yay 稳定版 (安装开发版把<code class="notranslate">yay</code>改为<code class="notranslate">yay-git</code>):</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">pacman -S yay</pre></div>
 <h1>4 汉化</h1>
-<p>打开<code class="notranslate">/etc/locale.gen</code>, 找到以下两行:</p>
-<pre class="notranslate"><code class="notranslate">#en_US.UTF-8 UTF-8
-#zh_CN.UTF-8 UTF-8
+<p>打开<code class="notranslate">/etc/locale.gen</code>, 找到:</p>
+<pre class="notranslate"><code class="notranslate">#en_GB.UTF-8 UTF-8
+</code></pre>
+<pre class="notranslate"><code class="notranslate">#zh_CN.UTF-8 UTF-8
 </code></pre>
 <p>将前面的<code class="notranslate">#</code>去掉.</p>
 <p>打开<code class="notranslate">/etc/locale.conf</code>, 在末尾追加:</p>
-<pre class="notranslate"><code class="notranslate">LANG=en_US.UTF-8
+<pre class="notranslate"><code class="notranslate">LANG=en_GB.UTF-8
 </code></pre>
 <p>打开<code class="notranslate">/etc/profile</code>, 在末尾追加:</p>
 <pre class="notranslate"><code class="notranslate">export LC_ALL=zh_CN.UTF-8

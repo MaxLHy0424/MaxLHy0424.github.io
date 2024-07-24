@@ -171,16 +171,18 @@ pacman -S yay
 
 # 4 汉化
 
-打开`/etc/locale.gen`, 找到以下两行:
+打开`/etc/locale.gen`, 找到:
 ```
-#en_US.UTF-8 UTF-8
+#en_GB.UTF-8 UTF-8
+```
+```
 #zh_CN.UTF-8 UTF-8
 ```
 将前面的`#`去掉.
 
 打开`/etc/locale.conf`, 在末尾追加:
 ```
-LANG=en_US.UTF-8
+LANG=en_GB.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
