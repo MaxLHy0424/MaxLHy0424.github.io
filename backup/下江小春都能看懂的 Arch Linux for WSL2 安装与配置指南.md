@@ -158,14 +158,14 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 ```
 
 执行以命令:
-```Bash
+```bash
 pacman-key --init
 pacman-key --lsign-key "farseerfc@archlinux.org"
 pacman -Sy archlinuxcn-keyring blackarch-keyring
 ```
 
 执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
-````Bash
+````bash
 pacman -S yay
 ````
 
@@ -192,7 +192,7 @@ export LANG=zh_CN.UTF-8:en_GB.UTF-8
 ```
 
 然后执行以下命令:
-```Bash
+```bash
 pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji
 locale-gen
 ```
@@ -200,7 +200,7 @@ locale-gen
 # 5 解决 *WSLg* 及 *Systemd* 问题
 
 执行以下命令:
-```Bash
+```bash
 echo \
 '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | tee /etc/tmpfiles.d/wslg.conf
@@ -210,9 +210,8 @@ echo -e "[boot]\nsystemd=true" | tee -a /etc/wsl.conf
 # 6 善后工作及后续使用注意事项
 
 执行以下命令:
-```Bash
-pacman -Syyu
-yay -S net-tools tree sed python wget
+```bash
+pacman -Syyu net-tools tree sed python wget
 yay -Rns $(pacman -Qtdq)
 yay -Scc
 rm -rf /tmp/*
