@@ -18,11 +18,11 @@
 
 在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 且使用`Systemd`作为引导.
 
-其次, 请确保您的 Arch Linux 使用的是 KDE Plasma 桌面环境, 其他桌面环境可能略有不同.
+其次, 请确保您的 Arch Linux 使用的是 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
 
 另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.
 
-然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 加上英文半角双引号):
+然后, 在主机 Windows OS 下以管理员权限打开 *PowerShell*, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 加上英文半角双引号):
 ```PowerShell
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
@@ -35,11 +35,11 @@ sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
 
-# 2 安装 yay 包管理器
+# 2 安装 *yay* 包管理器
 
 详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
 
-# 3 安装 XRDP
+# 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
 
 执行以下命令:
 ```Bash
@@ -87,9 +87,9 @@ makepkg -si
 sudo ./install-config.sh
 ```
 
-# 4 解决 XRDP 反复连接问题
+# 4 解决 *XRDP* 反复连接问题
 
-执行以下命令 (仅适用于 KDE Plasma 桌面环境):
+执行以下命令 (仅适用于 *KDE Plasma* 桌面环境):
 ```Bash
 echo '/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11' > ~/.xinitrc
 ```
@@ -115,11 +115,11 @@ sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
 
 在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 且使用`Systemd`作为引导.
 
-其次, 请确保您的 Arch Linux 使用的是 KDE Plasma 桌面环境, 其他桌面环境可能略有不同.
+其次, 请确保您的 Arch Linux 使用的是 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
 
 另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.
 
-然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 加上英文半角双引号):
+然后, 在主机 Windows OS 下以管理员权限打开 *PowerShell*, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 加上英文半角双引号):
 ```PowerShell
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
@@ -132,11 +132,11 @@ sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
 
-# 2 安装 yay 包管理器
+# 2 安装 *yay* 包管理器
 
 详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
 
-# 3 安装 XRDP
+# 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
 
 执行以下命令:
 ```Bash
@@ -184,9 +184,9 @@ makepkg -si
 sudo ./install-config.sh
 ```
 
-# 4 解决 XRDP 反复连接问题
+# 4 解决 *XRDP* 反复连接问题
 
-执行以下命令 (仅适用于 KDE Plasma 桌面环境):
+执行以下命令 (仅适用于 *KDE Plasma* 桌面环境):
 ```Bash
 echo '/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11' > ~/.xinitrc
 ```
@@ -266,17 +266,17 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>本教程将教您如何为 Hyper-V 中的 Arch Linux 虚拟机启用增强会话.</p>
 <h1>0 准备工作</h1>
 <p>在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 且使用<code class="notranslate">Systemd</code>作为引导.</p>
-<p>其次, 请确保您的 Arch Linux 使用的是 KDE Plasma 桌面环境, 其他桌面环境可能略有不同.</p>
+<p>其次, 请确保您的 Arch Linux 使用的是 <em>KDE Plasma</em> 桌面环境, 其他桌面环境可能略有不同.</p>
 <p>另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.</p>
-<p>然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (<code class="notranslate">&lt;VM&gt;</code>改成 Arch Linux 虚拟机的名字, 加上英文半角双引号):</p>
+<p>然后, 在主机 Windows OS 下以管理员权限打开 <em>PowerShell</em>, 执行 (<code class="notranslate">&lt;VM&gt;</code>改成 Arch Linux 虚拟机的名字, 加上英文半角双引号):</p>
 <div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-c1">Set-VM</span> <span class="pl-k">-</span>VMName <span class="pl-k">&lt;</span>VM<span class="pl-k">&gt;</span> <span class="pl-k">-</span>EnhancedSessionTransportType HvSocket</pre></div>
 <h1>1 安装集成服务</h1>
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S hyperv
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {vss,fcopy,kvp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo systemctl <span class="pl-c1">enable</span> hv_<span class="pl-smi">${i}</span>_daemon.service<span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
-<h1>2 安装 yay 包管理器</h1>
+<h1>2 安装 <em>yay</em> 包管理器</h1>
 <p>详见<a href="https://maxlhy0424.github.io/post/2.html" rel="nofollow">这篇教程</a>的第 3 部分.</p>
-<h1>3 安装 XRDP</h1>
+<h1>3 安装配置 <em>XRDP</em>, <em>XORG</em>, <em>Pipeware-module-xrdp</em></h1>
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel paru openssl-1.1 pipewire-module-xrdp
 yay -Rcns python2 ceph</pre></div>
@@ -305,8 +305,8 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git</pre></div>
 <p>再次返回上一级目录, 进入目录<code class="notranslate">linux-vm-tools/arch</code>, 执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">./makepkg.sh
 sudo ./install-config.sh</pre></div>
-<h1>4 解决 XRDP 反复连接问题</h1>
-<p>执行以下命令 (仅适用于 KDE Plasma 桌面环境):</p>
+<h1>4 解决 <em>XRDP</em> 反复连接问题</h1>
+<p>执行以下命令 (仅适用于 <em>KDE Plasma</em> 桌面环境):</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11<span class="pl-pds">"</span></span> <span class="pl-k">&gt;</span> <span class="pl-k">~</span>/.xinitrc</pre></div>
 <p>然后执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo systemctl <span class="pl-c1">enable</span> xrdp.service
