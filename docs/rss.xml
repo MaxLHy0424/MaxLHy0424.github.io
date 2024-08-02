@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Fri, 02 Aug 2024 16:15:11 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 02</title><link>https://MaxLHy0424.github.io/post/7.html</link><description>三天过去了, CRCSN v5.0.0 的开发工作快马加鞭进行着, 讲讲这几天的成果吧.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Fri, 02 Aug 2024 16:16:14 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 02</title><link>https://MaxLHy0424.github.io/post/7.html</link><description>三天过去了, CRCSN v5.0.0 的开发工作快马加鞭进行着, 讲讲这几天的成果吧.&#13;
 &#13;
 ### 完全重构&#13;
 &#13;
@@ -211,7 +211,7 @@ wsl --shutdown&#13;
 uname -a&#13;
 ```&#13;
 &#13;
-*Linux Kernel* 已经成功替换, 一切大功告成!。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/3.html</guid><pubDate>Fri, 21 Jun 2024 10:43:20 +0000</pubDate></item><item><title>下江小春都能看懂的 Arch Linux for WSL2 安装与配置指南</title><link>https://MaxLHy0424.github.io/post/2.html</link><description>在 *Windows* 上开发 *GNU/Linux* 软件时, *WSL2* 常为不二之选.&#13;
+*Linux Kernel* 已经成功替换, 一切大功告成!。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/3.html</guid><pubDate>Fri, 21 Jun 2024 10:43:20 +0000</pubDate></item><item><title>下江小春都能看懂的 *Arch Linux for WSL2* 安装与配置指南</title><link>https://MaxLHy0424.github.io/post/2.html</link><description>在 *Windows* 上开发 *GNU/Linux* 软件时, *WSL2* 常为不二之选.&#13;
 &#13;
 但是, *WSL2* 上开箱即用的 *GNU/Linux* 发行版, 几乎都是 *Debian* 系的. 想要在 *WSL2* 上使用 *Arch Linux*, 配置较为麻烦.&#13;
 &#13;
