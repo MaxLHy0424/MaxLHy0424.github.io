@@ -1,24 +1,24 @@
-在 Windows 上开发 Linux 软件时, WSL2 常为不二之选.
+在 *Windows* 上开发 *GNU/Linux* 软件时, *WSL2* 常为不二之选.
 
-但是, WSL2 上开箱即用的 GNU/Linux 发行版, 几乎都是基于 Debian Project 的. 想要在 WSL2 上使用 Arch Linux, 配置较为麻烦.
+但是, *WSL2* 上开箱即用的 *GNU/Linux* 发行版, 几乎都是 *Debian* 系的. 想要在 *WSL2* 上使用 *Arch Linux*, 配置较为麻烦.
 
-本教程将帮助您在 WSL2 上安装并配置 Arch Linux!
+本教程将帮助您在 *WSL2* 上安装并配置 *Arch Linux*.
 
-> 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
+> 适用于 *Windows 11 22H2* 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
-WSL2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
+*WSL2* 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 
-> 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
+> 如果您有安装 *VMware Workstation Pro* 等寄居型虚拟机, 推荐改用 *Microsoft Hyper-V*. 否则其运行的虚拟机性能可能会受到影响.
 
-启用后, 在 Windows 终端 (以管理员权限运行) 中执行以下命令:
+启用后, 在 *Windows 终端* (以管理员权限运行) 中执行以下命令:
 ```Batch
 wsl --update
 wsl --update --pre-release
 ```
 
-接着, 在当前的 Windows 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
+接着, 在当前的 *Windows* 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
 ```
 [wsl2]
 ipv6=true
@@ -33,7 +33,7 @@ bestEffortDnsParsing=true
 useWindowsDnsCache=true
 ```
 
-然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
+然后, 在 *Microsoft Store* 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
 
 ![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
 
@@ -43,7 +43,7 @@ useWindowsDnsCache=true
 
 执行`sudo su`进入`root`用户后, 通过`passwd root`修改`root`用户密码.
 
-# 2 配置 GNU Nano 文本编辑器
+# 2 配置 *GNU Nano* 文本编辑器
 
 打开`/etc/nanorc`, 在末尾追加:
 ```
@@ -164,7 +164,7 @@ pacman-key --lsign-key "farseerfc@archlinux.org"
 pacman -Sy archlinuxcn-keyring blackarch-keyring
 ```
 
-执行以下命令安装 yay 稳定版 (安装开发版把`yay`改为`yay-git`):
+执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
 ````Bash
 pacman -S yay
 ````
@@ -197,7 +197,7 @@ pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-mic
 locale-gen
 ```
 
-# 5 解决 WSLg 及 Systemd 问题
+# 5 解决 *WSLg* 及 *Systemd* 问题
 
 执行以下命令:
 ```Bash
@@ -229,4 +229,4 @@ Include = /etc/pacman.d/mirrorlist
 
 # *? 预告*
 
-WSL2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL2 中使用!
+*WSL2* 即使更新到最新预发布版本, *Linux Kernel* 版本也是`6.6.xxx`. 下一篇教程将教您自己编译 *Linux Kernel*, 并在 *WSL2* 中使用!
