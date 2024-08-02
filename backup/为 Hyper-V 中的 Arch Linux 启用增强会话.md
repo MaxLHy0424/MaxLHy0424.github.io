@@ -1,4 +1,4 @@
-*Hyper-V* 去安装 GNU/Linux, 启用增强会话最令人头大. 不清楚是不是 Microsoft 有意为之让大家用 WSL2 还是什么的, 但总归, 这并不容易.
+*Hyper-V* 去安装 *GNU/Linux*, 启用增强会话最令人头大. 不清楚是不是 *Microsoft* 有意为之让大家用 *WSL2* 还是什么的, 但总归, 这并不容易.
 
 本教程将教您如何为 *Hyper-V* 中的 *Arch Linux* 虚拟机启用增强会话.
 
