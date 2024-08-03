@@ -16,7 +16,7 @@
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使用`Systemd`作为引导.
+在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使 *Systemd* 作为引导.
 
 其次, 请确保您的 *Arch Linux* 使用的是 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
 
@@ -27,17 +27,17 @@
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
 
-# 1 安装集成服务
+# 1 配置包管理器
+
+详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
+
+# 2 安装集成服务
 
 执行以下命令:
 ```bash
 sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
-
-# 2 安装 *yay* 包管理器
-
-详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
 
 # 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
 
@@ -113,7 +113,7 @@ sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使用`Systemd`作为引导.
+在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使 *Systemd* 作为引导.
 
 其次, 请确保您的 *Arch Linux* 使用的是 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
 
@@ -124,17 +124,17 @@ sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
 
-# 1 安装集成服务
+# 1 配置包管理器
+
+详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
+
+# 2 安装集成服务
 
 执行以下命令:
 ```bash
 sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
-
-# 2 安装 *yay* 包管理器
-
-详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
 
 # 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
 
@@ -265,17 +265,17 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><p><em>Hyper-V</em> 去安装 <em>GNU/Linux</em>, 启用增强会话最令人头大. 不清楚是不是 <em>Microsoft</em> 有意为之让大家用 <em>WSL2</em> 还是什么的, 但总归, 这并不容易.</p>
 <p>本教程将教您如何为 <em>Hyper-V</em> 中的 <em>Arch Linux</em> 虚拟机启用增强会话.</p>
 <h1>0 准备工作</h1>
-<p>在开始之前, 首先确保您的 <em>Arch Linux</em> 虚拟机是第二代虚拟机, 且使用<code class="notranslate">Systemd</code>作为引导.</p>
+<p>在开始之前, 首先确保您的 <em>Arch Linux</em> 虚拟机是第二代虚拟机, 且使 <em>Systemd</em> 作为引导.</p>
 <p>其次, 请确保您的 <em>Arch Linux</em> 使用的是 <em>KDE Plasma</em> 桌面环境, 其他桌面环境可能略有不同.</p>
 <p>另外, 请在 <em>Hyper-V</em> 设置中允许使用增强会话, 这很重要.</p>
 <p>然后, 在主机 <em>Windows OS</em> 下以管理员权限打开 <em>PowerShell</em>, 执行 (<code class="notranslate">&lt;VM&gt;</code>改成 <em>Arch Linux</em> 虚拟机的名字, 加上英文半角双引号):</p>
 <div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-c1">Set-VM</span> <span class="pl-k">-</span>VMName <span class="pl-k">&lt;</span>VM<span class="pl-k">&gt;</span> <span class="pl-k">-</span>EnhancedSessionTransportType HvSocket</pre></div>
-<h1>1 安装集成服务</h1>
+<h1>1 配置包管理器</h1>
+<p>详见<a href="https://maxlhy0424.github.io/post/2.html" rel="nofollow">这篇教程</a>的第 3 部分.</p>
+<h1>2 安装集成服务</h1>
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S hyperv
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {vss,fcopy,kvp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo systemctl <span class="pl-c1">enable</span> hv_<span class="pl-smi">${i}</span>_daemon.service<span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
-<h1>2 安装 <em>yay</em> 包管理器</h1>
-<p>详见<a href="https://maxlhy0424.github.io/post/2.html" rel="nofollow">这篇教程</a>的第 3 部分.</p>
 <h1>3 安装配置 <em>XRDP</em>, <em>XORG</em>, <em>Pipeware-module-xrdp</em></h1>
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel paru openssl-1.1 pipewire-module-xrdp
