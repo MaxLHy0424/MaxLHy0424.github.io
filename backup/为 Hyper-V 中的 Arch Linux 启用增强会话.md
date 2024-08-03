@@ -4,7 +4,7 @@
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使用`Systemd`作为引导.
+在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使 *Systemd* 作为引导.
 
 其次, 请确保您的 *Arch Linux* 使用的是 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
 
@@ -15,17 +15,17 @@
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
 
-# 1 安装集成服务
+# 1 配置包管理器
+
+详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
+
+# 2 安装集成服务
 
 执行以下命令:
 ```bash
 sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
-
-# 2 安装 *yay* 包管理器
-
-详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
 
 # 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
 
