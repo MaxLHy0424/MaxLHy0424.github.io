@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Fri, 02 Aug 2024 16:17:10 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 02</title><link>https://MaxLHy0424.github.io/post/7.html</link><description>三天过去了, CRCSN v5.0.0 的开发工作快马加鞭进行着, 讲讲这几天的成果吧.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 03 Aug 2024 08:56:36 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 02</title><link>https://MaxLHy0424.github.io/post/7.html</link><description>三天过去了, CRCSN v5.0.0 的开发工作快马加鞭进行着, 讲讲这几天的成果吧.&#13;
 &#13;
 ### 完全重构&#13;
 &#13;
@@ -29,7 +29,7 @@ GitHub 仓库请点[此处](https://github.com/MaxLHy0424/CRCSN)访问.。</desc
 &#13;
 # 0 准备工作&#13;
 &#13;
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使用`Systemd`作为引导.&#13;
+在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 且使 *Systemd* 作为引导.&#13;
 &#13;
 其次, 请确保您的 *Arch Linux* 使用的是 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.&#13;
 &#13;
@@ -40,17 +40,17 @@ GitHub 仓库请点[此处](https://github.com/MaxLHy0424/CRCSN)访问.。</desc
 Set-VM -VMName &lt;VM&gt; -EnhancedSessionTransportType HvSocket&#13;
 ```&#13;
 &#13;
-# 1 安装集成服务&#13;
+# 1 配置包管理器&#13;
+&#13;
+详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.&#13;
+&#13;
+# 2 安装集成服务&#13;
 &#13;
 执行以下命令:&#13;
 ```bash&#13;
 sudo pacman -S hyperv&#13;
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done&#13;
 ```&#13;
-&#13;
-# 2 安装 *yay* 包管理器&#13;
-&#13;
-详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.&#13;
 &#13;
 # 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* &#13;
 &#13;
