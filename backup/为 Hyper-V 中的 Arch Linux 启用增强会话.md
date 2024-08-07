@@ -4,7 +4,7 @@
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时, 最好使用 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
+在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
 
 另外, 请在 *Hyper-V* 设置中允许使用增强会话, 这很重要.
 
@@ -29,46 +29,16 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 
 执行以下命令:
 ```bash
-yay -S git base-devel xorg-xinit xrdp xorg-xrdb paru openssl-1.1 
-pipewire pipewire-alsa pipewire-module-xrdp
+yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 yay -Rcns python2 ceph
 ```
 
-然后, 执行以下命令克隆所需软件仓库:
+然后, 执行以下命令克隆仓库:
 ```bash
 git clone https://github.com/microsoft/linux-vm-tools.git
-git clone https://aur.archlinux.org/xrdp-devel-git.git
-git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
 ```
 
-接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将参数部分的文本替换为:
-```Makefile
-   ./configure --prefix=/usr \
-               --sysconfdir=/etc \
-               --localstatedir=/var \
-               --sbindir=/usr/bin \
-               --with-systemdsystemdunitdir=/usr/lib/systemd/system \
-               --enable-jpeg \
-               --enable-tjpeg \
-               --enable-fuse \
-               --enable-opus \
-               --enable-rfxcodec \
-               --enable-mp3lame \
-               --enable-pixman \
-               --enable-vsock
-```
-
-接下来, 在当前目录执行:
-```bash
-makepkg --skipchecksums -si
-```
-
-然后返回上一级目录, 再进入目录`xorgxrdp-devel-git`, 执行:
-```bash
-makepkg -si
-```
-
-再次返回上一级目录, 进入目录`linux-vm-tools/arch`, 执行:
+进入目录`linux-vm-tools/arch`, 执行:
 ```bash
 ./makepkg.sh
 sudo ./install-config.sh
@@ -106,6 +76,7 @@ sudo ./install-config.sh
 sudo systemctl enable xrdp.service
 sudo systemctl enable xrdp-sesman.service
 sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
+yay -Rcns $(pacman -Qtdq)
 ```
 
 接着重启虚拟机.
