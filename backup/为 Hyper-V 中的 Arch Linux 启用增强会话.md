@@ -44,6 +44,11 @@ git clone https://github.com/microsoft/linux-vm-tools.git
 sudo ./install-config.sh
 ```
 
+接下来, 再次执行:
+```bash
+yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
+```
+
 # 4 解决 *XRDP* 反复连接问题
 
 在当前用户的家目录下创建`.xinitrc`.
