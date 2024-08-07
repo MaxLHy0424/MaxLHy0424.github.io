@@ -87,10 +87,30 @@ sudo ./install-config.sh
 
 # 4 解决 *XRDP* 反复连接问题
 
-执行以下命令 (仅适用于 *KDE Plasma* 桌面环境):
-```bash
-echo '/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11' > ~/.xinitrc
-```
+在当前用户的家目录下创建`.xinitrc`.
+
+根据不同的桌面环境添加内容:
+ - *i3w / dwm*:
+ ``` 
+ exec i3w
+ ```
+ - *Gnome*:
+ ```
+ unset SESSION_MANAGER
+ unset DBUS_SESSION_BUS_ADDRESS
+ exec dbus-launch  gnome-shell --x11
+ ```
+ - *KDE Plasma*:
+ ```
+ export DESKTOP_SESSION=plasma
+ /usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+ ```
+ - *Xfce4*:
+ ```
+ unset SESSION_MANAGER
+ unset DBUS_SESSION_BUS_ADDRESS
+ exec dbus-launch startxfce4
+ ```
 
 然后执行:
 ```bash
@@ -182,10 +202,30 @@ sudo ./install-config.sh
 
 # 4 解决 *XRDP* 反复连接问题
 
-执行以下命令 (仅适用于 *KDE Plasma* 桌面环境):
-```bash
-echo '/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11' > ~/.xinitrc
-```
+在当前用户的家目录下创建`.xinitrc`.
+
+根据不同的桌面环境添加内容:
+ - *i3w / dwm*:
+ ``` 
+ exec i3w
+ ```
+ - *Gnome*:
+ ```
+ unset SESSION_MANAGER
+ unset DBUS_SESSION_BUS_ADDRESS
+ exec dbus-launch  gnome-shell --x11
+ ```
+ - *KDE Plasma*:
+ ```
+ export DESKTOP_SESSION=plasma
+ /usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+ ```
+ - *Xfce4*:
+ ```
+ unset SESSION_MANAGER
+ unset DBUS_SESSION_BUS_ADDRESS
+ exec dbus-launch startxfce4
+ ```
 
 然后执行:
 ```bash
@@ -301,8 +341,33 @@ git clone https://aur.archlinux.org/xorgxrdp-devel-git.git</pre></div>
 <div class="highlight highlight-source-shell"><pre class="notranslate">./makepkg.sh
 sudo ./install-config.sh</pre></div>
 <h1>4 解决 <em>XRDP</em> 反复连接问题</h1>
-<p>执行以下命令 (仅适用于 <em>KDE Plasma</em> 桌面环境):</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11<span class="pl-pds">"</span></span> <span class="pl-k">&gt;</span> <span class="pl-k">~</span>/.xinitrc</pre></div>
+<p>在当前用户的家目录下创建<code class="notranslate">.xinitrc</code>.</p>
+<p>根据不同的桌面环境添加内容:</p>
+<ul>
+<li><em>i3w / dwm</em>:</li>
+</ul>
+<pre class="notranslate"><code class="notranslate">exec i3w
+</code></pre>
+<ul>
+<li><em>Gnome</em>:</li>
+</ul>
+<pre class="notranslate"><code class="notranslate">unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+exec dbus-launch  gnome-shell --x11
+</code></pre>
+<ul>
+<li><em>KDE Plasma</em>:</li>
+</ul>
+<pre class="notranslate"><code class="notranslate">export DESKTOP_SESSION=plasma
+/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+</code></pre>
+<ul>
+<li><em>Xfce4</em>:</li>
+</ul>
+<pre class="notranslate"><code class="notranslate">unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+exec dbus-launch startxfce4
+</code></pre>
 <p>然后执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo systemctl <span class="pl-c1">enable</span> xrdp.service
 sudo systemctl <span class="pl-c1">enable</span> xrdp-sesman.service
