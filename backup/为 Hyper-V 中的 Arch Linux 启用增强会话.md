@@ -25,11 +25,12 @@ sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
 
-# 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
+# 3 安装软件包
 
 执行以下命令:
 ```bash
-yay -S git base-devel paru openssl-1.1 pipewire-module-xrdp
+yay -S git base-devel xorg-xinit xorgxrdp-glamor xrdp xorg-xrdb paru openssl-1.1 
+pipewire sbc bluez pipewire-module-xrdp
 yay -Rcns python2 ceph
 ```
 
