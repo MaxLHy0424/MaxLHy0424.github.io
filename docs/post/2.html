@@ -224,7 +224,7 @@ echo -e '[boot]\nsystemd=true' | tee -a /etc/wsl.conf
 执行以下命令:
 ```bash
 pacman -Syyu net-tools tree sed python wget
-yay -Rns $(pacman -Qtdq)
+yay -Rcns $(pacman -Qtdq)
 yay -Scc
 rm -rf /tmp/*
 ```
@@ -456,7 +456,7 @@ echo -e '[boot]\nsystemd=true' | tee -a /etc/wsl.conf
 执行以下命令:
 ```bash
 pacman -Syyu net-tools tree sed python wget
-yay -Rns $(pacman -Qtdq)
+yay -Rcns $(pacman -Qtdq)
 yay -Scc
 rm -rf /tmp/*
 ```
@@ -697,7 +697,7 @@ locale-gen</pre></div>
 <h1>6 善后工作及后续使用注意事项</h1>
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">pacman -Syyu net-tools tree sed python wget
-yay -Rns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span>
+yay -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span>
 yay -Scc
 rm -rf /tmp/<span class="pl-k">*</span></pre></div>
 <p>如果后续需要安装软件源<code class="notranslate">blackarch</code>内的软件包, 推荐在此之前先打开<code class="notranslate">/etc/pacman.conf</code>, 注释以下几行:</p>
