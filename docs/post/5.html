@@ -37,11 +37,12 @@ sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
 
-# 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
+# 3 安装软件包
 
 执行以下命令:
 ```bash
-yay -S git base-devel paru openssl-1.1 pipewire-module-xrdp
+yay -S git base-devel xorg-xinit xorgxrdp-glamor xrdp xorg-xrdb paru openssl-1.1 
+pipewire sbc bluez pipewire-module-xrdp
 yay -Rcns python2 ceph
 ```
 
@@ -152,11 +153,12 @@ sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
 
-# 3 安装配置 *XRDP*, *XORG*, *Pipeware-module-xrdp* 
+# 3 安装软件包
 
 执行以下命令:
 ```bash
-yay -S git base-devel paru openssl-1.1 pipewire-module-xrdp
+yay -S git base-devel xorg-xinit xorgxrdp-glamor xrdp xorg-xrdb paru openssl-1.1 
+pipewire sbc bluez pipewire-module-xrdp
 yay -Rcns python2 ceph
 ```
 
@@ -311,9 +313,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S hyperv
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {vss,fcopy,kvp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo systemctl <span class="pl-c1">enable</span> hv_<span class="pl-smi">${i}</span>_daemon.service<span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
-<h1>3 安装配置 <em>XRDP</em>, <em>XORG</em>, <em>Pipeware-module-xrdp</em></h1>
+<h1>3 安装软件包</h1>
 <p>执行以下命令:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel paru openssl-1.1 pipewire-module-xrdp
+<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel xorg-xinit xorgxrdp-glamor xrdp xorg-xrdb paru openssl-1.1 
+pipewire sbc bluez pipewire-module-xrdp
 yay -Rcns python2 ceph</pre></div>
 <p>然后, 执行以下命令克隆所需软件仓库:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">git clone https://github.com/microsoft/linux-vm-tools.git
