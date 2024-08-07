@@ -16,7 +16,7 @@
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时, 最好使用 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
+在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
 
 另外, 请在 *Hyper-V* 设置中允许使用增强会话, 这很重要.
 
@@ -41,46 +41,16 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 
 执行以下命令:
 ```bash
-yay -S git base-devel xorg-xinit xrdp xorg-xrdb paru openssl-1.1 
-pipewire pipewire-alsa pipewire-module-xrdp
+yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 yay -Rcns python2 ceph
 ```
 
-然后, 执行以下命令克隆所需软件仓库:
+然后, 执行以下命令克隆仓库:
 ```bash
 git clone https://github.com/microsoft/linux-vm-tools.git
-git clone https://aur.archlinux.org/xrdp-devel-git.git
-git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
 ```
 
-接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将参数部分的文本替换为:
-```Makefile
-   ./configure --prefix=/usr \
-               --sysconfdir=/etc \
-               --localstatedir=/var \
-               --sbindir=/usr/bin \
-               --with-systemdsystemdunitdir=/usr/lib/systemd/system \
-               --enable-jpeg \
-               --enable-tjpeg \
-               --enable-fuse \
-               --enable-opus \
-               --enable-rfxcodec \
-               --enable-mp3lame \
-               --enable-pixman \
-               --enable-vsock
-```
-
-接下来, 在当前目录执行:
-```bash
-makepkg --skipchecksums -si
-```
-
-然后返回上一级目录, 再进入目录`xorgxrdp-devel-git`, 执行:
-```bash
-makepkg -si
-```
-
-再次返回上一级目录, 进入目录`linux-vm-tools/arch`, 执行:
+进入目录`linux-vm-tools/arch`, 执行:
 ```bash
 ./makepkg.sh
 sudo ./install-config.sh
@@ -118,6 +88,7 @@ sudo ./install-config.sh
 sudo systemctl enable xrdp.service
 sudo systemctl enable xrdp-sesman.service
 sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
+yay -Rcns $(pacman -Qtdq)
 ```
 
 接着重启虚拟机.
@@ -132,7 +103,7 @@ sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时, 最好使用 *KDE Plasma* 桌面环境, 其他桌面环境可能略有不同.
+在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
 
 另外, 请在 *Hyper-V* 设置中允许使用增强会话, 这很重要.
 
@@ -157,46 +128,16 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 
 执行以下命令:
 ```bash
-yay -S git base-devel xorg-xinit xrdp xorg-xrdb paru openssl-1.1 
-pipewire pipewire-alsa pipewire-module-xrdp
+yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 yay -Rcns python2 ceph
 ```
 
-然后, 执行以下命令克隆所需软件仓库:
+然后, 执行以下命令克隆仓库:
 ```bash
 git clone https://github.com/microsoft/linux-vm-tools.git
-git clone https://aur.archlinux.org/xrdp-devel-git.git
-git clone https://aur.archlinux.org/xorgxrdp-devel-git.git
 ```
 
-接着, 打开`xrdp-devel-git/PKGBUILD`, 找到开头为`build()`的一行, 将参数部分的文本替换为:
-```Makefile
-   ./configure --prefix=/usr \
-               --sysconfdir=/etc \
-               --localstatedir=/var \
-               --sbindir=/usr/bin \
-               --with-systemdsystemdunitdir=/usr/lib/systemd/system \
-               --enable-jpeg \
-               --enable-tjpeg \
-               --enable-fuse \
-               --enable-opus \
-               --enable-rfxcodec \
-               --enable-mp3lame \
-               --enable-pixman \
-               --enable-vsock
-```
-
-接下来, 在当前目录执行:
-```bash
-makepkg --skipchecksums -si
-```
-
-然后返回上一级目录, 再进入目录`xorgxrdp-devel-git`, 执行:
-```bash
-makepkg -si
-```
-
-再次返回上一级目录, 进入目录`linux-vm-tools/arch`, 执行:
+进入目录`linux-vm-tools/arch`, 执行:
 ```bash
 ./makepkg.sh
 sudo ./install-config.sh
@@ -234,6 +175,7 @@ sudo ./install-config.sh
 sudo systemctl enable xrdp.service
 sudo systemctl enable xrdp-sesman.service
 sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
+yay -Rcns $(pacman -Qtdq)
 ```
 
 接着重启虚拟机.
@@ -303,7 +245,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><p><em>Hyper-V</em> 去安装 <em>GNU/Linux</em>, 启用增强会话最令人头大. 不清楚是不是 <em>Microsoft</em> 有意为之让大家用 <em>WSL2</em> 还是什么的, 但总归, 这并不容易.</p>
 <p>本教程将教您如何为 <em>Hyper-V</em> 中的 <em>Arch Linux</em> 虚拟机启用增强会话.</p>
 <h1>0 准备工作</h1>
-<p>在开始之前, 首先确保您的 <em>Arch Linux</em> 虚拟机是第二代虚拟机, 同时, 最好使用 <em>KDE Plasma</em> 桌面环境, 其他桌面环境可能略有不同.</p>
+<p>在开始之前, 首先确保您的 <em>Arch Linux</em> 虚拟机是第二代虚拟机, 同时使用 <em>pipewire</em> 作声音服务.</p>
 <p>另外, 请在 <em>Hyper-V</em> 设置中允许使用增强会话, 这很重要.</p>
 <p>然后, 在主机 <em>Windows OS</em> 下以管理员权限打开 <em>PowerShell</em>, 执行 (<code class="notranslate">&lt;VM&gt;</code>改成 <em>Arch Linux</em> 虚拟机的名字, 加上英文半角双引号):</p>
 <div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-c1">Set-VM</span> <span class="pl-k">-</span>VMName <span class="pl-k">&lt;</span>VM<span class="pl-k">&gt;</span> <span class="pl-k">-</span>EnhancedSessionTransportType HvSocket</pre></div>
@@ -315,32 +257,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {vss,fcopy,kvp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo systemctl <span class="pl-c1">enable</span> hv_<span class="pl-smi">${i}</span>_daemon.service<span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
 <h1>3 安装软件包</h1>
 <p>执行以下命令:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel xorg-xinit xrdp xorg-xrdb paru openssl-1.1 
-pipewire pipewire-alsa pipewire-module-xrdp
+<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 yay -Rcns python2 ceph</pre></div>
-<p>然后, 执行以下命令克隆所需软件仓库:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">git clone https://github.com/microsoft/linux-vm-tools.git
-git clone https://aur.archlinux.org/xrdp-devel-git.git
-git clone https://aur.archlinux.org/xorgxrdp-devel-git.git</pre></div>
-<p>接着, 打开<code class="notranslate">xrdp-devel-git/PKGBUILD</code>, 找到开头为<code class="notranslate">build()</code>的一行, 将参数部分的文本替换为:</p>
-<div class="highlight highlight-source-makefile"><pre class="notranslate">   ./configure --prefix=/usr \
-               <span class="pl-smi">--sysconfdir</span>=/etc <span class="pl-cce">\</span>
-               --localstatedir=/var <span class="pl-cce">\</span>
-               --sbindir=/usr/bin <span class="pl-cce">\</span>
-               --with-systemdsystemdunitdir=/usr/lib/systemd/system <span class="pl-cce">\</span>
-               --enable-jpeg <span class="pl-cce">\</span>
-               --enable-tjpeg <span class="pl-cce">\</span>
-               --enable-fuse <span class="pl-cce">\</span>
-               --enable-opus <span class="pl-cce">\</span>
-               --enable-rfxcodec <span class="pl-cce">\</span>
-               --enable-mp3lame <span class="pl-cce">\</span>
-               --enable-pixman <span class="pl-cce">\</span>
-               --enable-vsock</pre></div>
-<p>接下来, 在当前目录执行:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">makepkg --skipchecksums -si</pre></div>
-<p>然后返回上一级目录, 再进入目录<code class="notranslate">xorgxrdp-devel-git</code>, 执行:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">makepkg -si</pre></div>
-<p>再次返回上一级目录, 进入目录<code class="notranslate">linux-vm-tools/arch</code>, 执行:</p>
+<p>然后, 执行以下命令克隆仓库:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">git clone https://github.com/microsoft/linux-vm-tools.git</pre></div>
+<p>进入目录<code class="notranslate">linux-vm-tools/arch</code>, 执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">./makepkg.sh
 sudo ./install-config.sh</pre></div>
 <h1>4 解决 <em>XRDP</em> 反复连接问题</h1>
@@ -374,7 +295,8 @@ exec dbus-launch startxfce4
 <p>然后执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo systemctl <span class="pl-c1">enable</span> xrdp.service
 sudo systemctl <span class="pl-c1">enable</span> xrdp-sesman.service
-sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini</pre></div>
+sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
+yay -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span></pre></div>
 <p>接着重启虚拟机.</p>
 <p>重启后依次输入用户名, 用户密码登录账户, 然后在弹出窗口中再次输入账户密码即可.</p>
 <p>至此, 一切大功告成!</p></div>
