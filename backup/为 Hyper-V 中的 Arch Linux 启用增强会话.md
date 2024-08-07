@@ -75,10 +75,30 @@ sudo ./install-config.sh
 
 # 4 解决 *XRDP* 反复连接问题
 
-执行以下命令 (仅适用于 *KDE Plasma* 桌面环境):
-```bash
-echo "/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11" > ~/.xinitrc
-```
+在当前用户的家目录下创建`.xinitrc`.
+
+根据不同的桌面环境添加内容:
+ - *i3w / dwm*:
+ ``` 
+ exec i3w
+ ```
+ - *Gnome*:
+ ```
+ unset SESSION_MANAGER
+ unset DBUS_SESSION_BUS_ADDRESS
+ exec dbus-launch  gnome-shell --x11
+ ```
+ - *KDE Plasma*:
+ ```
+ export DESKTOP_SESSION=plasma
+ /usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+ ```
+ - *Xfce4*:
+ ```
+ unset SESSION_MANAGER
+ unset DBUS_SESSION_BUS_ADDRESS
+ exec dbus-launch startxfce4
+ ```
 
 然后执行:
 ```bash
