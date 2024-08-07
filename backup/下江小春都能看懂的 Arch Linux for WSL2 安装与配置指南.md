@@ -212,7 +212,7 @@ echo -e "[boot]\nsystemd=true" | tee -a /etc/wsl.conf
 执行以下命令:
 ```bash
 pacman -Syyu net-tools tree sed python wget
-yay -Rns $(pacman -Qtdq)
+yay -Rcns $(pacman -Qtdq)
 yay -Scc
 rm -rf /tmp/*
 ```
