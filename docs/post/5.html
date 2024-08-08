@@ -10,17 +10,17 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="*Hyper-V* 去安装 *GNU/Linux*, 启用增强会话最令人头大. 不清楚是不是 *Microsoft* 有意为之让大家用 *WSL2* 还是什么的, 但总归, 这并不容易.
+<meta name="description" content="使用 Hyper-V 去安装 GNU/Linux 发行版, 启用增强会话最令人头大. 不清楚是不是 Microsoft 有意为之让大家用 WSL 2. 但总归, 这并不容易.
 
-本教程将教您如何为 *Hyper-V* 中的 *Arch Linux* 虚拟机启用增强会话.
+本教程将教您如何为 Hyper-V 中的 Arch Linux 虚拟机启用增强会话.
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
+在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
 
-另外, 请在 *Hyper-V* 设置中允许使用增强会话, 这很重要.
+另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.
 
-然后, 在主机 *Windows OS* 下以管理员权限打开 *PowerShell*, 执行 (`<VM>`改成 *Arch Linux* 虚拟机的名字, 加上英文半角双引号):
+然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 最好加上英文半角双引号):
 ```PowerShell
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
@@ -72,8 +72,14 @@ build() {
 	      --enable-rfxcodec \
 	      --enable-mp3lame \
 	      --enable-pixman \
-	      --enable-vsock
+              --enable-vsock
+  # Fight unused direct deps
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test '$export_dynamic' = yes && test -n '$export_dynamic_flag_spec'; then/      func_append compile_command ' -Wl,-O1,--as-needed'\n      func_append finalize_command ' -Wl,-O1,--as-needed'\n\0/' libtool
+  make V=0
+}
 ```
+
+就是`# Fight unused direct deps`上面的两行改了一下.
 
 编辑完成后, 执行命令:
 ```
@@ -131,17 +137,17 @@ sudo pacman -Rcns $(pacman -Qtdq)
 
 至此, 一切大功告成!。">
 <meta property="og:title" content="为 Hyper-V 中的 Arch Linux 启用增强会话">
-<meta property="og:description" content="*Hyper-V* 去安装 *GNU/Linux*, 启用增强会话最令人头大. 不清楚是不是 *Microsoft* 有意为之让大家用 *WSL2* 还是什么的, 但总归, 这并不容易.
+<meta property="og:description" content="使用 Hyper-V 去安装 GNU/Linux 发行版, 启用增强会话最令人头大. 不清楚是不是 Microsoft 有意为之让大家用 WSL 2. 但总归, 这并不容易.
 
-本教程将教您如何为 *Hyper-V* 中的 *Arch Linux* 虚拟机启用增强会话.
+本教程将教您如何为 Hyper-V 中的 Arch Linux 虚拟机启用增强会话.
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
+在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
 
-另外, 请在 *Hyper-V* 设置中允许使用增强会话, 这很重要.
+另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.
 
-然后, 在主机 *Windows OS* 下以管理员权限打开 *PowerShell*, 执行 (`<VM>`改成 *Arch Linux* 虚拟机的名字, 加上英文半角双引号):
+然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 最好加上英文半角双引号):
 ```PowerShell
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
@@ -193,8 +199,14 @@ build() {
 	      --enable-rfxcodec \
 	      --enable-mp3lame \
 	      --enable-pixman \
-	      --enable-vsock
+              --enable-vsock
+  # Fight unused direct deps
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test '$export_dynamic' = yes && test -n '$export_dynamic_flag_spec'; then/      func_append compile_command ' -Wl,-O1,--as-needed'\n      func_append finalize_command ' -Wl,-O1,--as-needed'\n\0/' libtool
+  make V=0
+}
 ```
+
+就是`# Fight unused direct deps`上面的两行改了一下.
 
 编辑完成后, 执行命令:
 ```
@@ -310,12 +322,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p><em>Hyper-V</em> 去安装 <em>GNU/Linux</em>, 启用增强会话最令人头大. 不清楚是不是 <em>Microsoft</em> 有意为之让大家用 <em>WSL2</em> 还是什么的, 但总归, 这并不容易.</p>
-<p>本教程将教您如何为 <em>Hyper-V</em> 中的 <em>Arch Linux</em> 虚拟机启用增强会话.</p>
+<div class="markdown-body" id="postBody"><p>使用 Hyper-V 去安装 GNU/Linux 发行版, 启用增强会话最令人头大. 不清楚是不是 Microsoft 有意为之让大家用 WSL 2. 但总归, 这并不容易.</p>
+<p>本教程将教您如何为 Hyper-V 中的 Arch Linux 虚拟机启用增强会话.</p>
 <h1>0 准备工作</h1>
-<p>在开始之前, 首先确保您的 <em>Arch Linux</em> 虚拟机是第二代虚拟机, 同时使用 <em>pipewire</em> 作声音服务.</p>
-<p>另外, 请在 <em>Hyper-V</em> 设置中允许使用增强会话, 这很重要.</p>
-<p>然后, 在主机 <em>Windows OS</em> 下以管理员权限打开 <em>PowerShell</em>, 执行 (<code class="notranslate">&lt;VM&gt;</code>改成 <em>Arch Linux</em> 虚拟机的名字, 加上英文半角双引号):</p>
+<p>在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 同时使用 <em>pipewire</em> 作声音服务.</p>
+<p>另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.</p>
+<p>然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (<code class="notranslate">&lt;VM&gt;</code>改成 Arch Linux 虚拟机的名字, 最好加上英文半角双引号):</p>
 <div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-c1">Set-VM</span> <span class="pl-k">-</span>VMName <span class="pl-k">&lt;</span>VM<span class="pl-k">&gt;</span> <span class="pl-k">-</span>EnhancedSessionTransportType HvSocket</pre></div>
 <h1>1 配置包管理器</h1>
 <p>详见<a href="https://maxlhy0424.github.io/post/2.html" rel="nofollow">这篇教程</a>的第 3 部分.</p>
@@ -348,8 +360,13 @@ git clone https://aur.archlinux.org/xrdp-devel-git.git</pre></div>
 	      --enable-rfxcodec \
 	      --enable-mp3lame \
 	      --enable-pixman \
-	      --enable-vsock
+              --enable-vsock
+  # Fight unused direct deps
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dynamic" = yes &amp;&amp; test -n "$export_dynamic_flag_spec"; then/      func_append compile_command " -Wl,-O1,--as-needed"\n      func_append finalize_command " -Wl,-O1,--as-needed"\n\0/' libtool
+  make V=0
+}
 </code></pre>
+<p>就是<code class="notranslate"># Fight unused direct deps</code>上面的两行改了一下.</p>
 <p>编辑完成后, 执行命令:</p>
 <pre class="notranslate"><code class="notranslate">makepkg --skipchecksum -si
 </code></pre>
