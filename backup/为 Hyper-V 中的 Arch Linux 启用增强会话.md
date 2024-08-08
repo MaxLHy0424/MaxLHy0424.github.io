@@ -1,14 +1,14 @@
-*Hyper-V* 去安装 *GNU/Linux*, 启用增强会话最令人头大. 不清楚是不是 *Microsoft* 有意为之让大家用 *WSL2* 还是什么的, 但总归, 这并不容易.
+使用 Hyper-V 去安装 GNU/Linux 发行版, 启用增强会话最令人头大. 不清楚是不是 Microsoft 有意为之让大家用 WSL 2. 但总归, 这并不容易.
 
-本教程将教您如何为 *Hyper-V* 中的 *Arch Linux* 虚拟机启用增强会话.
+本教程将教您如何为 Hyper-V 中的 Arch Linux 虚拟机启用增强会话.
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 *Arch Linux* 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
+在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
 
-另外, 请在 *Hyper-V* 设置中允许使用增强会话, 这很重要.
+另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.
 
-然后, 在主机 *Windows OS* 下以管理员权限打开 *PowerShell*, 执行 (`<VM>`改成 *Arch Linux* 虚拟机的名字, 加上英文半角双引号):
+然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 最好加上英文半角双引号):
 ```PowerShell
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
@@ -60,8 +60,14 @@ build() {
 	      --enable-rfxcodec \
 	      --enable-mp3lame \
 	      --enable-pixman \
-	      --enable-vsock
+              --enable-vsock
+  # Fight unused direct deps
+  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0 /g' -e 's/    if test "$export_dynamic" = yes && test -n "$export_dynamic_flag_spec"; then/      func_append compile_command " -Wl,-O1,--as-needed"\n      func_append finalize_command " -Wl,-O1,--as-needed"\n\0/' libtool
+  make V=0
+}
 ```
+
+就是`# Fight unused direct deps`上面的两行改了一下.
 
 编辑完成后, 执行命令:
 ```
