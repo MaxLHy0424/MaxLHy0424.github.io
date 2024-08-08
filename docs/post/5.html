@@ -41,7 +41,7 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 
 执行以下命令:
 ```bash
-yay -S git base-devel
+yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 ```
 
 然后, 执行以下命令克隆仓库:
@@ -52,7 +52,6 @@ git clone https://github.com/microsoft/linux-vm-tools.git
 进入目录`linux-vm-tools/arch`, 执行:
 ```bash
 ./makepkg.sh
-yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh
 ```
 
@@ -128,7 +127,7 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 
 执行以下命令:
 ```bash
-yay -S git base-devel
+yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 ```
 
 然后, 执行以下命令克隆仓库:
@@ -139,7 +138,6 @@ git clone https://github.com/microsoft/linux-vm-tools.git
 进入目录`linux-vm-tools/arch`, 执行:
 ```bash
 ./makepkg.sh
-yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh
 ```
 
@@ -257,12 +255,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {vss,fcopy,kvp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo systemctl <span class="pl-c1">enable</span> hv_<span class="pl-smi">${i}</span>_daemon.service<span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
 <h1>3 安装软件包</h1>
 <p>执行以下命令:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel</pre></div>
+<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp</pre></div>
 <p>然后, 执行以下命令克隆仓库:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">git clone https://github.com/microsoft/linux-vm-tools.git</pre></div>
 <p>进入目录<code class="notranslate">linux-vm-tools/arch</code>, 执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">./makepkg.sh
-yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh</pre></div>
 <h1>4 解决 <em>XRDP</em> 反复连接问题</h1>
 <p>在当前用户的家目录下创建<code class="notranslate">.xinitrc</code>.</p>
