@@ -29,17 +29,10 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 
 执行以下命令:
 ```bash
-yay -S git base-devel xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
-```
-
-然后, 执行以下命令克隆仓库:
-```bash
+yay -S git base-devel
 git clone https://github.com/microsoft/linux-vm-tools.git
-```
-
-进入目录`linux-vm-tools/arch`, 执行:
-```bash
 ./makepkg.sh
+yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh
 ```
 
