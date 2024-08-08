@@ -43,6 +43,7 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```bash
 yay -S git base-devel
 git clone https://github.com/microsoft/linux-vm-tools.git
+cd linux-vm-tools/arch
 ./makepkg.sh
 yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh
@@ -122,6 +123,7 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```bash
 yay -S git base-devel
 git clone https://github.com/microsoft/linux-vm-tools.git
+cd linux-vm-tools/arch
 ./makepkg.sh
 yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh
@@ -243,6 +245,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">yay -S git base-devel
 git clone https://github.com/microsoft/linux-vm-tools.git
+<span class="pl-c1">cd</span> linux-vm-tools/arch
 ./makepkg.sh
 yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh</pre></div>
