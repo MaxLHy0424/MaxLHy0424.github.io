@@ -27,13 +27,54 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 
 # 3 安装软件包
 
+如果没有安装 *git*, 请先执行以下命令:
+```bash
+sudo pacman -S git base-devel
+```
+
 执行以下命令:
 ```bash
-yay -S git base-devel
 git clone https://github.com/microsoft/linux-vm-tools.git
-cd linux-vm-tools/arch
-./makepkg.sh
-yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
+git clone https://aur.archlinux.org/xrdp-devel-git.git
+```
+
+首先切换到文件夹`xrdp-devel-git`, 在文件`PKGBUILD`中的`build()`部分中, 添加以下参数到构建选项中:
+```
+--enable-vsock
+```
+
+即整个`build()`变为:
+```
+build() {
+  cd $pkgname
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --sbindir=/usr/bin \
+	      --libexecdir=/usr/lib \
+              --with-systemdsystemdunitdir=/usr/lib/systemd/system \
+              --enable-jpeg \
+              --enable-tjpeg \
+              --enable-fuse \
+	      --enable-opus \
+	      --enable-rfxcodec \
+	      --enable-mp3lame \
+	      --enable-pixman \
+	      --enable-vsock
+```
+
+编辑完成后, 执行命令:
+```
+makepkg --skipchecksum -si
+```
+
+然后执行以下命令:
+```
+yay -S xorg-xinit xorgxrdp-devel-git paru openssl-1.1 pipewire-module-xrdp
+```
+
+接着切换回当初克隆仓库时所在的目录, 切换到`linux-vm-tools/arch`, 执行:
+```bash
 sudo ./install-config.sh
 ```
 
@@ -69,7 +110,7 @@ sudo ./install-config.sh
 sudo systemctl enable xrdp.service
 sudo systemctl enable xrdp-sesman.service
 sudo xrdp-keygen xrdp /etc/xrdp/rsakeys.ini
-yay -Rcns $(pacman -Qtdq)
+sudo pacman -Rcns $(pacman -Qtdq)
 ```
 
 接着重启虚拟机.
