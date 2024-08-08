@@ -31,6 +31,7 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```bash
 yay -S git base-devel
 git clone https://github.com/microsoft/linux-vm-tools.git
+cd linux-vm-tools/arch
 ./makepkg.sh
 yay -S xorg-xinit xrdp xorgxrdp paru openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh
