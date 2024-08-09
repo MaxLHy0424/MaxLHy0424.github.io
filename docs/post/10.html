@@ -554,8 +554,50 @@ makepkg -si</pre></div>
 <p>改为:</p>
 <pre class="notranslate"><code class="notranslate">[bin]
 FileManager = vifm
-MFlags = --skippgpcheck
+MFlags = --skippgpcheck --skipchecksum
 #Sudo = doas
+</code></pre>
+<p>顺便分享下我自己修改的<code class="notranslate">paru.conf</code>:</p>
+<pre class="notranslate"><code class="notranslate">#
+# $PARU_CONF
+# /etc/paru.conf
+# ~/.config/paru/paru.conf
+#
+# See the paru.conf(5) manpage for options
+
+#
+# GENERAL OPTIONS
+#
+[options]
+PgpFetch
+Devel
+Provides
+DevelSuffixes = -git -cvs -svn -bzr -darcs -always -hg -fossil
+#AurOnly
+BottomUp
+RemoveMake
+SudoLoop
+#UseAsk
+SaveChanges
+CombinedUpgrade
+CleanAfter
+UpgradeMenu
+NewsOnUpgrade
+
+#LocalRepo
+#Chroot
+#Sign
+#SignDb
+#KeepRepoCache
+
+#
+# Binary OPTIONS
+#
+[bin]
+FileManager = vifm
+MFlags = --skipinteg
+#Sudo = doas
+
 </code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;">⚠️ 转载请注明出处</div>
 
