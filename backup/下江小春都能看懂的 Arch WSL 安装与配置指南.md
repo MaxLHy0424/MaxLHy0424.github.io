@@ -169,6 +169,8 @@ pacman -Sy archlinuxcn-keyring blackarch-keyring
 pacman -S yay
 ````
 
+如果您愿意的话, 也可以试试 *paru*, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
+
 # 4 汉化
 
 打开`/etc/locale.gen`, 找到:
