@@ -151,7 +151,7 @@ yay -S paru-git
 
 ## 4.4 `--clonedir <dir>`
 
-设置下载和运行 `PKGBUILD` 的目录.
+设置下载和运行`PKGBUILD`的目录.
 
 ## 4.5 `--makepkg <command>`
 
