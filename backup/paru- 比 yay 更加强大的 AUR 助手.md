@@ -129,7 +129,7 @@ yay -S paru-git
 
 可以通过正则表达式搜索 AUR 软件包, 但是必须通过`-x`或`--regex`明确指定。不管`--searchby`如何设定, 正则表达式都只匹配包名 (`pkgname`) 而不匹配描述 (`pkgdesc`).
 
-## 3.4 `Sss`
+## 3.4 `-Sss`
 
 *paru* 会展示详细的搜索结果.
 
