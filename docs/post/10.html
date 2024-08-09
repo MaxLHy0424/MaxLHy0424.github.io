@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/142279449?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手.基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.
+
+# 0 安装
+
+如果没有安装其他的 AUR 助手, 可以执行以下命令:
+```bash
+sudo pacman -S --needed base-devel
+git clone https://aur.archlinux.org/paru-git.git
+cd paru-git
+makepkg -si
+```
+
+如果有安装 *yay*, 可以直接执行:
+```bash
+yay -S paru-git
+```
+
+# 1 基本用法
+
+## 1.1 `paru`
+
+当什么参数都不加的时候, 默认执行`paru -Syu`, 首先从软件仓库查找更新, 然后从 AUR 查找更新.
+
+## 1.2 `paru <search terms>`
+
+通过 *paru* 搜索关键词`<search terms>`的软件包, 并询问要安装哪一个. 以下是 `paru texlive-full` 的输出:
+```
+1 aur/texlive-full 1:2022.20220406-1 [+5 ~0.00] [已安装]
+    This packages provides texlive-full in /opt. It also tricks ArchLinux into thinking it has its texlive packages installed.
+:: 需要安装的包 (例如: 1 2 3, 1-3):
+:: 
+```
+
+## 1.3 `paru <operation> [options] [targets]`
+
+这里`<operation>`是一个必须参数, 表示操作. 用缩写的时候用一个大写字母表示, 例如`-S`表示`--sync`,  `<options>`是选项. 多个选项可以写在一起, 例如`paru --sync -y -u`就是常见的`paru -Syu`.
+
+# 2 *paru* 特有的操作
+
+## 2.1 `-P` (`--show`)
+
+打印相关的选项.
+
+### 2.1.1 `-c` (`--complete`)
+
+打印所有来自 AUR 和软件仓库的包, 用于自动补全, **用户不应直接使用**.
+
+### 2.1.2 `-s` (`--state`)
+
+展示安装的软件包的信息以及系统健康情况, 以及是否有过期包, 孤儿包等.
+
+### 2.1.3 `-w` (`--news`)
+
+展示来自 Arch Linux 主页的新闻. 只展示比所有本地软件包构建日期要新的新闻, 要展示所有新闻, 请使用`-ww`.
+
+### 2.1.4 `-o` (`--order`)
+
+展示目标软件包的构建顺序.
+
+## 2.2 `-G` (`--getpkgbuild`)
+
+从 ABS (Arch Linux Build System, Arch Linux 构建系统) 或者 AUR 下载 PKGBUILD, ABS 只能对 Arch Linux 软件仓库用.
+
+### 2.2.1 `-p` (`--print`)
+
+将`PKGBUILD`打印到终端, 而不是下载`PKGBUILD`.
+
+### 2.2.2 `-c` (`--comments`)
+
+展示软件包的 AUR 评论.
+
+### 2.2.3 `-s` (`--ssh`)
+
+通过 ssh 克隆 AUR 仓库.
+
+## 2.3 `-U` (`--upgrade`)
+
+当不带目标执行的时候, 使用 *makepkg* 相同, 构建当前文件夹下的`PKGBUILD`.
+
+### 2.3.1 `-i` (`--install`)
+
+构建完毕后同时安装.
+
+## 2.4 `-L` (`--repoctl`)
+
+列出所有仓库.
+
+### 2.4.1 `-l` (`--list`)
+
+显示本地仓库的软件包.
+
+### 2.4.2 `-d` (`--delete`)
+
+移除本地的一个软件包, 使用`-dd`同时卸载该软件包.
+
+### 2.4.3 `-y` (`--refresh`)
+
+刷新本地仓库.
+
+### 2.4.4 `-q` (`--quiet`)
+
+展示更少信息.
+
+## 2.5 `-C` (`--chrootctl`)
+
+到 chroot 的交互式命令行.
+
+### 2.5.1 `-i` (`--install`)
+
+将一个软件包安装到 chroot.
+
+### 2.5.2 `-u` (`--sysupgrade`)
+
+更新 chroot.
+
+# 3 扩展 *pacman* 的操作
+
+扩展到同时支持软件仓库和 AUR 的软件包的操作有`-R`, `-S`, `-Si`, `-Sl`, `-Ss`, `-Su`, `-Sc`, `-Qu`, `-T`.
+
+## 3.1 `-R`
+
+*paru* 会同时清除关于`devel`包的缓存数据.
+
+## 3.2 `-Sc`
+
+*paru* 会同时清除缓存的 AUR 软件包以及缓存中任何未被跟踪的文件. 清除未被跟踪的文件会清除所有下载的 source 以及构建好的软件包，但是下载的 VCS source 会被保留。">
+<meta property="og:title" content="paru: 比 yay 更加强大的 AUR 助手">
+<meta property="og:description" content="[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手.基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.
+
+# 0 安装
+
+如果没有安装其他的 AUR 助手, 可以执行以下命令:
+```bash
+sudo pacman -S --needed base-devel
+git clone https://aur.archlinux.org/paru-git.git
+cd paru-git
+makepkg -si
+```
+
+如果有安装 *yay*, 可以直接执行:
+```bash
+yay -S paru-git
+```
+
+# 1 基本用法
+
+## 1.1 `paru`
+
+当什么参数都不加的时候, 默认执行`paru -Syu`, 首先从软件仓库查找更新, 然后从 AUR 查找更新.
+
+## 1.2 `paru <search terms>`
+
+通过 *paru* 搜索关键词`<search terms>`的软件包, 并询问要安装哪一个. 以下是 `paru texlive-full` 的输出:
+```
+1 aur/texlive-full 1:2022.20220406-1 [+5 ~0.00] [已安装]
+    This packages provides texlive-full in /opt. It also tricks ArchLinux into thinking it has its texlive packages installed.
+:: 需要安装的包 (例如: 1 2 3, 1-3):
+:: 
+```
+
+## 1.3 `paru <operation> [options] [targets]`
+
+这里`<operation>`是一个必须参数, 表示操作. 用缩写的时候用一个大写字母表示, 例如`-S`表示`--sync`,  `<options>`是选项. 多个选项可以写在一起, 例如`paru --sync -y -u`就是常见的`paru -Syu`.
+
+# 2 *paru* 特有的操作
+
+## 2.1 `-P` (`--show`)
+
+打印相关的选项.
+
+### 2.1.1 `-c` (`--complete`)
+
+打印所有来自 AUR 和软件仓库的包, 用于自动补全, **用户不应直接使用**.
+
+### 2.1.2 `-s` (`--state`)
+
+展示安装的软件包的信息以及系统健康情况, 以及是否有过期包, 孤儿包等.
+
+### 2.1.3 `-w` (`--news`)
+
+展示来自 Arch Linux 主页的新闻. 只展示比所有本地软件包构建日期要新的新闻, 要展示所有新闻, 请使用`-ww`.
+
+### 2.1.4 `-o` (`--order`)
+
+展示目标软件包的构建顺序.
+
+## 2.2 `-G` (`--getpkgbuild`)
+
+从 ABS (Arch Linux Build System, Arch Linux 构建系统) 或者 AUR 下载 PKGBUILD, ABS 只能对 Arch Linux 软件仓库用.
+
+### 2.2.1 `-p` (`--print`)
+
+将`PKGBUILD`打印到终端, 而不是下载`PKGBUILD`.
+
+### 2.2.2 `-c` (`--comments`)
+
+展示软件包的 AUR 评论.
+
+### 2.2.3 `-s` (`--ssh`)
+
+通过 ssh 克隆 AUR 仓库.
+
+## 2.3 `-U` (`--upgrade`)
+
+当不带目标执行的时候, 使用 *makepkg* 相同, 构建当前文件夹下的`PKGBUILD`.
+
+### 2.3.1 `-i` (`--install`)
+
+构建完毕后同时安装.
+
+## 2.4 `-L` (`--repoctl`)
+
+列出所有仓库.
+
+### 2.4.1 `-l` (`--list`)
+
+显示本地仓库的软件包.
+
+### 2.4.2 `-d` (`--delete`)
+
+移除本地的一个软件包, 使用`-dd`同时卸载该软件包.
+
+### 2.4.3 `-y` (`--refresh`)
+
+刷新本地仓库.
+
+### 2.4.4 `-q` (`--quiet`)
+
+展示更少信息.
+
+## 2.5 `-C` (`--chrootctl`)
+
+到 chroot 的交互式命令行.
+
+### 2.5.1 `-i` (`--install`)
+
+将一个软件包安装到 chroot.
+
+### 2.5.2 `-u` (`--sysupgrade`)
+
+更新 chroot.
+
+# 3 扩展 *pacman* 的操作
+
+扩展到同时支持软件仓库和 AUR 的软件包的操作有`-R`, `-S`, `-Si`, `-Sl`, `-Ss`, `-Su`, `-Sc`, `-Qu`, `-T`.
+
+## 3.1 `-R`
+
+*paru* 会同时清除关于`devel`包的缓存数据.
+
+## 3.2 `-Sc`
+
+*paru* 会同时清除缓存的 AUR 软件包以及缓存中任何未被跟踪的文件. 清除未被跟踪的文件会清除所有下载的 source 以及构建好的软件包，但是下载的 VCS source 会被保留。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://MaxLHy0424.github.io/post/10.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/142279449?v=4">
+<title>paru: 比 yay 更加强大的 AUR 助手</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">paru: 比 yay 更加强大的 AUR 助手</h1>
+<div class="title-right">
+    <a href="https://MaxLHy0424.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/MaxLHy0424/MaxLHy0424.github.io/issues/10" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p><a href="https://github.com/Morganamilo/paru"><em>paru</em></a> 是 <em>yay</em> 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手.基本命令与功能与 <em>yay</em> 和 <em>pacman</em> 几乎一样, 所以迁移过来不会有任何困难.</p>
+<h1>0 安装</h1>
+<p>如果没有安装其他的 AUR 助手, 可以执行以下命令:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S --needed base-devel
+git clone https://aur.archlinux.org/paru-git.git
+<span class="pl-c1">cd</span> paru-git
+makepkg -si</pre></div>
+<p>如果有安装 <em>yay</em>, 可以直接执行:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S paru-git</pre></div>
+<h1>1 基本用法</h1>
+<h2>1.1 <code class="notranslate">paru</code></h2>
+<p>当什么参数都不加的时候, 默认执行<code class="notranslate">paru -Syu</code>, 首先从软件仓库查找更新, 然后从 AUR 查找更新.</p>
+<h2>1.2 <code class="notranslate">paru &lt;search terms&gt;</code></h2>
+<p>通过 <em>paru</em> 搜索关键词<code class="notranslate">&lt;search terms&gt;</code>的软件包, 并询问要安装哪一个. 以下是 <code class="notranslate">paru texlive-full</code> 的输出:</p>
+<pre class="notranslate"><code class="notranslate">1 aur/texlive-full 1:2022.20220406-1 [+5 ~0.00] [已安装]
+    This packages provides texlive-full in /opt. It also tricks ArchLinux into thinking it has its texlive packages installed.
+:: 需要安装的包 (例如: 1 2 3, 1-3):
+:: 
+</code></pre>
+<h2>1.3 <code class="notranslate">paru &lt;operation&gt; [options] [targets]</code></h2>
+<p>这里<code class="notranslate">&lt;operation&gt;</code>是一个必须参数, 表示操作. 用缩写的时候用一个大写字母表示, 例如<code class="notranslate">-S</code>表示<code class="notranslate">--sync</code>,  <code class="notranslate">&lt;options&gt;</code>是选项. 多个选项可以写在一起, 例如<code class="notranslate">paru --sync -y -u</code>就是常见的<code class="notranslate">paru -Syu</code>.</p>
+<h1>2 <em>paru</em> 特有的操作</h1>
+<h2>2.1 <code class="notranslate">-P</code> (<code class="notranslate">--show</code>)</h2>
+<p>打印相关的选项.</p>
+<h3>2.1.1 <code class="notranslate">-c</code> (<code class="notranslate">--complete</code>)</h3>
+<p>打印所有来自 AUR 和软件仓库的包, 用于自动补全, <strong>用户不应直接使用</strong>.</p>
+<h3>2.1.2 <code class="notranslate">-s</code> (<code class="notranslate">--state</code>)</h3>
+<p>展示安装的软件包的信息以及系统健康情况, 以及是否有过期包, 孤儿包等.</p>
+<h3>2.1.3 <code class="notranslate">-w</code> (<code class="notranslate">--news</code>)</h3>
+<p>展示来自 Arch Linux 主页的新闻. 只展示比所有本地软件包构建日期要新的新闻, 要展示所有新闻, 请使用<code class="notranslate">-ww</code>.</p>
+<h3>2.1.4 <code class="notranslate">-o</code> (<code class="notranslate">--order</code>)</h3>
+<p>展示目标软件包的构建顺序.</p>
+<h2>2.2 <code class="notranslate">-G</code> (<code class="notranslate">--getpkgbuild</code>)</h2>
+<p>从 ABS (Arch Linux Build System, Arch Linux 构建系统) 或者 AUR 下载 PKGBUILD, ABS 只能对 Arch Linux 软件仓库用.</p>
+<h3>2.2.1 <code class="notranslate">-p</code> (<code class="notranslate">--print</code>)</h3>
+<p>将<code class="notranslate">PKGBUILD</code>打印到终端, 而不是下载<code class="notranslate">PKGBUILD</code>.</p>
+<h3>2.2.2 <code class="notranslate">-c</code> (<code class="notranslate">--comments</code>)</h3>
+<p>展示软件包的 AUR 评论.</p>
+<h3>2.2.3 <code class="notranslate">-s</code> (<code class="notranslate">--ssh</code>)</h3>
+<p>通过 ssh 克隆 AUR 仓库.</p>
+<h2>2.3 <code class="notranslate">-U</code> (<code class="notranslate">--upgrade</code>)</h2>
+<p>当不带目标执行的时候, 使用 <em>makepkg</em> 相同, 构建当前文件夹下的<code class="notranslate">PKGBUILD</code>.</p>
+<h3>2.3.1 <code class="notranslate">-i</code> (<code class="notranslate">--install</code>)</h3>
+<p>构建完毕后同时安装.</p>
+<h2>2.4 <code class="notranslate">-L</code> (<code class="notranslate">--repoctl</code>)</h2>
+<p>列出所有仓库.</p>
+<h3>2.4.1 <code class="notranslate">-l</code> (<code class="notranslate">--list</code>)</h3>
+<p>显示本地仓库的软件包.</p>
+<h3>2.4.2 <code class="notranslate">-d</code> (<code class="notranslate">--delete</code>)</h3>
+<p>移除本地的一个软件包, 使用<code class="notranslate">-dd</code>同时卸载该软件包.</p>
+<h3>2.4.3 <code class="notranslate">-y</code> (<code class="notranslate">--refresh</code>)</h3>
+<p>刷新本地仓库.</p>
+<h3>2.4.4 <code class="notranslate">-q</code> (<code class="notranslate">--quiet</code>)</h3>
+<p>展示更少信息.</p>
+<h2>2.5 <code class="notranslate">-C</code> (<code class="notranslate">--chrootctl</code>)</h2>
+<p>到 chroot 的交互式命令行.</p>
+<h3>2.5.1 <code class="notranslate">-i</code> (<code class="notranslate">--install</code>)</h3>
+<p>将一个软件包安装到 chroot.</p>
+<h3>2.5.2 <code class="notranslate">-u</code> (<code class="notranslate">--sysupgrade</code>)</h3>
+<p>更新 chroot.</p>
+<h1>3 扩展 <em>pacman</em> 的操作</h1>
+<p>扩展到同时支持软件仓库和 AUR 的软件包的操作有<code class="notranslate">-R</code>, <code class="notranslate">-S</code>, <code class="notranslate">-Si</code>, <code class="notranslate">-Sl</code>, <code class="notranslate">-Ss</code>, <code class="notranslate">-Su</code>, <code class="notranslate">-Sc</code>, <code class="notranslate">-Qu</code>, <code class="notranslate">-T</code>.</p>
+<h2>3.1 <code class="notranslate">-R</code></h2>
+<p><em>paru</em> 会同时清除关于<code class="notranslate">devel</code>包的缓存数据.</p>
+<h2>3.2 <code class="notranslate">-Sc</code></h2>
+<p><em>paru</em> 会同时清除缓存的 AUR 软件包以及缓存中任何未被跟踪的文件. 清除未被跟踪的文件会清除所有下载的 source 以及构建好的软件包，但是下载的 VCS source 会被保留。添加<code class="notranslate">-d</code>或者<code class="notranslate">--delete</code>可以删除整个软件包，而不是仅仅清理它.</p>
+<h2>3.3 <code class="notranslate">-Ss</code></h2>
+<p>可以通过正则表达式搜索 AUR 软件包, 但是必须通过<code class="notranslate">-x</code>或<code class="notranslate">--regex</code>明确指定。不管<code class="notranslate">--searchby</code>如何设定, 正则表达式都只匹配包名 (<code class="notranslate">pkgname</code>) 而不匹配描述 (<code class="notranslate">pkgdesc</code>).</p>
+<h2>3.4 <code class="notranslate">Sss</code></h2>
+<p><em>paru</em> 会展示详细的搜索结果.</p>
+<h2>3.5 <code class="notranslate">-S</code>, <code class="notranslate">-Si</code>, <code class="notranslate">-Sl</code>, <code class="notranslate">-Ss</code>, <code class="notranslate">-Su</code>, <code class="notranslate">-Qu</code></h2>
+<p>对于这些选项, <em>paru</em> 也能够处理 AUR 的包.</p>
+<h2>3.6 <code class="notranslate">-Ts</code></h2>
+<p>从一列包中筛选出在 AUR 中的包.</p>
+<h1>4 新的选项</h1>
+<h2>4.1 <code class="notranslate">--repo</code></h2>
+<p>假设所有目标来自于软件仓库，并且像<code class="notranslate">-u</code>只处理来自于软件仓库的软件包.</p>
+<h2>4.2 <code class="notranslate">-a</code> (<code class="notranslate">--aur</code>)</h2>
+<p>假设所有目标来自于 AUR, 并且<code class="notranslate">-u</code>之类的选项只处理来自于 AUR 的包.</p>
+<h2>4.3 <code class="notranslate">--aururl</code></h2>
+<p>设置 AUR 代理 (只代理下载 AUR 仓库, 不代理下载打包的 source).</p>
+<h2>4.4 <code class="notranslate">--clonedir &lt;dir&gt;</code></h2>
+<p>设置下载和运行 <code class="notranslate">PKGBUILD</code> 的目录.</p>
+<h2>4.5 <code class="notranslate">--makepkg &lt;command&gt;</code></h2>
+<p>设置 <em>makepkg</em> 调用的命令, 可以是 PATH 里面的命令或者任意一个绝对路径指向的文件.</p>
+<h2>4.6 <code class="notranslate">--makepkgconf &lt;file&gt;</code></h2>
+<p>为 chroot 环境指定一个 <em>makepkg</em> 的配置文件, 只能使用绝对路径.</p>
+<h2>4.7 <code class="notranslate">--pacman &lt;command&gt;</code></h2>
+<p>调用 <em>pacman</em> 的命令, 可以是 PATH 里面的命令或者任意一个绝对路径指向的文件.</p>
+<h2>4.8 <code class="notranslate">--git &lt;command&gt;</code></h2>
+<p>设置自定义 <em>git</em> 的命令, 可以是 PATH 里面的命令或者任意一个绝对路径指向的文件.</p>
+<h2>4.9 <code class="notranslate">--gitflags &lt;flags&gt;</code></h2>
+<p>向 <em>git</em> 传递的参数, 每次当 <em>paru</em> 调用 <em>git</em> 的时候都会传递. 参数按空格分割, 然后用引号包裹起来, 即:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">--gitflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<h2>4.10 <code class="notranslate">--fmflags &lt;flags&gt;</code></h2>
+<p>向 <em>fm</em> 传递的参数, 每次当 <em>paru</em> 调用 <em>gpg</em> 的时候都会传递. 参数按空格分割, 然后用引号包裹起来. 即:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">--fmflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<h2>4.11 <code class="notranslate">--asp &lt;command&gt;</code></h2>
+<p>自定义的<code class="notranslate">asp</code>命令, 可以是 PATH 里面的命令或者任意一个绝对路径指向的文件.</p>
+<h2>4.12 <code class="notranslate">--mflags &lt;flags&gt;</code></h2>
+<p>向<code class="notranslate">makepkg</code>传递的参数，每次当 <em>paru</em> 调用 <em>makepkg</em> 的时候都会传递. 参数按空格分割, 然后用引号包裹起来, 即:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">--mflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<h2>4.13 <code class="notranslate">--bat &lt;command&gt;</code></h2>
+<p>自定义的<code class="notranslate">bat</code>命令, 可以是 PATH 里面的命令或者任意一个绝对路径指向的文件.</p>
+<h2>4.14 <code class="notranslate">--batflags &lt;flags&gt;</code></h2>
+<p>向 <em>bat</em> 传递的参数, 每次当 <em>paru</em> 调用 <em>bat</em> 的时候都会传. 参数按空格分割, 然后用引号包裹起来, 即:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">--batflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<h2>4.15 <code class="notranslate">--sudo &lt;command&gt;</code></h2>
+<p>自定义的<code class="notranslate">sudo</code>命令, 可以是 PATH 里面的命令或者任意一个绝对路径指向的文件. <code class="notranslate">--sudoloop</code>选项不一定能和自定义的<code class="notranslate">sudo</code>命令兼容.</p>
+<h2>4.16 <code class="notranslate">--sudoflags &lt;flags&gt;</code></h2>
+<p>向 <em>sudo</em> 传递的参数, 每次当 <em>paru</em> 调用 <em>sudo</em> 的时候都会传递. 参数按空格分割, 然后用引号包裹起来, 即:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">--sudoflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<h2>4.17 <code class="notranslate">--completioninterval &lt;days&gt;</code></h2>
+<p>刷新补全缓存的时间间隔，设置为<code class="notranslate">0</code>表示每次都刷新, <code class="notranslate">-1</code>表示永不刷新，默认值为<code class="notranslate">7</code>.</p>
+<h2>4.18 <code class="notranslate">--sortby &lt;votes|popularity|id|baseid|name|base|submitted|modified&gt;</code></h2>
+<p>在搜索时对 AUR 的软件包按特定指标排序, 默认按<code class="notranslate">votes</code>降序排列.</p>
+<h2>4.19 <code class="notranslate">--searchby &lt;name|name-desc|maintainer|depends|checkdepends|makedepends|optdepends&gt;</code></h2>
+<p>按指定域进行 AUR 搜索，默认按<code class="notranslate">name-desc</code>搜索.</p>
+<h2>4.20 <code class="notranslate">--skipreview</code></h2>
+<p>跳过审阅过程.</p>
+<h2>4.21 <code class="notranslate">--upgrademenu</code></h2>
+<p>展示详细的更新清单, 格式类似于 <em>pacman</em> 的<code class="notranslate">VerbosePkgLists</code>选项. 可以使用数字, 数字范围或者仓库名称跳过某些更新. <strong>不建议跳过来自软件仓库的更新，因为这可能会导致部分更新. 该选项的目的是用于跳过某些 AUR 更新.</strong></p>
+<h2>4.22 <code class="notranslate">--nogrademenu</code></h2>
+<p>不展示更新菜单.</p>
+<h2>4.23 <code class="notranslate">--removemake [yes|no|ask]</code></h2>
+<p>在安装完软件包后移除<code class="notranslate">makedepends</code>. 如果设置为<code class="notranslate">ask</code>, 在构建过程中会显示一个询问菜单. 没有指定选项时, 默认是<code class="notranslate">yes</code>.</p>
+<h2>4.24 <code class="notranslate">--topdown</code></h2>
+<p>从上往下打印搜索结果, 首先打印来自软件仓库的软件包. 这是默认行为.</p>
+<h2>4.25 <code class="notranslate">--bottomup</code></h2>
+<p>从下往上打印搜索结果, 首先打印来自 AUR 的软件包.</p>
+<h2>4.26 <code class="notranslate">--limit &lt;limit&gt;</code></h2>
+<p>在一次搜索中限制返回的结果的数量, 默认是<code class="notranslate">0</code> (无限制). 可以分别对 AUR 和软件仓库进行限制.</p>
+<h2>4.27 <code class="notranslate">--nocheck</code></h2>
+<p>不解决依赖或者不运行<code class="notranslate">PKGBUILD</code>中的<code class="notranslate">check</code>函数.</p>
+<h2>4.28 <code class="notranslate">--installdebug</code></h2>
+<p>如果一个包提供<code class="notranslate">debug</code>包, 同时安装<code class="notranslate">debug</code>包.</p>
+<h2>4.29 <code class="notranslate">--noinstalldebug</code></h2>
+<p>当一个包提供<code class="notranslate">debug</code>包时, 不安装<code class="notranslate">debug</code>包.</p>
+<h2>4.30 <code class="notranslate">--devel</code></h2>
+<p>在系统更新 (sysUpgrade) 时, 同时检查 AUR 包的 Development 更新，目前只支持 git 包 (即 <code class="notranslate">*-git</code> 之类的包).</p>
+<h2>4.31 <code class="notranslate">--nodevel</code></h2>
+<p>在系统更新时, 不检查 Development 的软件包.</p>
+<h2>4.32 <code class="notranslate">--develsuffixes</code></h2>
+<p><em>paru</em> 用来决定一个包是否是 Devel Package 的后缀，当启用<code class="notranslate">--needed</code>选项时用于决定是否要更新<code class="notranslate">pkgver</code>。注意<code class="notranslate">suffixes</code>是复数, 即可以有多个后缀.</p>
+<h2>4.33 <code class="notranslate">--cleanafter</code></h2>
+<p>在安装后移除未被跟踪的文件 (不移除目录). 这使得采用版本控制系统 (VCS) 的软件包能够轻松拉取更新, 而不是重新克隆整个仓库.</p>
+<h2>4.34 <code class="notranslate">--nocleanafter</code></h2>
+<p>安装后不移除软件包的源文件 (source).</p>
+<h2>4.35 <code class="notranslate">--redownload [yes|no|all]</code></h2>
+<p>即使在本地缓存有<code class="notranslate">PKGBUILD</code>的时候也总是重新下载一份<code class="notranslate">PKGBUIL</code>. 如果指定<code class="notranslate">all</code>, 所有软件包的<code class="notranslate">PKGBUILD</code>都会重新下载, 而不仅仅是目标  (targets) 软件包, 当指定了该选项时, 默认为<code class="notranslate">yes</code>.</p>
+<h2>4.36 <code class="notranslate">--noredownload</code></h2>
+<p>当下载<code class="notranslate">PKGBUILD</code>时, 如果本地缓存的<code class="notranslate">PKGBUILD</code>跟<code class="notranslate">AUR</code>的一样新或者比<code class="notranslate">AUR</code>的新时, 不重新下载<code class="notranslate">PKGBUILD</code>.</p>
+<h2>4.37 <code class="notranslate">--provides</code></h2>
+<p>查找匹配 Provides 的 AUR 软件包. 当有多个结果时, 提示用户选择一个. 该选项会增加解决依赖的时间 (但是感知不强).</p>
+<h2>4.38 <code class="notranslate">--noprovides</code></h2>
+<p>不查找 AUR 软件包的 Provides 部分. <em>paru</em> 不会展示 Provider 菜单, 但是 <em>pacman</em> 仍然会为软件仓库中的包展示 Provider 菜单.</p>
+<h2>4.39 <code class="notranslate">--pgpfetch</code></h2>
+<p>提示从每个<code class="notranslate">PKGBUILD</code>的<code class="notranslate">validpgpkeys</code>部分导入未知的 PGP 密钥.</p>
+<h2>4.40 <code class="notranslate">--nopgpfetch</code></h2>
+<p>不提示导入未知的 PGP 密钥. 这可能会导致软件包构建失败, 除非使用<code class="notranslate">--skippgpcheck</code>或者自定义的 GPG 配置.</p>
+<h2>4.41 <code class="notranslate">--newsonupgrade</code></h2>
+<p>在系统更新时打印新的新闻.</p>
+<h2>4.42 <code class="notranslate">--useask</code></h2>
+<p>使用 <em>pacman</em> 的<code class="notranslate">--ask</code>来自动确认软件包冲突. <em>paru</em> 会提前列出冲突列表. <em>paru</em> 有可能会没有检测到软件包冲突, 导致一个软件包没有经过询问就被移除. 但是这是几乎不可能的.</p>
+<h2>4.43 <code class="notranslate">--nouseask</code></h2>
+<p>在安装过程中手动解决冲突, 不冲突的软件包不需要手动确认.</p>
+<h2>4.44 <code class="notranslate">--savechanges</code></h2>
+<p>在审阅<code class="notranslate">PKGBUILD</code>的过程中提交更改.</p>
+<h2>4.45 <code class="notranslate">--nosavechanges</code></h2>
+<p>不提交审阅过程中的更改.</p>
+<h2>4.46 <code class="notranslate">--combinedupgrade</code></h2>
+<p>在系统更新的过程中, <em>paru</em> 首先首先刷新数据库, 然后展示将要更新的软件包. 在完成审阅<code class="notranslate">PKGBUILD</code>以后, 来自软件仓库和 AUR 的更新将不需要手动干预. 如果 <em>paru</em> 在刷新数据库后退出而没有进行系统更新, 用户需要自己通过 <em>pacman</em> 进行更新.</p>
+<h2>4.47 <code class="notranslate">--nocombinedupgrade</code></h2>
+<p>系统更新过程中, 首先执行<code class="notranslate">pacman -Syu</code>, 然后更新来自 AUR 的软件包.</p>
+<h2>4.48 <code class="notranslate">--batchinstall</code></h2>
+<p>当构建和安装 AUR 软件包的时候, 将每个需要安装的软件包加入队列, 当所有软件包都构建好之后, 批量安装.</p>
+<h2>4.49 <code class="notranslate">--nobatchinstall</code></h2>
+<p>当每个 AUR 软件包构建完成之后立即安装.</p>
+<h2>4.50 <code class="notranslate">--rebuild [yes|no|all]</code></h2>
+<p>即使当本地有构建好的副本也重新构建软件包. 如果选择<code class="notranslate">all</code>所有包都被重新构建, 而不仅仅是目标软件包. 默认值是 <code class="notranslate">no</code>.</p>
+<h2>4.51 <code class="notranslate">--norebuild</code></h2>
+<p>当构建软件包时, 如果本地有相同版本的软件包, 则跳过构建, 使用现有的软件包.</p>
+<h2>4.52 <code class="notranslate">--sudoloop [= args...]</code></h2>
+<p>在后台周期性调用 <em>sudo</em> 来在耗时长的构建中防止超时. 可选参数可以用来决定如何循环调用, 在使用 <em>doas</em> 的时候可能会有用.</p>
+<h2>4.53 <code class="notranslate">--nosudoloop</code></h2>
+<p>不在后台循环调用 <em>sudo</em>.</p>
+<h2>4.54 <code class="notranslate">--localrepo [= Repos...]</code></h2>
+<p>使用一个本地仓库来构建和更新 AUR 软件包.</p>
+<p><em>paru</em> 会作用于启用的软件仓库而不是外部软件包上. 这个仓库必须已经在<code class="notranslate">pacman.conf</code>中声明, 但是不必已经存在于硬盘上.</p>
+<p>可选地, 可以传递一个仓库列表, <em>paru</em> 默认会考虑所有本地仓库, 将软件包构建到第一个软件仓库, 并更新其他启用的仓库的软件包.</p>
+<h2>4.55 <code class="notranslate">--chroot [= /path/to/chroot]</code></h2>
+<p>在 chroot 中构建软件包，这需要启用<code class="notranslate">localrepo</code>选项，可选指定 chroot 的创建路径.</p>
+<h2>4.56 <code class="notranslate">--nochroot</code></h2>
+<p>不在 chroot 中构建软件包.</p>
+<h2>4.57 <code class="notranslate">--sign [= key]</code></h2>
+<p>使用 GPG 对软件包进行签名, 可选指定使用哪个 Key 进行签名.</p>
+<h2>4.58 <code class="notranslate">--nosign</code></h2>
+<p>不对软件包进行 GPG 签名.</p>
+<h2>4.59 <code class="notranslate">--keeprepocache</code></h2>
+<p>通常情况下, 当 AUR 的软件包升级时, 旧的版本会被清理. 这个选项禁用了上述行为, 保留了所有版本, 仅更新了数据库.</p>
+<h2>4.60 <code class="notranslate">--nokeeprepocache</code></h2>
+<p>不保留旧的软件包.</p>
+<h2>4.61 <code class="notranslate">--signdb [= key]</code></h2>
+<p>使用 GPG 对数据库进行签名, 可选指定使用哪个 Key 进行签名.</p>
+<h2>4.62 <code class="notranslate">--nosigndb</code></h2>
+<p>不对数据库进行 GPG 签名.</p>
+<h1>5 环境变量</h1>
+<h2>5.1 <code class="notranslate">AURDEST</code></h2>
+<p>用于设置构建软件包的目录, 使用<code class="notranslate">--clonedir</code>覆盖该变量.</p>
+<h2>5.2 <code class="notranslate">PARU_CONF</code></h2>
+<p>覆盖 <em>paru</em> 查找自身配置文件的位置.</p>
+<h2>5.3 <code class="notranslate">PARU_PAGER</code></h2>
+<p><em>paru</em> 用于审阅文件的<code class="notranslate">pager</code>, 优先级高于<code class="notranslate">PAGER</code>环境变量，但是低于<code class="notranslate">paru.conf</code>的设置。</p>
+<h1>6 相关文件</h1>
+<h2>6.1 配置目录</h2>
+<p><em>paru</em> 的配置文件目录位于<code class="notranslate">$XDG_CONFIG_HOME/paru/</code>, 如果<code class="notranslate">$XDG_CONFIG_HOME</code>未设定, 则为<code class="notranslate">$HOME/.config/paru</code>. <code class="notranslate">paru.conf</code>用于保存 <em>paru</em> 所有的选项. 实际上<code class="notranslate">paru.conf</code>在<code class="notranslate">/etc</code>下.</p>
+<h2>6.2 缓存目录</h2>
+<p>缓存目录在<code class="notranslate">$XDG_CACHE_HOME/paru/</code>, 如果<code class="notranslate">$XDG_CACHE_HOME</code>为空则是<code class="notranslate">$HOME/.cache/paru</code>. <code class="notranslate">packages.aur</code>保存了一份 AUR 软件包的列表用于补全, 默认情况下补全文件 7 天更新一次. <code class="notranslate">devel.json</code>保存了一份所有 VCS 软件包的名称以及它们最新的提交, 如果任何一个提交发生变化, 对应的软件包会被重新构建.</p>
+<h2>6.3 构建目录</h2>
+<p>除非重新指定, 该目录的位置与缓存目录相同. 该目录用于存放下载的 AUR 包以及它们的 souce 文件和构建好的软件包.</p>
+<h2>6.4 <code class="notranslate">pacman.conf</code></h2>
+<p><em>paru</em> 使用<code class="notranslate">pacman.conf</code>通过<code class="notranslate">alpm.rs</code>或者 <em>paru</em>本身来设置某些 <em>pacman</em> 选项. 大部分的 <em>libalpm</em> 选项和 <em>pacman</em> 选项都被继承了.</p>
+<h1>7 使用 <em>paru</em> 编辑<code class="notranslate">PKGBUILD</code></h1>
+<p>首先执行以下命令:</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S vifm --needed</pre></div>
+<p>接下来, 打开<code class="notranslate">/etc/paru.conf</code>, 找到:</p>
+<pre class="notranslate"><code class="notranslate">#[bin]
+#FileManager = vifm
+#MFlags = --skippgpcheck
+#Sudo = doas
+</code></pre>
+<p>改为:</p>
+<pre class="notranslate"><code class="notranslate">[bin]
+FileManager = vifm
+MFlags = --skippgpcheck
+#Sudo = doas
+</code></pre></div>
+<div style="font-size:small;margin-top:8px;float:right;">⚠️ 转载请注明出处</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://MaxLHy0424.github.io">MaxLHy0424</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("06/20/2024"!=""){
+    var startSite=new Date("06/20/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","MaxLHy0424/MaxLHy0424.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+</script>
+
+
+</html>
