@@ -480,7 +480,7 @@ RemoveMake
 SudoLoop
 #UseAsk
 SaveChanges
-CombinedUpgrade
+#CombinedUpgrade
 CleanAfter
 UpgradeMenu
 NewsOnUpgrade
