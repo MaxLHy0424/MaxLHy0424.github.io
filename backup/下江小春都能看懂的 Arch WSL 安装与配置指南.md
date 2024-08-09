@@ -39,9 +39,9 @@ useWindowsDnsCache=true
 
 按照正常流程安装, 打开, 创建账户. 
 
-# 1 登录 root 用户并修改密码
+# 1 修改 root 用户密码
 
-执行`sudo su`进入`root`用户后, 通过`passwd root`修改`root`用户密码.
+通过`sudo passwd root`修改`root`用户密码.
 
 # 2 配置 *GNU Nano* 文本编辑器
 
@@ -159,14 +159,14 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 
 执行以命令:
 ```bash
-pacman-key --init
-pacman-key --lsign-key "farseerfc@archlinux.org"
-pacman -Sy archlinuxcn-keyring blackarch-keyring
+sudo pacman-key --init
+sudo pacman-key --lsign-key "farseerfc@archlinux.org"
+sudo pacman -Sy archlinuxcn-keyring blackarch-keyring
 ```
 
 执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
 ````bash
-pacman -S yay
+sudo pacman -S yay
 ````
 
 如果您愿意的话, 也可以试试 *paru*, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
@@ -175,7 +175,7 @@ pacman -S yay
 
 打开`/etc/locale.gen`, 找到:
 ```
-#en_GB.UTF-8 UTF-8
+#en_US.UTF-8 UTF-8
 ```
 ```
 #zh_CN.UTF-8 UTF-8
@@ -184,19 +184,19 @@ pacman -S yay
 
 打开`/etc/locale.conf`, 在末尾追加:
 ```
-LANG=en_GB.UTF-8
+LANG=en_US.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
 ```
 export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8:en_GB.UTF-8
+export LANG=zh_CN.UTF-8:en_US.UTF-8
 ```
 
 然后执行以下命令:
 ```bash
-pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji
-locale-gen
+sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji
+sudo locale-gen
 ```
 
 # 5 解决 *WSLg* 及 *Systemd* 问题
@@ -205,18 +205,18 @@ locale-gen
 ```bash
 echo \
 '# Type Path           Mode UID  GID  Age Argument
-L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | tee /etc/tmpfiles.d/wslg.conf
-echo -e "[boot]\nsystemd=true" | tee -a /etc/wsl.conf
+L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
+echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
 ```
 
 # 6 善后工作及后续使用注意事项
 
 执行以下命令:
 ```bash
-pacman -Syyu net-tools tree sed python wget
-yay -Rcns $(pacman -Qtdq)
-yay -Scc
-rm -rf /tmp/*
+sudo pacman -Syyu net-tools tree sed python wget
+sudo pacman -Rcns $(pacman -Qtdq)
+sudo pacman -Scc
+sudo rm -rf /tmp/*
 ```
 
 如果后续需要安装软件源`blackarch`内的软件包, 推荐在此之前先打开`/etc/pacman.conf`, 注释以下几行:
