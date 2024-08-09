@@ -1,4 +1,4 @@
-[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手.基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.
+[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.
 
 # 0 安装
 
