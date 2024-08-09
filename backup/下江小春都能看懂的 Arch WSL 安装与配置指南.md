@@ -201,11 +201,15 @@ sudo locale-gen
 
 # 5 解决 *WSLg* 及 *Systemd* 问题
 
-执行以下命令:
+首先执行:
 ```bash
 echo \
 '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
+```
+
+如果 *Systemd* 存在问题, 可以试试:
+```
 echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
 ```
 
