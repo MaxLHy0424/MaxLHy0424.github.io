@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Fri, 09 Aug 2024 08:43:10 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Fri, 09 Aug 2024 09:11:44 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
 &#13;
 # 0 安装&#13;
 &#13;
@@ -569,11 +569,15 @@ sudo locale-gen&#13;
 &#13;
 # 5 解决 *WSLg* 及 *Systemd* 问题&#13;
 &#13;
-执行以下命令:&#13;
+首先执行:&#13;
 ```bash&#13;
 echo \&#13;
 '# Type Path           Mode UID  GID  Age Argument&#13;
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf&#13;
+```&#13;
+&#13;
+如果 *Systemd* 存在问题, 可以试试:&#13;
+```&#13;
 echo -e '[boot]\nsystemd=true' | sudo tee -a /etc/wsl.conf&#13;
 ```&#13;
 &#13;
