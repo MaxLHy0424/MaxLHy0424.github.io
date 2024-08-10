@@ -15,7 +15,7 @@ Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 
 # 1 配置包管理器
 
-详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.
+详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分和[另一篇教程](https://maxlhy0424.github.io/post/10.html).
 
 # 2 安装集成服务
 
@@ -76,7 +76,7 @@ makepkg --skipchecksum -si
 
 然后执行以下命令:
 ```
-yay -S xorg-xinit xorgxrdp-devel-git paru openssl-1.1 pipewire-module-xrdp
+paru -S xorg-xinit xorgxrdp-devel-git openssl-1.1 pipewire-module-xrdp
 ```
 
 接着切换回当初克隆仓库时所在的目录, 切换到`linux-vm-tools/arch`, 执行:
