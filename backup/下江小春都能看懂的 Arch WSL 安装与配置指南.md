@@ -189,6 +189,7 @@ LANG=en_US.UTF-8
 
 打开`/etc/profile`, 在末尾追加:
 ```
+export LC_ALL=zh_CN.UTF-8
 export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 ```
@@ -201,14 +202,14 @@ sudo locale-gen
 
 # 5 解决 *WSLg* 及 *Systemd* 问题
 
-首先执行:
+执行:
 ```bash
 echo \
 '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
-如果 *Systemd* 存在问题, 可以试试:
+如果 *Systemd* 没有启动, 可以试试:
 ```
 echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
 ```
