@@ -4,7 +4,7 @@
 
 如果没有安装其他的 AUR 助手, 可以执行以下命令:
 ```bash
-sudo pacman -S --needed base-devel
+sudo pacman -S --needed git base-devel
 git clone https://aur.archlinux.org/paru-git.git
 cd paru-git
 makepkg -si
