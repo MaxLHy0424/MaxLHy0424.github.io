@@ -194,15 +194,15 @@ sudo pacman -S yay
 ```
 将前面的`#`去掉.
 
-打开`/etc/locale.conf`, 在末尾追加:
+打开`/etc/locale.conf`, 将所有文本替换为:
 ```
 LANG=en_US.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
 ```
-export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8:en_US.UTF-8
+export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:en_US
 ```
 
 然后执行以下命令:
@@ -432,15 +432,15 @@ sudo pacman -S yay
 ```
 将前面的`#`去掉.
 
-打开`/etc/locale.conf`, 在末尾追加:
+打开`/etc/locale.conf`, 将所有文本替换为:
 ```
 LANG=en_US.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
 ```
-export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8:en_US.UTF-8
+export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:en_US
 ```
 
 然后执行以下命令:
@@ -691,12 +691,12 @@ sudo pacman -Sy archlinuxcn-keyring blackarch-keyring</pre></div>
 <pre class="notranslate"><code class="notranslate">#zh_CN.UTF-8 UTF-8
 </code></pre>
 <p>将前面的<code class="notranslate">#</code>去掉.</p>
-<p>打开<code class="notranslate">/etc/locale.conf</code>, 在末尾追加:</p>
+<p>打开<code class="notranslate">/etc/locale.conf</code>, 将所有文本替换为:</p>
 <pre class="notranslate"><code class="notranslate">LANG=en_US.UTF-8
 </code></pre>
 <p>打开<code class="notranslate">/etc/profile</code>, 在末尾追加:</p>
-<pre class="notranslate"><code class="notranslate">export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8:en_US.UTF-8
+<pre class="notranslate"><code class="notranslate">export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:en_US
 </code></pre>
 <p>然后执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji
