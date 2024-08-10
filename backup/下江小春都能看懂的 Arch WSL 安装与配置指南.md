@@ -182,15 +182,15 @@ sudo pacman -S yay
 ```
 将前面的`#`去掉.
 
-打开`/etc/locale.conf`, 在末尾追加:
+打开`/etc/locale.conf`, 将所有文本替换为:
 ```
 LANG=en_US.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
 ```
-export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8:en_US.UTF-8
+export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:en_US
 ```
 
 然后执行以下命令:
