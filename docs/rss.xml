@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 10 Aug 2024 02:47:47 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 10 Aug 2024 08:19:48 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
 &#13;
 # 0 安装&#13;
 &#13;
@@ -165,7 +165,7 @@ Set-VM -VMName &lt;VM&gt; -EnhancedSessionTransportType HvSocket&#13;
 &#13;
 # 1 配置包管理器&#13;
 &#13;
-详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分.&#13;
+详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分和[另一篇教程](https://maxlhy0424.github.io/post/10.html).&#13;
 &#13;
 # 2 安装集成服务&#13;
 &#13;
@@ -226,7 +226,7 @@ makepkg --skipchecksum -si&#13;
 &#13;
 然后执行以下命令:&#13;
 ```&#13;
-yay -S xorg-xinit xorgxrdp-devel-git paru openssl-1.1 pipewire-module-xrdp&#13;
+paru -S xorg-xinit xorgxrdp-devel-git openssl-1.1 pipewire-module-xrdp&#13;
 ```&#13;
 &#13;
 接着切换回当初克隆仓库时所在的目录, 切换到`linux-vm-tools/arch`, 执行:&#13;
