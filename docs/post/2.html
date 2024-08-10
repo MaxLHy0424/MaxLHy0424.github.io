@@ -201,6 +201,7 @@ LANG=en_US.UTF-8
 
 打开`/etc/profile`, 在末尾追加:
 ```
+export LC_ALL=zh_CN.UTF-8
 export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 ```
@@ -213,14 +214,14 @@ sudo locale-gen
 
 # 5 解决 *WSLg* 及 *Systemd* 问题
 
-首先执行:
+执行:
 ```bash
 echo \
 '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
-如果 *Systemd* 存在问题, 可以试试:
+如果 *Systemd* 没有启动, 可以试试:
 ```
 echo -e '[boot]\nsystemd=true' | sudo tee -a /etc/wsl.conf
 ```
@@ -439,6 +440,7 @@ LANG=en_US.UTF-8
 
 打开`/etc/profile`, 在末尾追加:
 ```
+export LC_ALL=zh_CN.UTF-8
 export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 ```
@@ -451,14 +453,14 @@ sudo locale-gen
 
 # 5 解决 *WSLg* 及 *Systemd* 问题
 
-首先执行:
+执行:
 ```bash
 echo \
 '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
-如果 *Systemd* 存在问题, 可以试试:
+如果 *Systemd* 没有启动, 可以试试:
 ```
 echo -e '[boot]\nsystemd=true' | sudo tee -a /etc/wsl.conf
 ```
@@ -695,18 +697,19 @@ sudo pacman -Sy archlinuxcn-keyring blackarch-keyring</pre></div>
 <pre class="notranslate"><code class="notranslate">LANG=en_US.UTF-8
 </code></pre>
 <p>打开<code class="notranslate">/etc/profile</code>, 在末尾追加:</p>
-<pre class="notranslate"><code class="notranslate">export LANG=zh_CN.UTF-8
+<pre class="notranslate"><code class="notranslate">export LC_ALL=zh_CN.UTF-8
+export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 </code></pre>
 <p>然后执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji
 sudo locale-gen</pre></div>
 <h1>5 解决 <em>WSLg</em> 及 <em>Systemd</em> 问题</h1>
-<p>首先执行:</p>
+<p>执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> \
 <span class="pl-s"><span class="pl-pds">'</span># Type Path           Mode UID  GID  Age Argument</span>
 <span class="pl-s">L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/tmpfiles.d/wslg.conf</pre></div>
-<p>如果 <em>Systemd</em> 存在问题, 可以试试:</p>
+<p>如果 <em>Systemd</em> 没有启动, 可以试试:</p>
 <pre class="notranslate"><code class="notranslate">echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
 </code></pre>
 <h1>6 善后工作及后续使用注意事项</h1>
