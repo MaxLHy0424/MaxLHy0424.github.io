@@ -124,3 +124,14 @@ sudo pacman -Rcns $(pacman -Qtdq)
 重启后依次输入用户名, 用户密码登录账户, 然后在弹出窗口中再次输入账户密码即可.
 
 至此, 一切大功告成!
+
+# DLC 汉化 *SDDM*
+
+> 这一部分和本篇教程没什么关系, 了解下就可以.
+
+如果是以 *Systemd* 启动 *SDDM*, 可以打开`/usr/lib/systemd/system/sddm.service`, 在`[Service]`下添加:
+```
+Environment=LANG=zh_CN.UTF-8
+```
+
+如果不是 *Systemd* 启动, 只能改`/etc/locale.conf`了 (不建议改, 虚拟终端会乱码).

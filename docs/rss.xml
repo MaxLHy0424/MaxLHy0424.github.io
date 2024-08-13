@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 10 Aug 2024 15:06:00 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「回去吧, sensei. 让我们回到, 所有『奇迹』的, 始发点...」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Tue, 13 Aug 2024 03:34:15 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
 &#13;
 # 0 安装&#13;
 &#13;
@@ -273,7 +273,18 @@ sudo pacman -Rcns $(pacman -Qtdq)&#13;
 &#13;
 重启后依次输入用户名, 用户密码登录账户, 然后在弹出窗口中再次输入账户密码即可.&#13;
 &#13;
-至此, 一切大功告成!。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/5.html</guid><pubDate>Mon, 24 Jun 2024 08:44:46 +0000</pubDate></item><item><title>终究是小学毕业了</title><link>https://MaxLHy0424.github.io/post/4.html</link><description>&gt; 本文原定于今天下午 7 点发布, 但因为突然有事, 延迟到了现在, 深感抱歉.&#13;
+至此, 一切大功告成!&#13;
+&#13;
+# DLC 汉化 *SDDM*&#13;
+&#13;
+&gt; 这一部分和本篇教程没什么关系, 了解下就可以.&#13;
+&#13;
+如果是以 *Systemd* 启动 *SDDM*, 可以打开`/usr/lib/systemd/system/sddm.service`, 在`[Service]`下添加:&#13;
+```&#13;
+Environment=LANG=zh_CN.UTF-8&#13;
+```&#13;
+&#13;
+如果不是 *Systemd* 启动, 只能改`/etc/locale.conf`了 (不建议改, 虚拟终端会乱码).。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/5.html</guid><pubDate>Mon, 24 Jun 2024 08:44:46 +0000</pubDate></item><item><title>终究是小学毕业了</title><link>https://MaxLHy0424.github.io/post/4.html</link><description>&gt; 本文原定于今天下午 7 点发布, 但因为突然有事, 延迟到了现在, 深感抱歉.&#13;
 &#13;
 不知不觉间, 小学六年时光匆匆而去. 今天起, 我已不再是一名小学生. 鲜艳的红领巾摆放在柜子的一角, 校徽随手丢在抽屉的深处, 校服消沉在了衣柜中. 以往朝夕相处的同学, 现在只存于照片里了. 小学六年, 每一次的欢乐, 哭泣, 振作, 都沉入了昨日的夕阳. 小学生活, 至此告一段落, 画上了圆满的句号.&#13;
 &#13;
