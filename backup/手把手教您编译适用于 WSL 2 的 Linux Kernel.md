@@ -1,10 +1,10 @@
 WSL 2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 一部分软件可能会需要更高的内核版本, 或者是用户想要测试最新的 Linux Kernel 特性. 因此, 网上替换 WSL 2 的 Linux Kernel 的教程才会如此涌现.
 
-首先声明, 这可能会导致部分 GNU/Linux 发行版不稳定, 软件无法运行等问题. 所以不建议在生产环境中替换 WSL 2 的 Linux Kernel.
+> [!CAUTION]
+> 这可能会导致部分 GNU/Linux 发行版不稳定, 软件无法运行等问题. 所以不建议在生产环境中替换 WSL 2 的 Linux Kernel.
 
-如果您在 WSL 2 中使用 Arch Linux, 建议先阅读[这篇教程](https://MaxLHy0424.github.io/post/2.html), 对 Arch WSL 进行基本的配置, 然后再阅读本教程.
-
-如果您能接受这一切, 那么, 开始吧!
+> [!TIP]
+> 如果您在 WSL 2 中使用 Arch Linux, 建议先阅读[这篇教程](https://MaxLHy0424.github.io/post/2.html), 对 Arch WSL 进行基本的配置, 然后再阅读本教程.
 
 # 1 安装依赖
 
@@ -41,7 +41,8 @@ cd <Dir>
 
 # 3 编译内核
 
-> 此步骤可能需要代理.
+> [!NOTE]
+> 如果您在中国大陆, 此步骤可能需要使用网络代理.
 
 执行以下命令下载适用于 WSL 2 的 Linux Kernel 构建配置并保存:
 ```Bash
