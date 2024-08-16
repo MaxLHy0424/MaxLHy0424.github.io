@@ -16,12 +16,14 @@
 
 本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.
 
+> [!IMPORTANT]
 > 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
 WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 
+> [!NOTE]
 > 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
 启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
@@ -236,14 +238,9 @@ sudo pacman -Scc
 sudo rm -rf /tmp/*
 ```
 
-如果后续需要安装软件源`blackarch`内的软件包, 推荐在此之前先打开`/etc/pacman.conf`, 注释以下几行:
-```
-[extra-testing]
-Include = /etc/pacman.d/mirrorlist
-[extra-staging]
-Include = /etc/pacman.d/mirrorlist
-```
-然后使用`sudo pacman -Syy`更新软件源, 再安装软件包, 完成之后再将上面的几行取消注释.
+> [!IMPORTANT]
+> 如果后续需要安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
+
 
 # *? 预告*
 
@@ -255,12 +252,14 @@ WSL 2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 
 
 本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.
 
+> [!IMPORTANT]
 > 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
 WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 
+> [!NOTE]
 > 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
 启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
@@ -475,14 +474,9 @@ sudo pacman -Scc
 sudo rm -rf /tmp/*
 ```
 
-如果后续需要安装软件源`blackarch`内的软件包, 推荐在此之前先打开`/etc/pacman.conf`, 注释以下几行:
-```
-[extra-testing]
-Include = /etc/pacman.d/mirrorlist
-[extra-staging]
-Include = /etc/pacman.d/mirrorlist
-```
-然后使用`sudo pacman -Syy`更新软件源, 再安装软件包, 完成之后再将上面的几行取消注释.
+> [!IMPORTANT]
+> 如果后续需要安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
+
 
 # *? 预告*
 
@@ -527,7 +521,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     font-size: 12px;
 }
 </style>
-
+<style>.markdown-alert{padding:0.5rem 1rem;margin-bottom:1rem;border-left:.25em solid var(--borderColor-default,var(--color-border-default));}.markdown-alert .markdown-alert-title {display:flex;font-weight:var(--base-text-weight-medium,500);align-items:center;line-height:1;}.markdown-alert>:first-child {margin-top:0;}.markdown-alert>:last-child {margin-bottom:0;}</style><style>.markdown-alert.markdown-alert-note {border-left-color:var(--borderColor-accent-emphasis, var(--color-accent-emphasis));background-color:var(--color-accent-subtle);}.markdown-alert.markdown-alert-note .markdown-alert-title {color: var(--fgColor-accent,var(--color-accent-fg));}</style><style>.markdown-alert.markdown-alert-important {border-left-color:var(--borderColor-done-emphasis, var(--color-done-emphasis));background-color:var(--color-done-subtle);}.markdown-alert.markdown-alert-important .markdown-alert-title {color: var(--fgColor-done,var(--color-done-fg));}</style>
 
 
 
@@ -560,14 +554,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><p>在 Windows OS 上开发 GNU/Linux 软件时, WSL 2 常为不二之选.</p>
 <p>但是, WSL 2 上开箱即用的 GNU/Linux 发行版, 几乎只有 Ubuntu. 想要在 WSL 2 上使用 Arch Linux, 配置较为麻烦.</p>
 <p>本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.</p>
-<blockquote>
-<p>适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.</p>
-</blockquote>
+<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.</p>
+</div>
 <h1>0 准备工作</h1>
 <p>WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.</p>
-<blockquote>
-<p>如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.</p>
-</blockquote>
+<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.</p>
+</div>
 <p>启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:</p>
 <div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">wsl</span> --update
 <span class="pl-k">wsl</span> --update --pre-release</pre></div>
@@ -729,13 +721,8 @@ sudo locale-gen</pre></div>
 sudo pacman -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span>
 sudo pacman -Scc
 sudo rm -rf /tmp/<span class="pl-k">*</span></pre></div>
-<p>如果后续需要安装软件源<code class="notranslate">blackarch</code>内的软件包, 推荐在此之前先打开<code class="notranslate">/etc/pacman.conf</code>, 注释以下几行:</p>
-<pre class="notranslate"><code class="notranslate">[extra-testing]
-Include = /etc/pacman.d/mirrorlist
-[extra-staging]
-Include = /etc/pacman.d/mirrorlist
-</code></pre>
-<p>然后使用<code class="notranslate">sudo pacman -Syy</code>更新软件源, 再安装软件包, 完成之后再将上面的几行取消注释.</p>
+<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>如果后续需要安装软件包缺少依赖, 可以临时注释掉<code class="notranslate">/etc/pacman.conf</code>中所有后缀为<code class="notranslate">testing</code>或<code class="notranslate">staging</code>的软件源, 完成后使用<code class="notranslate">sudo pacman -Syyu</code>更新依赖即可.</p>
+</div>
 <h1><em>? 预告</em></h1>
 <p>WSL 2 即使更新到最新预发布版本, Linux Kernel 版本也是<code class="notranslate">6.6.xxx</code>. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL 2 中使用!</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">⚠️ 转载请注明出处</div>

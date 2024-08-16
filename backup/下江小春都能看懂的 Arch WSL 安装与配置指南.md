@@ -4,12 +4,14 @@
 
 本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.
 
+> [!IMPORTANT]
 > 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
 
 # 0 准备工作
 
 WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 
+> [!NOTE]
 > 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
 启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
@@ -224,14 +226,9 @@ sudo pacman -Scc
 sudo rm -rf /tmp/*
 ```
 
-如果后续需要安装软件源`blackarch`内的软件包, 推荐在此之前先打开`/etc/pacman.conf`, 注释以下几行:
-```
-[extra-testing]
-Include = /etc/pacman.d/mirrorlist
-[extra-staging]
-Include = /etc/pacman.d/mirrorlist
-```
-然后使用`sudo pacman -Syy`更新软件源, 再安装软件包, 完成之后再将上面的几行取消注释.
+> [!IMPORTANT]
+> 如果后续需要安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
+
 
 # *? 预告*
 
