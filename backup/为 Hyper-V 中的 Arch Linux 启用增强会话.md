@@ -4,9 +4,8 @@
 
 # 0 准备工作
 
-在开始之前, 首先确保您的 Arch Linux 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务.
-
-另外, 请在 Hyper-V 设置中允许使用增强会话, 这很重要.
+> [!IMPORTANT]
+> 请确保您的 Arch Linux 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务. 并且在 Hyper-V 设置中允许使用增强会话.
 
 然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 最好加上英文半角双引号):
 ```PowerShell
@@ -84,6 +83,9 @@ paru -S xorg-xinit xorgxrdp-devel-git openssl-1.1 pipewire-module-xrdp
 sudo ./install-config.sh
 ```
 
+> [!WARNING]
+> 不要使用`linux-vm-tools/arch`中的`makepkg.sh`脚本, 其编译选项并不正确.
+
 # 4 解决 *XRDP* 反复连接问题
 
 在当前用户的家目录下创建`.xinitrc`.
@@ -123,11 +125,14 @@ sudo pacman -Rcns $(pacman -Qtdq)
 
 重启后依次输入用户名, 用户密码登录账户, 然后在弹出窗口中再次输入账户密码即可.
 
+> [!TIP]
+> 实际上直接关闭弹出的窗口也是可以正常使用的, 不过最好还是输入以下账户密码.
+
 至此, 一切大功告成!
 
 # DLC 汉化 *SDDM*
 
-> 这一部分和本篇教程没什么关系, 了解下就可以.
+这一部分和本篇教程没什么关系, 了解下就可以.
 
 如果是以 *Systemd* 启动 *SDDM*, 可以打开`/usr/lib/systemd/system/sddm.service`, 在`[Service]`下添加:
 ```
