@@ -227,7 +227,7 @@ sudo rm -rf /tmp/*
 ```
 
 > [!IMPORTANT]
-> 如果后续需要安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
+> 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
 
 
 # *? 预告*
