@@ -162,8 +162,8 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 执行以命令:
 ```bash
 sudo pacman-key --init
-sudo pacman-key --lsign-key "farseerfc@archlinux.org"
-sudo pacman -Sy archlinuxcn-keyring blackarch-keyring
+sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
+sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 ```
 
 执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
@@ -198,7 +198,7 @@ export LANGUAGE=zh_CN:en_US
 
 然后执行以下命令:
 ```bash
-sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji
+sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
 sudo locale-gen
 ```
 
@@ -213,22 +213,24 @@ L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tm
 
 如果 *Systemd* 没有启动, 可以试试:
 ```
-echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
+echo '[boot]
+systemd=true' | sudo tee /etc/wsl.conf
 ```
 
 # 6 善后工作及后续使用注意事项
 
 执行以下命令:
 ```bash
-sudo pacman -Syyu net-tools tree sed python wget
-sudo pacman -Rcns $(pacman -Qtdq)
-sudo pacman -Scc
+sudo pacman -Syyu net-tools tree python wget base base-devel git --needed --noconfirm
+sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
+sudo pacman -Scc --noconfirm
 sudo rm -rf /tmp/*
+for i in {font,ICE,X11,XIM}; do sudo rm -rf /tmp/.${i}-unix; done
+for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done
 ```
 
 > [!IMPORTANT]
 > 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
-
 
 # *? 预告*
 
