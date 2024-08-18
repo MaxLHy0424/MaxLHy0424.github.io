@@ -206,8 +206,7 @@ sudo locale-gen
 
 执行:
 ```bash
-echo \
-'# Type Path           Mode UID  GID  Age Argument
+echo '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
@@ -231,7 +230,3 @@ for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done
 
 > [!IMPORTANT]
 > 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
-
-# *? 预告*
-
-WSL 2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 下一篇教程将教您自己编译 Linux Kernel, 并在 WSL 2 中使用!
