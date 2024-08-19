@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Mon, 19 Aug 2024 11:20:00 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 03</title><link>https://MaxLHy0424.github.io/post/11.html</link><description>日子过得真快呢. 不知不觉间, CRCSN **v5.0.0** 的开发已经接近尾声, 面向公众测试的 **v5.0.0-beta.2** 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Mon, 19 Aug 2024 11:31:31 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 03</title><link>https://MaxLHy0424.github.io/post/11.html</link><description>日子过得真快呢. 不知不觉间, CRCSN **v5.0.0** 的开发已经接近尾声, 面向公众测试的 **v5.0.0-beta.2** 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).&#13;
 &#13;
 至于什么时候发布, 嗯......如果一切顺利的话, 可能会在 8 月 25 日, 具体时间待定.&#13;
 &#13;
@@ -10,15 +10,15 @@
 - 拆分源代码文件;&#13;
 - 迁移至现代 C++ 标准;&#13;
 - 重构软件架构;&#13;
-- 重构破解/恢复模块, 增强可拓展性;&#13;
+- 重构破解/恢复模块, 增强拓展性;&#13;
 - 添加软件图标;&#13;
 - 支持老旧的 Windows OS (如 Windows 7);&#13;
 - 移除键盘输入选择, 改为鼠标点选;&#13;
-- 移除 '工具箱';&#13;
 - 移除命令行参数`-color=`;&#13;
 - 添加命令行参数`--sparse--view`;&#13;
 - 默认锁定窗口大小, 禁用部分窗口控件;&#13;
 - 支持窗口半透明;&#13;
+- 移除 '工具箱';&#13;
 - 修复以管理员权限启动时, 窗口标题中出现`管理员: `字样;&#13;
 - 修复从非 GBK 文字编码的控制台中启动, 所有非 ASCII 字符乱码;&#13;
 - 修复检测到错误的命令行参数后未及时终止;&#13;
@@ -29,17 +29,18 @@
 ### 启动脚本 (v2.0.0)&#13;
 &#13;
 - 重构启动脚本;&#13;
-- 默认显示软件支持的 CPU 架构, 依赖的 Runtime;&#13;
 - 改为非内联启动;&#13;
 - 添加启动等待提示;&#13;
+- 添加显示当前启动的软件版本支持的 CPU 架构, 依赖的 Runtime;&#13;
 - 修正版权信息;&#13;
 - 其他技术性更改.&#13;
 &#13;
 ### 其他&#13;
 &#13;
 - 优化项目结构;&#13;
-- 优化编译命令;&#13;
-- 重构构建系统.。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/11.html</guid><pubDate>Thu, 15 Aug 2024 11:25:32 +0000</pubDate></item><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
+- 重构构建系统.&#13;
+- 优化编译命令.&#13;
+。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/11.html</guid><pubDate>Thu, 15 Aug 2024 11:25:32 +0000</pubDate></item><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
 &#13;
 # 0 安装&#13;
 &#13;
