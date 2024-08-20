@@ -223,7 +223,7 @@ systemd=true' | sudo tee /etc/wsl.conf
 
 执行以下命令:
 ```bash
-sudo pacman -Syyu net-tools tree python wget base base-devel git --needed --noconfirm
+sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget --needed --noconfirm
 sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
 sudo pacman -Scc --noconfirm
 sudo rm -rf /tmp/*
