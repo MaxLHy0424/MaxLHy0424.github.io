@@ -235,7 +235,7 @@ systemd=true' | sudo tee /etc/wsl.conf
 
 执行以下命令:
 ```bash
-sudo pacman -Syyu net-tools tree python wget base base-devel git --needed --noconfirm
+sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget --needed --noconfirm
 sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
 sudo pacman -Scc --noconfirm
 sudo rm -rf /tmp/*
@@ -471,7 +471,7 @@ systemd=true' | sudo tee /etc/wsl.conf
 
 执行以下命令:
 ```bash
-sudo pacman -Syyu net-tools tree python wget base base-devel git --needed --noconfirm
+sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget --needed --noconfirm
 sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
 sudo pacman -Scc --noconfirm
 sudo rm -rf /tmp/*
@@ -719,7 +719,7 @@ systemd=true' | sudo tee /etc/wsl.conf
 </code></pre>
 <h1>6 善后工作及后续使用注意事项</h1>
 <p>执行以下命令:</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -Syyu net-tools tree python wget base base-devel git --needed --noconfirm
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget --needed --noconfirm
 sudo pacman -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span> --noconfirm
 sudo pacman -Scc --noconfirm
 sudo rm -rf /tmp/<span class="pl-k">*</span>
