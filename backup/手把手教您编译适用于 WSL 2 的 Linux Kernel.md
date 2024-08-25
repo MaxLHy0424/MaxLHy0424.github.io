@@ -9,12 +9,14 @@ WSL 2 即使更新到最新预发布版本, Linux Kernel 版本也是`6.6.xxx`. 
 # 1 安装依赖
 
 Debian 系:
-```Bash
+
+```bash
 sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev
 ```
 
 Arch 系:
-```Bash
+
+```bash
 sudo pacman -S base-devel flex bison pahole openssl libelf bc
 ```
 
@@ -33,7 +35,8 @@ sudo pacman -S base-devel flex bison pahole openssl libelf bc
 根据具体需求下载对应的 Linux Kernel, 然后通过 Windows 资源管理器复制到前面安装好依赖的 GNU/Linux 发行版的用户家目录中.
 
 然后执行以下命令 (将`<File>`替换为您的 Linux Kernel 压缩包文件名, 将`<Dir>`替换为您的 Linux Kernel 压缩包解压后的目录名):
-```Bash
+
+```bash
 cd ~
 tar xf <File>
 cd <Dir>
@@ -45,12 +48,14 @@ cd <Dir>
 > 如果您在中国大陆, 此步骤可能需要使用网络代理.
 
 执行以下命令下载适用于 WSL 2 的 Linux Kernel 构建配置并保存:
-```Bash
+
+```bash
 wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
 ```
 
 然后执行以下命令来使用全部线程编译内核:
-```Bash
+
+```bash
 make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j$(nproc)
 ```
 
@@ -59,24 +64,29 @@ make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j$(nproc)
 # 4 保存并替换
 
 执行以下命令 (将`<PATH>`替换为 C 盘下的文件路径, 例如`Data/WslLinuxKernel`):
-```Bash
+
+```bash
 cp arch/x86/boot/bzImage /mnt/c/<PATH>
 ```
+
 然后将文件名改为`kernel`.
 
 接着, 在当前 Windows 用户目录下创建文件`.wslconfig` (有则不用), 添加 (`[wsl2]`无需重复添加; 将`C:\\<PATH>\\kernel`替换为您的 Linux Kernel 文件路径; 把路径分隔符替换为`\\`):
+
 ```
 [wsl2]
 kernel=C:\\<PATH>\\kernel 
 ```
 
 接着, 在 Windows Terminal 中执行以下命令:
+
 ```Batch
 wsl --shutdown
 ```
 
 再次启动 WSL 2 中的 GNU/Linux 发行版, 执行:
-```Bash
+
+```bash
 uname -a
 ```
 
