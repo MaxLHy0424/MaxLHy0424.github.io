@@ -8,7 +8,8 @@
 > 请确保您的 Arch Linux 虚拟机是第二代虚拟机, 同时使用 *pipewire* 作声音服务. 并且在 Hyper-V 设置中允许使用增强会话.
 
 然后, 在主机 Windows OS 下以管理员权限打开 PowerShell, 执行 (`<VM>`改成 Arch Linux 虚拟机的名字, 最好加上英文半角双引号):
-```PowerShell
+
+```powershell
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
 
@@ -19,6 +20,7 @@ Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 # 2 安装集成服务
 
 执行以下命令:
+
 ```bash
 sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
@@ -27,22 +29,26 @@ for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 # 3 安装软件包
 
 如果没有安装 *git*, 请先执行以下命令:
+
 ```bash
 sudo pacman -S git base-devel
 ```
 
 执行以下命令:
+
 ```bash
 git clone https://github.com/microsoft/linux-vm-tools.git
 git clone https://aur.archlinux.org/xrdp-devel-git.git
 ```
 
 首先切换到文件夹`xrdp-devel-git`, 在文件`PKGBUILD`中的`build()`部分中, 添加以下参数到构建选项中:
+
 ```
 --enable-vsock
 ```
 
 即整个`build()`变为:
+
 ```
 build() {
   cd $pkgname
@@ -69,16 +75,19 @@ build() {
 就是`# Fight unused direct deps`上面的两行改了一下.
 
 编辑完成后, 执行命令:
+
 ```
 makepkg --skipchecksum -si
 ```
 
 然后执行以下命令:
+
 ```
 paru -S xorg-xinit xorgxrdp-devel-git openssl-1.1 pipewire-module-xrdp
 ```
 
 接着切换回当初克隆仓库时所在的目录, 切换到`linux-vm-tools/arch`, 执行:
+
 ```bash
 sudo ./install-config.sh
 ```
@@ -92,21 +101,28 @@ sudo ./install-config.sh
 
 根据不同的桌面环境添加内容:
  - *i3w / dwm*:
+
  ``` 
  exec i3w
  ```
+
  - *Gnome*:
+
  ```
  unset SESSION_MANAGER
  unset DBUS_SESSION_BUS_ADDRESS
  exec dbus-launch  gnome-shell --x11
  ```
+
  - *KDE Plasma*:
+
  ```
  export DESKTOP_SESSION=plasma
  /usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
  ```
+
  - *Xfce4*:
+
  ```
  unset SESSION_MANAGER
  unset DBUS_SESSION_BUS_ADDRESS
@@ -114,6 +130,7 @@ sudo ./install-config.sh
  ```
 
 然后执行:
+
 ```bash
 sudo systemctl enable xrdp.service
 sudo systemctl enable xrdp-sesman.service
@@ -135,6 +152,7 @@ sudo pacman -Rcns $(pacman -Qtdq)
 这一部分和本篇教程没什么关系, 了解下就可以.
 
 如果是以 *Systemd* 启动 *SDDM*, 可以打开`/usr/lib/systemd/system/sddm.service`, 在`[Service]`下添加:
+
 ```
 Environment=LANG=zh_CN.UTF-8
 ```
