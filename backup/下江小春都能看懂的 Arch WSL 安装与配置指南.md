@@ -18,12 +18,14 @@ WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
 > 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
 
 启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
+
 ```Batch
 wsl --update
 wsl --update --pre-release
 ```
 
 接着, 在当前的 Windows OS 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
+
 ```
 [wsl2]
 ipv6=true
@@ -51,6 +53,7 @@ useWindowsDnsCache=true
 # 2 配置 *GNU Nano* 文本编辑器
 
 打开`/etc/nanorc`, 在末尾追加:
+
 ```
 bind ^X cut main
 bind ^C copy main
@@ -102,17 +105,21 @@ include /usr/share/nano/*.*
 # 3 配置包管理器
 
 打开`/etc/pacman.d/mirrorlist`, 在顶部添加:
+
 ```
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 ```
 
 打开`/etc/pacman.conf`, 找到:
+
 ```
 #UseSyslog
 #Color
 NoProgressBar
 ```
+
 换成:
+
 ```
 UseSyslog
 Color
@@ -120,12 +127,15 @@ Color
 ```
 
 然后找到这一行:
+
 ```
 ParallelDownloads = 5
 ```
+
 将后面的`5`修改成你想要同时下载的软件包的数量.
 
 接着把后面的软件源全部删掉, 换成下面的:
+
 ```
 [testing]
 Include = /etc/pacman.d/mirrorlist
@@ -163,6 +173,7 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 ```
 
 执行以命令:
+
 ```bash
 sudo pacman-key --init
 sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
@@ -170,6 +181,7 @@ sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 ```
 
 执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
+
 ````bash
 sudo pacman -S yay
 ````
@@ -179,20 +191,24 @@ sudo pacman -S yay
 # 4 汉化
 
 打开`/etc/locale.gen`, 找到:
+
 ```
 #en_US.UTF-8 UTF-8
 ```
 ```
 #zh_CN.UTF-8 UTF-8
 ```
+
 将前面的`#`去掉.
 
 打开`/etc/locale.conf`, 将所有文本替换为:
+
 ```
 LANG=en_US.UTF-8
 ```
 
 打开`/etc/profile`, 在末尾追加:
+
 ```
 export LC_ALL=zh_CN.UTF-8
 export LANG=zh_CN.UTF-8
@@ -200,6 +216,7 @@ export LANGUAGE=zh_CN:en_US
 ```
 
 然后执行以下命令:
+
 ```bash
 sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
 sudo locale-gen
@@ -208,12 +225,14 @@ sudo locale-gen
 # 5 解决 *WSLg* 及 *Systemd* 问题
 
 执行:
+
 ```bash
 echo '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
 如果 *Systemd* 没有启动, 可以试试:
+
 ```
 echo '[boot]
 systemd=true' | sudo tee /etc/wsl.conf
@@ -222,6 +241,7 @@ systemd=true' | sudo tee /etc/wsl.conf
 # 6 善后工作及后续使用注意事项
 
 执行以下命令:
+
 ```bash
 sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget --needed --noconfirm
 sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
