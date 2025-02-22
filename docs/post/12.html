@@ -149,14 +149,14 @@ class coroutine_void final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine_void &&_src ) noexcept
+    auto reset( coroutine_void &&_src )
     {
         if ( this != &_src ) {
             if ( !empty() ) {
@@ -170,14 +170,14 @@ class coroutine_void final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
         }
     }
     auto operator=( const coroutine_void & ) -> coroutine_void & = delete;
-    auto operator=( coroutine_void &&_src ) noexcept -> coroutine_void &
+    auto operator=( coroutine_void &&_src ) -> coroutine_void &
     {
         reset( std::move( _src ) );
         return *this;
@@ -305,14 +305,14 @@ class coroutine final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine< _type_ > &&_src ) noexcept
+    auto reset( coroutine< _type_ > &&_src )
     {
         if ( this != &_src ) {
             if ( !empty() ) {
@@ -326,7 +326,7 @@ class coroutine final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
@@ -341,12 +341,12 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto safe_resume_and_copy_optional() const
+    auto safe_resume_and_copy_optional() const noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &reference_optional()
+    auto &reference_optional() noexcept
     {
         return coroutine_handle_.promise().current_value;
     }
@@ -355,21 +355,21 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &safe_resume_and_reference_optional()
+    auto &safe_resume_and_reference_optional() noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &&move_optional()
+    auto &&move_optional() noexcept
     {
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &&resume_and_move_optional()
+    auto &&resume_and_move_optional() noexcept
     {
         resume();
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &&safe_resume_and_move_optional()
+    auto &&safe_resume_and_move_optional() noexcept
     {
         safe_resume();
         return std::move( coroutine_handle_.promise().current_value );
@@ -551,14 +551,14 @@ class coroutine_void final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine_void &&_src ) noexcept
+    auto reset( coroutine_void &&_src )
     {
         if ( this != &_src ) {
             if ( !empty() ) {
@@ -572,14 +572,14 @@ class coroutine_void final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
         }
     }
     auto operator=( const coroutine_void & ) -> coroutine_void & = delete;
-    auto operator=( coroutine_void &&_src ) noexcept -> coroutine_void &
+    auto operator=( coroutine_void &&_src ) -> coroutine_void &
     {
         reset( std::move( _src ) );
         return *this;
@@ -707,14 +707,14 @@ class coroutine final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine< _type_ > &&_src ) noexcept
+    auto reset( coroutine< _type_ > &&_src )
     {
         if ( this != &_src ) {
             if ( !empty() ) {
@@ -728,7 +728,7 @@ class coroutine final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
@@ -743,12 +743,12 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto safe_resume_and_copy_optional() const
+    auto safe_resume_and_copy_optional() const noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &reference_optional()
+    auto &reference_optional() noexcept
     {
         return coroutine_handle_.promise().current_value;
     }
@@ -757,21 +757,21 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &safe_resume_and_reference_optional()
+    auto &safe_resume_and_reference_optional() noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &&move_optional()
+    auto &&move_optional() noexcept
     {
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &&resume_and_move_optional()
+    auto &&resume_and_move_optional() noexcept
     {
         resume();
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &&safe_resume_and_move_optional()
+    auto &&safe_resume_and_move_optional() noexcept
     {
         safe_resume();
         return std::move( coroutine_handle_.promise().current_value );
@@ -999,14 +999,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     {
         coroutine_handle_.<span class="pl-c1">destroy</span>();
     }
-    <span class="pl-k">auto</span> <span class="pl-en">safe_destroy</span>()
+    <span class="pl-k">auto</span> <span class="pl-en">safe_destroy</span>() <span class="pl-k">noexcept</span>
     {
         <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
             <span class="pl-c1">destroy</span>();
             coroutine_handle_ = {};
         }
     }
-    <span class="pl-k">auto</span> <span class="pl-en">reset</span>( coroutine_void &amp;&amp;_src ) <span class="pl-k">noexcept</span>
+    <span class="pl-k">auto</span> <span class="pl-en">reset</span>( coroutine_void &amp;&amp;_src )
     {
         <span class="pl-k">if</span> ( <span class="pl-c1">this</span> != &amp;_src ) {
             <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
@@ -1020,14 +1020,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     {
         coroutine_handle_.<span class="pl-c1">resume</span>();
     }
-    <span class="pl-k">auto</span> <span class="pl-en">safe_resume</span>() <span class="pl-k">const</span>
+    <span class="pl-k">auto</span> <span class="pl-en">safe_resume</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
     {
         <span class="pl-k">if</span> ( !<span class="pl-c1">done</span>() ) {
             <span class="pl-c1">resume</span>();
         }
     }
     <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( <span class="pl-k">const</span> coroutine_void &amp; ) -&gt; coroutine_void &amp; = <span class="pl-k">delete</span>;
-    <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( coroutine_void &amp;&amp;_src ) <span class="pl-k">noexcept</span> -&gt; coroutine_void &amp;
+    <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( coroutine_void &amp;&amp;_src ) -&gt; coroutine_void &amp;
     {
         <span class="pl-c1">reset</span>( <span class="pl-c1">std::move</span>( _src ) );
         <span class="pl-k">return</span> *<span class="pl-c1">this</span>;
@@ -1155,14 +1155,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     {
         coroutine_handle_.<span class="pl-c1">destroy</span>();
     }
-    <span class="pl-k">auto</span> <span class="pl-en">safe_destroy</span>()
+    <span class="pl-k">auto</span> <span class="pl-en">safe_destroy</span>() <span class="pl-k">noexcept</span>
     {
         <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
             <span class="pl-c1">destroy</span>();
             coroutine_handle_ = {};
         }
     }
-    <span class="pl-k">auto</span> <span class="pl-en">reset</span>( coroutine&lt; _type_ &gt; &amp;&amp;_src ) <span class="pl-k">noexcept</span>
+    <span class="pl-k">auto</span> <span class="pl-en">reset</span>( coroutine&lt; _type_ &gt; &amp;&amp;_src )
     {
         <span class="pl-k">if</span> ( <span class="pl-c1">this</span> != &amp;_src ) {
             <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
@@ -1176,7 +1176,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     {
         coroutine_handle_.<span class="pl-c1">resume</span>();
     }
-    <span class="pl-k">auto</span> <span class="pl-en">safe_resume</span>() <span class="pl-k">const</span>
+    <span class="pl-k">auto</span> <span class="pl-en">safe_resume</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
     {
         <span class="pl-k">if</span> ( !<span class="pl-c1">done</span>() ) {
             <span class="pl-c1">resume</span>();
@@ -1191,12 +1191,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         <span class="pl-c1">resume</span>();
         <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
     }
-    <span class="pl-k">auto</span> <span class="pl-en">safe_resume_and_copy_optional</span>() <span class="pl-k">const</span>
+    <span class="pl-k">auto</span> <span class="pl-en">safe_resume_and_copy_optional</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
     {
         <span class="pl-c1">safe_resume</span>();
         <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
     }
-    <span class="pl-k">auto</span> &amp;<span class="pl-en">reference_optional</span>()
+    <span class="pl-k">auto</span> &amp;<span class="pl-en">reference_optional</span>() <span class="pl-k">noexcept</span>
     {
         <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
     }
@@ -1205,21 +1205,21 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         <span class="pl-c1">resume</span>();
         <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
     }
-    <span class="pl-k">auto</span> &amp;<span class="pl-en">safe_resume_and_reference_optional</span>()
+    <span class="pl-k">auto</span> &amp;<span class="pl-en">safe_resume_and_reference_optional</span>() <span class="pl-k">noexcept</span>
     {
         <span class="pl-c1">safe_resume</span>();
         <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
     }
-    <span class="pl-k">auto</span> &amp;&amp;move_optional()
+    <span class="pl-k">auto</span> &amp;&amp;move_optional() <span class="pl-k">noexcept</span>
     {
         <span class="pl-k">return</span> <span class="pl-c1">std::move</span>( coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span> );
     }
-    <span class="pl-k">auto</span> &amp;&amp;resume_and_move_optional()
+    <span class="pl-k">auto</span> &amp;&amp;resume_and_move_optional() <span class="pl-k">noexcept</span>
     {
         <span class="pl-c1">resume</span>();
         <span class="pl-k">return</span> <span class="pl-c1">std::move</span>( coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span> );
     }
-    <span class="pl-k">auto</span> &amp;&amp;safe_resume_and_move_optional()
+    <span class="pl-k">auto</span> &amp;&amp;safe_resume_and_move_optional() <span class="pl-k">noexcept</span>
     {
         <span class="pl-c1">safe_resume</span>();
         <span class="pl-k">return</span> <span class="pl-c1">std::move</span>( coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span> );
