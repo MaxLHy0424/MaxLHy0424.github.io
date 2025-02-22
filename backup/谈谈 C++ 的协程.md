@@ -137,14 +137,14 @@ class coroutine_void final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine_void &&_src ) noexcept
+    auto reset( coroutine_void &&_src )
     {
         if ( this != &_src ) {
             if ( !empty() ) {
@@ -158,14 +158,14 @@ class coroutine_void final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
         }
     }
     auto operator=( const coroutine_void & ) -> coroutine_void & = delete;
-    auto operator=( coroutine_void &&_src ) noexcept -> coroutine_void &
+    auto operator=( coroutine_void &&_src ) -> coroutine_void &
     {
         reset( std::move( _src ) );
         return *this;
@@ -293,14 +293,14 @@ class coroutine final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine< _type_ > &&_src ) noexcept
+    auto reset( coroutine< _type_ > &&_src )
     {
         if ( this != &_src ) {
             if ( !empty() ) {
@@ -314,7 +314,7 @@ class coroutine final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
@@ -329,12 +329,12 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto safe_resume_and_copy_optional() const
+    auto safe_resume_and_copy_optional() const noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &reference_optional()
+    auto &reference_optional() noexcept
     {
         return coroutine_handle_.promise().current_value;
     }
@@ -343,21 +343,21 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &safe_resume_and_reference_optional()
+    auto &safe_resume_and_reference_optional() noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &&move_optional()
+    auto &&move_optional() noexcept
     {
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &&resume_and_move_optional()
+    auto &&resume_and_move_optional() noexcept
     {
         resume();
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &&safe_resume_and_move_optional()
+    auto &&safe_resume_and_move_optional() noexcept
     {
         safe_resume();
         return std::move( coroutine_handle_.promise().current_value );
