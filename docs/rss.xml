@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 22 Feb 2025 08:14:16 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 22 Feb 2025 08:25:05 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
 
 然而, C++ 中, 直到 C++ 20 的发布, 才正式引入了协程. 对于开发者来说, 这地毫不亚于 C++ 11 中正式引入线程 (Thread) 一样. 但 C++ 20 中, 仅仅是给了两个关键字 (即 `co_return` 和 `co_await`) 和一个运算符 (即 `co_await`), 还有协程相关的底层库 (比如 `std::coroutine_handle`). 这显然没有协程在 Python 等其他编程语言中 '开箱即用'.
 
@@ -138,14 +138,14 @@ class coroutine_void final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine_void &amp;&amp;_src ) noexcept
+    auto reset( coroutine_void &amp;&amp;_src )
     {
         if ( this != &amp;_src ) {
             if ( !empty() ) {
@@ -159,14 +159,14 @@ class coroutine_void final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
         }
     }
     auto operator=( const coroutine_void &amp; ) -&gt; coroutine_void &amp; = delete;
-    auto operator=( coroutine_void &amp;&amp;_src ) noexcept -&gt; coroutine_void &amp;
+    auto operator=( coroutine_void &amp;&amp;_src ) -&gt; coroutine_void &amp;
     {
         reset( std::move( _src ) );
         return *this;
@@ -294,14 +294,14 @@ class coroutine final {
     {
         coroutine_handle_.destroy();
     }
-    auto safe_destroy()
+    auto safe_destroy() noexcept
     {
         if ( !empty() ) {
             destroy();
             coroutine_handle_ = {};
         }
     }
-    auto reset( coroutine&lt; _type_ &gt; &amp;&amp;_src ) noexcept
+    auto reset( coroutine&lt; _type_ &gt; &amp;&amp;_src )
     {
         if ( this != &amp;_src ) {
             if ( !empty() ) {
@@ -315,7 +315,7 @@ class coroutine final {
     {
         coroutine_handle_.resume();
     }
-    auto safe_resume() const
+    auto safe_resume() const noexcept
     {
         if ( !done() ) {
             resume();
@@ -330,12 +330,12 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto safe_resume_and_copy_optional() const
+    auto safe_resume_and_copy_optional() const noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &amp;reference_optional()
+    auto &amp;reference_optional() noexcept
     {
         return coroutine_handle_.promise().current_value;
     }
@@ -344,21 +344,21 @@ class coroutine final {
         resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &amp;safe_resume_and_reference_optional()
+    auto &amp;safe_resume_and_reference_optional() noexcept
     {
         safe_resume();
         return coroutine_handle_.promise().current_value;
     }
-    auto &amp;&amp;move_optional()
+    auto &amp;&amp;move_optional() noexcept
     {
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &amp;&amp;resume_and_move_optional()
+    auto &amp;&amp;resume_and_move_optional() noexcept
     {
         resume();
         return std::move( coroutine_handle_.promise().current_value );
     }
-    auto &amp;&amp;safe_resume_and_move_optional()
+    auto &amp;&amp;safe_resume_and_move_optional() noexcept
     {
         safe_resume();
         return std::move( coroutine_handle_.promise().current_value );
