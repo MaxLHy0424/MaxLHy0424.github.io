@@ -130,7 +130,7 @@ sudo ./install-config.sh
 
  ```
  export DESKTOP_SESSION=plasma
- /usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+ exec startplasma-x11
  ```
 
  - *Xfce4*:
@@ -292,7 +292,7 @@ sudo ./install-config.sh
 
  ```
  export DESKTOP_SESSION=plasma
- /usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+ exec startplasma-x11
  ```
 
  - *Xfce4*:
@@ -477,7 +477,7 @@ exec dbus-launch  gnome-shell --x11
 <li><em>KDE Plasma</em>:</li>
 </ul>
 <pre class="notranslate"><code class="notranslate">export DESKTOP_SESSION=plasma
-/usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+exec startplasma-x11
 </code></pre>
 <ul>
 <li><em>Xfce4</em>:</li>
@@ -560,7 +560,11 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="2";
+    cmButton.appendChild(span);
 
 
 function openComments(){
