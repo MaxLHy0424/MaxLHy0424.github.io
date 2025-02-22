@@ -118,7 +118,7 @@ sudo ./install-config.sh
 
  ```
  export DESKTOP_SESSION=plasma
- /usr/lib/plasma-dbus-run-session-if-needed startplasma-x11 
+ exec startplasma-x11
  ```
 
  - *Xfce4*:
