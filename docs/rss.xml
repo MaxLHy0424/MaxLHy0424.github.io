@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Tue, 15 Oct 2024 13:26:47 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 03</title><link>https://MaxLHy0424.github.io/post/11.html</link><description>日子过得真快呢. 不知不觉间, CRCSN **v5.0.0** 的开发已经接近尾声, 面向公众测试的 **v5.0.0-beta.2** 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 22 Feb 2025 07:08:01 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>CRCSN 开发小记 03</title><link>https://MaxLHy0424.github.io/post/11.html</link><description>日子过得真快呢. 不知不觉间, CRCSN **v5.0.0** 的开发已经接近尾声, 面向公众测试的 **v5.0.0-beta.2** 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).&#13;
 &#13;
 至于什么时候发布, 嗯......如果一切顺利的话, 可能会在 8 月 25 日, 具体时间待定.&#13;
 &#13;
@@ -710,19 +710,19 @@ for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done&#13;
 &#13;
 &gt; [!IMPORTANT]&#13;
 &gt; 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.&#13;
-。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/2.html</guid><pubDate>Thu, 20 Jun 2024 11:15:36 +0000</pubDate></item><item><title>关于</title><link>https://MaxLHy0424.github.io/about.html</link><description>欢迎来到我 MaxLHy0424 的 Blog 🤗.&#13;
-&#13;
-这里会发布**我整理的一些资源**, 和**我自己写的文章** (包括但不限于**教程**, **同人文**).&#13;
-&#13;
-感兴趣的话, 可以将本网站加入浏览器收藏夹, 或者推荐给其他人. 有 GitHub 账户的话, 就评论下吧, 让 Blog 热闹些也不错 😉.&#13;
-&#13;
-至于我?......在此介绍下, 我是学生 ~(不是 24 岁)~, 2024 年下半年正式成为一名 *OIer* 😎. 会用 **C++** 和 **Shell** 写点小工具, 平时喜欢折腾 Linux 🧐. 偶尔写写同人文 ~(大半是 R18+)~ 🥵. 游戏方面, 主玩 ***Minecraft*** 和 ***蔚蓝档案*** (日服), 同时也会自己做一些游戏玩 😆.&#13;
-&#13;
-**我的个人账户**:&#13;
- - [Bilibili](https://space.bilibili.com/1678066522)&#13;
- - [MineBBS](https://www.minebbs.com/members/maxlhy.88192/)&#13;
- - [GitHub](https://github.com/MaxLHy0424)&#13;
- - QQ: 1097268127&#13;
- - Xbox ID: MaxLHy0424&#13;
-&#13;
+。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/2.html</guid><pubDate>Thu, 20 Jun 2024 11:15:36 +0000</pubDate></item><item><title>关于</title><link>https://MaxLHy0424.github.io/about.html</link><description>欢迎来到我 MaxLHy0424 的 Blog 🤗.
+
+这里会发布**我整理的一些资源**, 和**我自己写的文章** (包括但不限于**教程**, **同人文**).
+
+感兴趣的话, 可以将本网站加入浏览器收藏夹, 或者推荐给其他人. 有 GitHub 账户的话, 就评论下吧, 让 Blog 热闹些也不错 😉.
+
+至于我?......在此介绍下, 我是学生 ~(不是 24 岁)~, 2024 年下半年正式成为一名 *OIer* 😎. 会用 **C++** 和 **Shell** 写点小工具, 平时喜欢折腾 Linux 🧐. 偶尔写写同人文 ~(大半是 R18 🥵)~. 游戏方面, 主玩 ***Minecraft*** 和 ***蔚蓝档案*** (日服), 同时也会自己做一些游戏玩 😆.
+
+**我的个人账户**:
+ - [Bilibili](https://space.bilibili.com/1678066522)
+ - [MineBBS](https://www.minebbs.com/members/maxlhy.88192/)
+ - [GitHub](https://github.com/MaxLHy0424)
+ - QQ: 1097268127
+ - Xbox ID: MaxLHy0424
+
 顺带一提, 此 Blog 基于 [Gmeek](https://github.com/Meekdai/Gmeek), 在这里也推荐看看它的维护者 [Meekdai](https://github.com/Meekdai) 的 [Blog](https://blog.meekdai.com) 😚.。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/about.html</guid><pubDate>Thu, 20 Jun 2024 09:44:09 +0000</pubDate></item></channel></rss>
