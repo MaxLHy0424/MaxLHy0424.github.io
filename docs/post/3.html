@@ -34,7 +34,7 @@ sudo pacman -S base-devel flex bison pahole openssl libelf bc
 
 # 2 下载 Linux Kernel 源代码
 
-访问网站 ['The Linux Kernel Archive'](https://kernel.org), 等待加载完成后, 可以看到网页中间的 Linux Kernel 源代码存档列表. 在此之前, 我们需要了解 Linux Kernel 的主要开发分支:
+访问 [The Linux Kernel Archive](https://kernel.org), 等待加载完成后, 可以看到网页中间的 Linux Kernel 源代码存档列表. 在此之前, 我们需要了解 Linux Kernel 的主要开发分支:
 
 - `mainline` (主线)
     - Linux Kernel 的主要开发分支, 由 ***Linus Torvalds*** 管理, 包含最新的 Linux Kernel 特性及漏洞修复.
@@ -42,11 +42,11 @@ sudo pacman -S base-devel flex bison pahole openssl libelf bc
 - `stable` (稳定)
     - 最常用的 Linux Kernel 分支, 包含最新的漏洞修复, 日常使用首选.
 - `longterm` (长期)
-    - 较旧的 Linux Kernel 分支, 持续进行漏洞修复. 长期使用首选.
+    - 较旧的 Linux Kernel 分支, 持续进行漏洞修复, 长期使用首选.
 
 根据具体需求下载对应的 Linux Kernel, 然后通过 Windows 资源管理器复制到前面安装好依赖的 GNU/Linux 发行版的用户家目录中.
 
-然后执行以下命令 (将`<File>`替换为您的 Linux Kernel 压缩包文件名, 将`<Dir>`替换为您的 Linux Kernel 压缩包解压后的目录名):
+然后执行以下命令 (将 `<File>` 替换为您的 Linux Kernel 压缩包文件名, 将 `<Dir>` 替换为您的 Linux Kernel 压缩包解压后的目录名):
 
 ```bash
 cd ~
@@ -75,15 +75,15 @@ make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j$(nproc)
 
 # 4 保存并替换
 
-执行以下命令 (将`<PATH>`替换为 C 盘下的文件路径, 例如`Data/WslLinuxKernel`):
+执行以下命令 (将 `<PATH>` 替换为 C 盘下的文件路径, 例如 `Data/WslLinuxKernel`):
 
 ```bash
 cp arch/x86/boot/bzImage /mnt/c/<PATH>
 ```
 
-然后将文件名改为`kernel`.
+然后将文件名改为 `kernel`.
 
-接着, 在当前 Windows 用户目录下创建文件`.wslconfig` (有则不用), 添加 (`[wsl2]`无需重复添加; 将`C:\\<PATH>\\kernel`替换为您的 Linux Kernel 文件路径; 把路径分隔符替换为`\\`):
+接着, 在当前 Windows 用户目录下创建文件 `.wslconfig` (有则不用), 添加 (`[wsl2]` 无需重复添加; 将 `C:\\<PATH>\\kernel` 替换为您的 Linux Kernel 文件路径; 把路径分隔符替换为`\\`):
 
 ```
 [wsl2]
@@ -129,7 +129,7 @@ sudo pacman -S base-devel flex bison pahole openssl libelf bc
 
 # 2 下载 Linux Kernel 源代码
 
-访问网站 ['The Linux Kernel Archive'](https://kernel.org), 等待加载完成后, 可以看到网页中间的 Linux Kernel 源代码存档列表. 在此之前, 我们需要了解 Linux Kernel 的主要开发分支:
+访问 [The Linux Kernel Archive](https://kernel.org), 等待加载完成后, 可以看到网页中间的 Linux Kernel 源代码存档列表. 在此之前, 我们需要了解 Linux Kernel 的主要开发分支:
 
 - `mainline` (主线)
     - Linux Kernel 的主要开发分支, 由 ***Linus Torvalds*** 管理, 包含最新的 Linux Kernel 特性及漏洞修复.
@@ -137,11 +137,11 @@ sudo pacman -S base-devel flex bison pahole openssl libelf bc
 - `stable` (稳定)
     - 最常用的 Linux Kernel 分支, 包含最新的漏洞修复, 日常使用首选.
 - `longterm` (长期)
-    - 较旧的 Linux Kernel 分支, 持续进行漏洞修复. 长期使用首选.
+    - 较旧的 Linux Kernel 分支, 持续进行漏洞修复, 长期使用首选.
 
 根据具体需求下载对应的 Linux Kernel, 然后通过 Windows 资源管理器复制到前面安装好依赖的 GNU/Linux 发行版的用户家目录中.
 
-然后执行以下命令 (将`<File>`替换为您的 Linux Kernel 压缩包文件名, 将`<Dir>`替换为您的 Linux Kernel 压缩包解压后的目录名):
+然后执行以下命令 (将 `<File>` 替换为您的 Linux Kernel 压缩包文件名, 将 `<Dir>` 替换为您的 Linux Kernel 压缩包解压后的目录名):
 
 ```bash
 cd ~
@@ -170,15 +170,15 @@ make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j$(nproc)
 
 # 4 保存并替换
 
-执行以下命令 (将`<PATH>`替换为 C 盘下的文件路径, 例如`Data/WslLinuxKernel`):
+执行以下命令 (将 `<PATH>` 替换为 C 盘下的文件路径, 例如 `Data/WslLinuxKernel`):
 
 ```bash
 cp arch/x86/boot/bzImage /mnt/c/<PATH>
 ```
 
-然后将文件名改为`kernel`.
+然后将文件名改为 `kernel`.
 
-接着, 在当前 Windows 用户目录下创建文件`.wslconfig` (有则不用), 添加 (`[wsl2]`无需重复添加; 将`C:\\<PATH>\\kernel`替换为您的 Linux Kernel 文件路径; 把路径分隔符替换为`\\`):
+接着, 在当前 Windows 用户目录下创建文件 `.wslconfig` (有则不用), 添加 (`[wsl2]` 无需重复添加; 将 `C:\\<PATH>\\kernel` 替换为您的 Linux Kernel 文件路径; 把路径分隔符替换为`\\`):
 
 ```
 [wsl2]
@@ -280,7 +280,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>Arch 系:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S base-devel flex bison pahole openssl libelf bc</pre></div>
 <h1>2 下载 Linux Kernel 源代码</h1>
-<p>访问网站 <a href="https://kernel.org" rel="nofollow">"The Linux Kernel Archive"</a>, 等待加载完成后, 可以看到网页中间的 Linux Kernel 源代码存档列表. 在此之前, 我们需要了解 Linux Kernel 的主要开发分支:</p>
+<p>访问 <a href="https://kernel.org" rel="nofollow">The Linux Kernel Archive</a>, 等待加载完成后, 可以看到网页中间的 Linux Kernel 源代码存档列表. 在此之前, 我们需要了解 Linux Kernel 的主要开发分支:</p>
 <ul>
 <li><code class="notranslate">mainline</code> (主线)
 <ul>
@@ -295,12 +295,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </li>
 <li><code class="notranslate">longterm</code> (长期)
 <ul>
-<li>较旧的 Linux Kernel 分支, 持续进行漏洞修复. 长期使用首选.</li>
+<li>较旧的 Linux Kernel 分支, 持续进行漏洞修复, 长期使用首选.</li>
 </ul>
 </li>
 </ul>
 <p>根据具体需求下载对应的 Linux Kernel, 然后通过 Windows 资源管理器复制到前面安装好依赖的 GNU/Linux 发行版的用户家目录中.</p>
-<p>然后执行以下命令 (将<code class="notranslate">&lt;File&gt;</code>替换为您的 Linux Kernel 压缩包文件名, 将<code class="notranslate">&lt;Dir&gt;</code>替换为您的 Linux Kernel 压缩包解压后的目录名):</p>
+<p>然后执行以下命令 (将 <code class="notranslate">&lt;File&gt;</code> 替换为您的 Linux Kernel 压缩包文件名, 将 <code class="notranslate">&lt;Dir&gt;</code> 替换为您的 Linux Kernel 压缩包解压后的目录名):</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">cd</span> <span class="pl-k">~</span>
 tar xf <span class="pl-k">&lt;</span>File<span class="pl-k">&gt;</span>
 <span class="pl-c1">cd</span> <span class="pl-k">&lt;</span>Dir<span class="pl-k">&gt;</span></pre></div>
@@ -313,10 +313,10 @@ tar xf <span class="pl-k">&lt;</span>File<span class="pl-k">&gt;</span>
 <div class="highlight highlight-source-shell"><pre class="notranslate">make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j<span class="pl-s"><span class="pl-pds">$(</span>nproc<span class="pl-pds">)</span></span></pre></div>
 <p>途中的编译配置选择一路按回车即可.</p>
 <h1>4 保存并替换</h1>
-<p>执行以下命令 (将<code class="notranslate">&lt;PATH&gt;</code>替换为 C 盘下的文件路径, 例如<code class="notranslate">Data/WslLinuxKernel</code>):</p>
+<p>执行以下命令 (将 <code class="notranslate">&lt;PATH&gt;</code> 替换为 C 盘下的文件路径, 例如 <code class="notranslate">Data/WslLinuxKernel</code>):</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">cp arch/x86/boot/bzImage /mnt/c/<span class="pl-k">&lt;</span>PATH<span class="pl-k">&gt;</span></pre></div>
-<p>然后将文件名改为<code class="notranslate">kernel</code>.</p>
-<p>接着, 在当前 Windows 用户目录下创建文件<code class="notranslate">.wslconfig</code> (有则不用), 添加 (<code class="notranslate">[wsl2]</code>无需重复添加; 将<code class="notranslate">C:\\&lt;PATH&gt;\\kernel</code>替换为您的 Linux Kernel 文件路径; 把路径分隔符替换为<code class="notranslate">\\</code>):</p>
+<p>然后将文件名改为 <code class="notranslate">kernel</code>.</p>
+<p>接着, 在当前 Windows 用户目录下创建文件 <code class="notranslate">.wslconfig</code> (有则不用), 添加 (<code class="notranslate">[wsl2]</code> 无需重复添加; 将 <code class="notranslate">C:\\&lt;PATH&gt;\\kernel</code> 替换为您的 Linux Kernel 文件路径; 把路径分隔符替换为<code class="notranslate">\\</code>):</p>
 <pre class="notranslate"><code class="notranslate">[wsl2]
 kernel=C:\\&lt;PATH&gt;\\kernel 
 </code></pre>
