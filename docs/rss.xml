@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sun, 23 Feb 2025 12:12:50 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sun, 23 Feb 2025 12:20:05 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
 
 然而, C++ 中, 直到 C++ 20 的发布, 才正式引入了协程. 对于开发者来说, 这地毫不亚于 C++ 11 中正式引入线程 (Thread) 一样. 但 C++ 20 中, 仅仅是给了两个关键字 (即 `co_return` 和 `co_await`) 和一个运算符 (即 `co_await`), 还有协程相关的底层库 (比如 `std::coroutine_handle`). 这显然没有协程在 Python 等其他编程语言中 '开箱即用'.
 
@@ -440,132 +440,132 @@ class coroutine final {
 - 优化项目结构;&#13;
 - 重构构建系统.&#13;
 - 优化编译命令.&#13;
-。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/11.html</guid><pubDate>Thu, 15 Aug 2024 11:25:32 +0000</pubDate></item><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[*paru*](https://github.com/Morganamilo/paru) 是 *yay* 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 *yay* 和 *pacman* 几乎一样, 所以迁移过来不会有任何困难.&#13;
-&#13;
-# 0 安装&#13;
-&#13;
-如果没有安装其他的 AUR 助手, 可以执行以下命令:&#13;
-```bash&#13;
-sudo pacman -S --needed git base-devel&#13;
-git clone https://aur.archlinux.org/paru-git.git&#13;
-cd paru-git&#13;
-makepkg -si&#13;
-```&#13;
-&#13;
-如果有安装 *yay*, 可以直接执行:&#13;
-```bash&#13;
-yay -S paru-git&#13;
-```&#13;
-&#13;
-# 1 基本用法&#13;
-&#13;
-## 1.1 `paru`&#13;
-&#13;
-当什么参数都不加的时候, 默认执行`paru -Syu`, 首先从软件仓库查找更新, 然后从 AUR 查找更新.&#13;
-&#13;
-## 1.2 `paru &lt;search terms&gt;`&#13;
-&#13;
-通过 *paru* 搜索关键词`&lt;search terms&gt;`的软件包, 并询问要安装哪一个. 以下是 `paru texlive-full` 的输出:&#13;
-```&#13;
-1 aur/texlive-full 1:2022.20220406-1 [+5 ~0.00] [已安装]&#13;
-    This packages provides texlive-full in /opt. It also tricks ArchLinux into thinking it has its texlive packages installed.&#13;
-:: 需要安装的包 (例如: 1 2 3, 1-3):&#13;
-:: &#13;
-```&#13;
-&#13;
-## 1.3 `paru &lt;operation&gt; [options] [targets]`&#13;
-&#13;
-这里`&lt;operation&gt;`是一个必须参数, 表示操作. 用缩写的时候用一个大写字母表示, 例如`-S`表示`--sync`,  `&lt;options&gt;`是选项. 多个选项可以写在一起, 例如`paru --sync -y -u`就是常见的`paru -Syu`.&#13;
-&#13;
-# 2 *paru* 特有的操作&#13;
-&#13;
-## 2.1 `-P` (`--show`)&#13;
-&#13;
-打印相关的选项.&#13;
-&#13;
-### 2.1.1 `-c` (`--complete`)&#13;
-&#13;
-打印所有来自 AUR 和软件仓库的包, 用于自动补全, **用户不应直接使用**.&#13;
-&#13;
-### 2.1.2 `-s` (`--state`)&#13;
-&#13;
-展示安装的软件包的信息以及系统健康情况, 以及是否有过期包, 孤儿包等.&#13;
-&#13;
-### 2.1.3 `-w` (`--news`)&#13;
-&#13;
-展示来自 Arch Linux 主页的新闻. 只展示比所有本地软件包构建日期要新的新闻, 要展示所有新闻, 请使用`-ww`.&#13;
-&#13;
-### 2.1.4 `-o` (`--order`)&#13;
-&#13;
-展示目标软件包的构建顺序.&#13;
-&#13;
-## 2.2 `-G` (`--getpkgbuild`)&#13;
-&#13;
-从 ABS (Arch Linux Build System, Arch Linux 构建系统) 或者 AUR 下载 PKGBUILD, ABS 只能对 Arch Linux 软件仓库用.&#13;
-&#13;
-### 2.2.1 `-p` (`--print`)&#13;
-&#13;
-将`PKGBUILD`打印到终端, 而不是下载`PKGBUILD`.&#13;
-&#13;
-### 2.2.2 `-c` (`--comments`)&#13;
-&#13;
-展示软件包的 AUR 评论.&#13;
-&#13;
-### 2.2.3 `-s` (`--ssh`)&#13;
-&#13;
-通过 ssh 克隆 AUR 仓库.&#13;
-&#13;
-## 2.3 `-U` (`--upgrade`)&#13;
-&#13;
-当不带目标执行的时候, 使用 *makepkg* 相同, 构建当前文件夹下的`PKGBUILD`.&#13;
-&#13;
-### 2.3.1 `-i` (`--install`)&#13;
-&#13;
-构建完毕后同时安装.&#13;
-&#13;
-## 2.4 `-L` (`--repoctl`)&#13;
-&#13;
-列出所有仓库.&#13;
-&#13;
-### 2.4.1 `-l` (`--list`)&#13;
-&#13;
-显示本地仓库的软件包.&#13;
-&#13;
-### 2.4.2 `-d` (`--delete`)&#13;
-&#13;
-移除本地的一个软件包, 使用`-dd`同时卸载该软件包.&#13;
-&#13;
-### 2.4.3 `-y` (`--refresh`)&#13;
-&#13;
-刷新本地仓库.&#13;
-&#13;
-### 2.4.4 `-q` (`--quiet`)&#13;
-&#13;
-展示更少信息.&#13;
-&#13;
-## 2.5 `-C` (`--chrootctl`)&#13;
-&#13;
-到 chroot 的交互式命令行.&#13;
-&#13;
-### 2.5.1 `-i` (`--install`)&#13;
-&#13;
-将一个软件包安装到 chroot.&#13;
-&#13;
-### 2.5.2 `-u` (`--sysupgrade`)&#13;
-&#13;
-更新 chroot.&#13;
-&#13;
-# 3 扩展 *pacman* 的操作&#13;
-&#13;
-扩展到同时支持软件仓库和 AUR 的软件包的操作有`-R`, `-S`, `-Si`, `-Sl`, `-Ss`, `-Su`, `-Sc`, `-Qu`, `-T`.&#13;
-&#13;
-## 3.1 `-R`&#13;
-&#13;
-*paru* 会同时清除关于`devel`包的缓存数据.&#13;
-&#13;
-## 3.2 `-Sc`&#13;
-&#13;
-*paru* 会同时清除缓存的 AUR 软件包以及缓存中任何未被跟踪的文件. 清除未被跟踪的文件会清除所有下载的 source 以及构建好的软件包，但是下载的 VCS source 会被保留。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/10.html</guid><pubDate>Fri, 09 Aug 2024 03:29:23 +0000</pubDate></item><item><title>CRCSN 开发小记 02</title><link>https://MaxLHy0424.github.io/post/7.html</link><description>三天过去了, CRCSN v5.0.0 的开发工作快马加鞭进行着, 讲讲这几天的成果吧.&#13;
+。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/11.html</guid><pubDate>Thu, 15 Aug 2024 11:25:32 +0000</pubDate></item><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[paru](https://github.com/Morganamilo/paru) 是 yay 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 yay 和 pacman 几乎一样, 所以迁移过来不会有任何困难.
+
+# 0 安装
+
+如果没有安装其他的 AUR 助手, 可以执行以下命令:
+```bash
+sudo pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/paru-git.git
+cd paru-git
+makepkg -si
+```
+
+如果有安装 yay, 可以直接执行:
+```bash
+yay -S paru-git
+```
+
+# 1 基本用法
+
+## 1.1 `paru`
+
+当什么参数都不加的时候, 默认执行`paru -Syu`, 首先从软件仓库查找更新, 然后从 AUR 查找更新.
+
+## 1.2 `paru &lt;search terms&gt;`
+
+通过 paru 搜索关键词`&lt;search terms&gt;`的软件包, 并询问要安装哪一个. 以下是 `paru texlive-full` 的输出:
+```
+1 aur/texlive-full 1:2022.20220406-1 [+5 ~0.00] [已安装]
+    This packages provides texlive-full in /opt. It also tricks ArchLinux into thinking it has its texlive packages installed.
+:: 需要安装的包 (例如: 1 2 3, 1-3):
+:: 
+```
+
+## 1.3 `paru &lt;operation&gt; [options] [targets]`
+
+这里`&lt;operation&gt;`是一个必须参数, 表示操作. 用缩写的时候用一个大写字母表示, 例如`-S`表示`--sync`,  `&lt;options&gt;`是选项. 多个选项可以写在一起, 例如`paru --sync -y -u`就是常见的`paru -Syu`.
+
+# 2 paru 特有的操作
+
+## 2.1 `-P` (`--show`)
+
+打印相关的选项.
+
+### 2.1.1 `-c` (`--complete`)
+
+打印所有来自 AUR 和软件仓库的包, 用于自动补全, **用户不应直接使用**.
+
+### 2.1.2 `-s` (`--state`)
+
+展示安装的软件包的信息以及系统健康情况, 以及是否有过期包, 孤儿包等.
+
+### 2.1.3 `-w` (`--news`)
+
+展示来自 Arch Linux 主页的新闻. 只展示比所有本地软件包构建日期要新的新闻, 要展示所有新闻, 请使用 `-ww`.
+
+### 2.1.4 `-o` (`--order`)
+
+展示目标软件包的构建顺序.
+
+## 2.2 `-G` (`--getpkgbuild`)
+
+从 ABS (Arch Linux Build System, Arch Linux 构建系统) 或者 AUR 下载 PKGBUILD, ABS 只能对 Arch Linux 软件仓库用.
+
+### 2.2.1 `-p` (`--print`)
+
+将 `PKGBUILD` 打印到终端, 而不是下载 `PKGBUILD`.
+
+### 2.2.2 `-c` (`--comments`)
+
+展示软件包的 AUR 评论.
+
+### 2.2.3 `-s` (`--ssh`)
+
+通过 ssh 克隆 AUR 仓库.
+
+## 2.3 `-U` (`--upgrade`)
+
+当不带目标执行的时候, 使用 makepkg 相同, 构建当前文件夹下的 `PKGBUILD`.
+
+### 2.3.1 `-i` (`--install`)
+
+构建完毕后同时安装.
+
+## 2.4 `-L` (`--repoctl`)
+
+列出所有仓库.
+
+### 2.4.1 `-l` (`--list`)
+
+显示本地仓库的软件包.
+
+### 2.4.2 `-d` (`--delete`)
+
+移除本地的一个软件包, 使用 `-dd` 同时卸载该软件包.
+
+### 2.4.3 `-y` (`--refresh`)
+
+刷新本地仓库.
+
+### 2.4.4 `-q` (`--quiet`)
+
+展示更少信息.
+
+## 2.5 `-C` (`--chrootctl`)
+
+到 chroot 的交互式命令行.
+
+### 2.5.1 `-i` (`--install`)
+
+将一个软件包安装到 chroot.
+
+### 2.5.2 `-u` (`--sysupgrade`)
+
+更新 chroot.
+
+# 3 扩展 pacman 的操作
+
+扩展到同时支持软件仓库和 AUR 的软件包的操作有 `-R`, `-S`, `-Si`, `-Sl`, `-Ss`, `-Su`, `-Sc`, `-Qu`, `-T`.
+
+## 3.1 `-R`
+
+paru 会同时清除关于 `devel` 包的缓存数据.
+
+## 3.2 `-Sc`
+
+paru 会同时清除缓存的 AUR 软件包以及缓存中任何未被跟踪的文件. 清除未被跟踪的文件会清除所有下载的 source 以及构建好的软件包，但是下载的 VCS source 会被保留。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/10.html</guid><pubDate>Fri, 09 Aug 2024 03:29:23 +0000</pubDate></item><item><title>CRCSN 开发小记 02</title><link>https://MaxLHy0424.github.io/post/7.html</link><description>三天过去了, CRCSN v5.0.0 的开发工作快马加鞭进行着, 讲讲这几天的成果吧.&#13;
 &#13;
 ### 完全重构&#13;
 &#13;
