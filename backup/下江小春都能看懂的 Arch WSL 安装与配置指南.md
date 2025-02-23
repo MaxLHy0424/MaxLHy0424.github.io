@@ -40,7 +40,7 @@ bestEffortDnsParsing=true
 useWindowsDnsCache=true
 ```
 
-然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
+然后, 在 Microsoft Store 中搜索 `Arch WSL`, 点击下图中所示的软件 (一般为第1个):
 
 ![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
 
@@ -48,11 +48,11 @@ useWindowsDnsCache=true
 
 # 1 修改 root 用户密码
 
-通过`sudo passwd root`修改`root`用户密码.
+通过 `sudo passwd root` 修改`root` 用户密码.
 
-# 2 配置 *GNU Nano* 文本编辑器
+# 2 配置 GNU Nano 文本编辑器
 
-打开`/etc/nanorc`, 在末尾追加:
+打开 `/etc/nanorc`, 在末尾追加:
 
 ```
 bind ^X cut main
@@ -104,13 +104,13 @@ include /usr/share/nano/*.*
 
 # 3 配置包管理器
 
-打开`/etc/pacman.d/mirrorlist`, 在顶部添加:
+打开 `/etc/pacman.d/mirrorlist`, 在顶部添加:
 
 ```
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 ```
 
-打开`/etc/pacman.conf`, 找到:
+打开 `/etc/pacman.conf`, 找到:
 
 ```
 #UseSyslog
@@ -132,7 +132,7 @@ Color
 ParallelDownloads = 5
 ```
 
-将后面的`5`修改成你想要同时下载的软件包的数量.
+将后面的 `5` 修改成你想要同时下载的软件包的数量.
 
 接着把后面的软件源全部删掉, 换成下面的:
 
@@ -180,13 +180,13 @@ sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
 sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 ```
 
-执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
+执行以下命令安装 yay 稳定版 (安装开发版把 `yay` 改为 `yay-git`):
 
 ````bash
 sudo pacman -S yay
 ````
 
-如果您愿意的话, 也可以试试 *paru*, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
+如果您愿意的话, 也可以试试 paru, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
 
 # 4 汉化
 
@@ -223,7 +223,7 @@ sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wq
 sudo locale-gen
 ```
 
-# 5 解决 *WSLg* 及 *Systemd* 问题
+# 5 解决 WSLg 及 Systemd 问题
 
 执行:
 
@@ -232,7 +232,7 @@ echo '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
-如果 *Systemd* 没有启动, 可以试试:
+如果 Systemd 没有启动, 可以试试:
 
 ```
 echo '[boot]

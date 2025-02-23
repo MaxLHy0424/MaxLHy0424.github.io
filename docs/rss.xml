@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sun, 23 Feb 2025 12:06:30 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sun, 23 Feb 2025 12:08:41 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
 
 然而, C++ 中, 直到 C++ 20 的发布, 才正式引入了协程. 对于开发者来说, 这地毫不亚于 C++ 11 中正式引入线程 (Thread) 一样. 但 C++ 20 中, 仅仅是给了两个关键字 (即 `co_return` 和 `co_await`) 和一个运算符 (即 `co_await`), 还有协程相关的底层库 (比如 `std::coroutine_handle`). 这显然没有协程在 Python 等其他编程语言中 '开箱即用'.
 
@@ -854,262 +854,262 @@ uname -a&#13;
 ```&#13;
 &#13;
 Linux Kernel 已经成功替换, 一切大功告成!&#13;
-。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/3.html</guid><pubDate>Fri, 21 Jun 2024 10:43:20 +0000</pubDate></item><item><title>下江小春都能看懂的 Arch WSL 安装与配置指南</title><link>https://MaxLHy0424.github.io/post/2.html</link><description>在 Windows OS 上开发 GNU/Linux 软件时, WSL 2 常为不二之选.&#13;
-&#13;
-但是, WSL 2 上开箱即用的 GNU/Linux 发行版, 几乎只有 Ubuntu. 想要在 WSL 2 上使用 Arch Linux, 配置较为麻烦.&#13;
-&#13;
-本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.&#13;
-&#13;
-&gt; [!NOTE]&#13;
-&gt; 如果您觉得手动操作有些麻烦, 可以试试博主写的[自动配置脚本](https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9). 但还是建议看看教程.&#13;
-&#13;
-&gt; [!IMPORTANT]&#13;
-&gt; 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.&#13;
-&#13;
-# 0 准备工作&#13;
-&#13;
-WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.&#13;
-&#13;
-&gt; [!NOTE]&#13;
-&gt; 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.&#13;
-&#13;
-启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:&#13;
-&#13;
-```Batch&#13;
-wsl --update&#13;
-wsl --update --pre-release&#13;
-```&#13;
-&#13;
-接着, 在当前的 Windows OS 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:&#13;
-&#13;
-```&#13;
-[wsl2]&#13;
-ipv6=true&#13;
-networkingMode=mirrored&#13;
-dnsTunneling=true&#13;
-firewall=true&#13;
-autoProxy=true&#13;
-defaultVhdSize=137438953472&#13;
-[experimental]&#13;
-autoMemoryReclaim=gradual&#13;
-bestEffortDnsParsing=true&#13;
-useWindowsDnsCache=true&#13;
-```&#13;
-&#13;
-然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):&#13;
-&#13;
-![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)&#13;
-&#13;
-按照正常流程安装, 打开, 创建账户. &#13;
-&#13;
-# 1 修改 root 用户密码&#13;
-&#13;
-通过`sudo passwd root`修改`root`用户密码.&#13;
-&#13;
-# 2 配置 *GNU Nano* 文本编辑器&#13;
-&#13;
-打开`/etc/nanorc`, 在末尾追加:&#13;
-&#13;
-```&#13;
-bind ^X cut main&#13;
-bind ^C copy main&#13;
-bind ^V paste all&#13;
-bind ^Q exit all&#13;
-bind ^S savefile main&#13;
-bind ^W writeout main&#13;
-bind ^O insert main&#13;
-bind ^H help all&#13;
-bind ^H exit help&#13;
-bind ^F whereis all&#13;
-bind ^G findnext all&#13;
-bind ^B wherewas all&#13;
-bind ^D findprevious all&#13;
-bind ^R replace main&#13;
-unbind ^U all&#13;
-unbind ^N main&#13;
-unbind ^Y all&#13;
-unbind M-J main&#13;
-unbind M-T main&#13;
-bind ^A mark main&#13;
-bind ^P location main&#13;
-bind ^T gotoline main&#13;
-bind ^T gotodir browser&#13;
-bind ^T cutrestoffile execute&#13;
-bind ^L linter execute&#13;
-bind ^E execute main&#13;
-bind ^K '{mark}{end}{zap}' main&#13;
-bind ^U '{mark}{home}{zap}' main&#13;
-bind ^Z undo main&#13;
-bind ^Y redo main&#13;
-set tabsize 4&#13;
-set autoindent&#13;
-set noconvert&#13;
-set smarthome&#13;
-set tabstospaces&#13;
-set mouse&#13;
-set linenumbers&#13;
-set casesensitive&#13;
-set multibuffer&#13;
-set nonewlines&#13;
-set magic&#13;
-set softwrap&#13;
-set wordbounds&#13;
-set constantshow&#13;
-include /usr/share/nano/*.*&#13;
-```&#13;
-&#13;
-# 3 配置包管理器&#13;
-&#13;
-打开`/etc/pacman.d/mirrorlist`, 在顶部添加:&#13;
-&#13;
-```&#13;
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch&#13;
-```&#13;
-&#13;
-打开`/etc/pacman.conf`, 找到:&#13;
-&#13;
-```&#13;
-#UseSyslog&#13;
-#Color&#13;
-NoProgressBar&#13;
-```&#13;
-&#13;
-换成:&#13;
-&#13;
-```&#13;
-UseSyslog&#13;
-Color&#13;
-#NoProgressBar&#13;
-```&#13;
-&#13;
-然后找到这一行:&#13;
-&#13;
-```&#13;
-ParallelDownloads = 5&#13;
-```&#13;
-&#13;
-将后面的`5`修改成你想要同时下载的软件包的数量.&#13;
-&#13;
-接着把后面的软件源全部删掉, 换成下面的:&#13;
-&#13;
-```&#13;
-[testing]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[staging]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[core-testing]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[core-staging]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[core]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[extra-testing]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[extra-staging]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[extra]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[community-testing]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[community-staging]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[community]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[multilib-testing]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[multilib-staging]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[multilib]&#13;
-Include = /etc/pacman.d/mirrorlist&#13;
-[archlinuxcn]&#13;
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch&#13;
-[blackarch]&#13;
-SigLevel = Never&#13;
-Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch&#13;
-```&#13;
-&#13;
-执行以命令:&#13;
-&#13;
-```bash&#13;
-sudo pacman-key --init&#13;
-sudo pacman-key --lsign-key 'farseerfc@archlinux.org'&#13;
-sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm&#13;
-```&#13;
-&#13;
-执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):&#13;
-&#13;
-````bash&#13;
-sudo pacman -S yay&#13;
-````&#13;
-&#13;
-如果您愿意的话, 也可以试试 *paru*, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).&#13;
-&#13;
-# 4 汉化&#13;
-&#13;
-打开`/etc/locale.gen`, 找到:&#13;
-&#13;
-```&#13;
-#en_US.UTF-8 UTF-8&#13;
-```&#13;
-&#13;
-```&#13;
-#zh_CN.UTF-8 UTF-8&#13;
-```&#13;
-&#13;
-将前面的`#`去掉.&#13;
-&#13;
-打开`/etc/locale.conf`, 将所有文本替换为:&#13;
-&#13;
-```&#13;
-LANG=en_US.UTF-8&#13;
-```&#13;
-&#13;
-打开`/etc/profile`, 在末尾追加:&#13;
-&#13;
-```&#13;
-export LC_ALL=zh_CN.UTF-8&#13;
-export LANG=zh_CN.UTF-8&#13;
-export LANGUAGE=zh_CN:en_US&#13;
-```&#13;
-&#13;
-然后执行以下命令:&#13;
-&#13;
-```bash&#13;
-sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm&#13;
-sudo locale-gen&#13;
-```&#13;
-&#13;
-# 5 解决 *WSLg* 及 *Systemd* 问题&#13;
-&#13;
-执行:&#13;
-&#13;
-```bash&#13;
-echo '# Type Path           Mode UID  GID  Age Argument&#13;
-L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf&#13;
-```&#13;
-&#13;
-如果 *Systemd* 没有启动, 可以试试:&#13;
-&#13;
-```&#13;
-echo '[boot]&#13;
-systemd=true' | sudo tee /etc/wsl.conf&#13;
-```&#13;
-&#13;
-# 6 善后工作及后续使用注意事项&#13;
-&#13;
-执行以下命令:&#13;
-&#13;
-```bash&#13;
-sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm&#13;
-sudo pacman -Rcns $(pacman -Qtdq) --noconfirm&#13;
-sudo pacman -Scc --noconfirm&#13;
-sudo rm -rf /tmp/*&#13;
-for i in {font,ICE,X11,XIM}; do sudo rm -rf /tmp/.${i}-unix; done&#13;
-for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done&#13;
-```&#13;
-&#13;
-&gt; [!IMPORTANT]&#13;
-&gt; 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.&#13;
+。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/3.html</guid><pubDate>Fri, 21 Jun 2024 10:43:20 +0000</pubDate></item><item><title>下江小春都能看懂的 Arch WSL 安装与配置指南</title><link>https://MaxLHy0424.github.io/post/2.html</link><description>在 Windows OS 上开发 GNU/Linux 软件时, WSL 2 常为不二之选.
+
+但是, WSL 2 上开箱即用的 GNU/Linux 发行版, 几乎只有 Ubuntu. 想要在 WSL 2 上使用 Arch Linux, 配置较为麻烦.
+
+本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.
+
+&gt; [!NOTE]
+&gt; 如果您觉得手动操作有些麻烦, 可以试试博主写的[自动配置脚本](https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9). 但还是建议看看教程.
+
+&gt; [!IMPORTANT]
+&gt; 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
+
+# 0 准备工作
+
+WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
+
+&gt; [!NOTE]
+&gt; 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
+
+启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
+
+```Batch
+wsl --update
+wsl --update --pre-release
+```
+
+接着, 在当前的 Windows OS 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
+
+```
+[wsl2]
+ipv6=true
+networkingMode=mirrored
+dnsTunneling=true
+firewall=true
+autoProxy=true
+defaultVhdSize=137438953472
+[experimental]
+autoMemoryReclaim=gradual
+bestEffortDnsParsing=true
+useWindowsDnsCache=true
+```
+
+然后, 在 Microsoft Store 中搜索 `Arch WSL`, 点击下图中所示的软件 (一般为第1个):
+
+![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
+
+按照正常流程安装, 打开, 创建账户. 
+
+# 1 修改 root 用户密码
+
+通过 `sudo passwd root` 修改`root` 用户密码.
+
+# 2 配置 GNU Nano 文本编辑器
+
+打开 `/etc/nanorc`, 在末尾追加:
+
+```
+bind ^X cut main
+bind ^C copy main
+bind ^V paste all
+bind ^Q exit all
+bind ^S savefile main
+bind ^W writeout main
+bind ^O insert main
+bind ^H help all
+bind ^H exit help
+bind ^F whereis all
+bind ^G findnext all
+bind ^B wherewas all
+bind ^D findprevious all
+bind ^R replace main
+unbind ^U all
+unbind ^N main
+unbind ^Y all
+unbind M-J main
+unbind M-T main
+bind ^A mark main
+bind ^P location main
+bind ^T gotoline main
+bind ^T gotodir browser
+bind ^T cutrestoffile execute
+bind ^L linter execute
+bind ^E execute main
+bind ^K '{mark}{end}{zap}' main
+bind ^U '{mark}{home}{zap}' main
+bind ^Z undo main
+bind ^Y redo main
+set tabsize 4
+set autoindent
+set noconvert
+set smarthome
+set tabstospaces
+set mouse
+set linenumbers
+set casesensitive
+set multibuffer
+set nonewlines
+set magic
+set softwrap
+set wordbounds
+set constantshow
+include /usr/share/nano/*.*
+```
+
+# 3 配置包管理器
+
+打开 `/etc/pacman.d/mirrorlist`, 在顶部添加:
+
+```
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+```
+
+打开 `/etc/pacman.conf`, 找到:
+
+```
+#UseSyslog
+#Color
+NoProgressBar
+```
+
+换成:
+
+```
+UseSyslog
+Color
+#NoProgressBar
+```
+
+然后找到这一行:
+
+```
+ParallelDownloads = 5
+```
+
+将后面的 `5` 修改成你想要同时下载的软件包的数量.
+
+接着把后面的软件源全部删掉, 换成下面的:
+
+```
+[testing]
+Include = /etc/pacman.d/mirrorlist
+[staging]
+Include = /etc/pacman.d/mirrorlist
+[core-testing]
+Include = /etc/pacman.d/mirrorlist
+[core-staging]
+Include = /etc/pacman.d/mirrorlist
+[core]
+Include = /etc/pacman.d/mirrorlist
+[extra-testing]
+Include = /etc/pacman.d/mirrorlist
+[extra-staging]
+Include = /etc/pacman.d/mirrorlist
+[extra]
+Include = /etc/pacman.d/mirrorlist
+[community-testing]
+Include = /etc/pacman.d/mirrorlist
+[community-staging]
+Include = /etc/pacman.d/mirrorlist
+[community]
+Include = /etc/pacman.d/mirrorlist
+[multilib-testing]
+Include = /etc/pacman.d/mirrorlist
+[multilib-staging]
+Include = /etc/pacman.d/mirrorlist
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+[archlinuxcn]
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+[blackarch]
+SigLevel = Never
+Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
+```
+
+执行以命令:
+
+```bash
+sudo pacman-key --init
+sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
+sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
+```
+
+执行以下命令安装 yay 稳定版 (安装开发版把 `yay` 改为 `yay-git`):
+
+````bash
+sudo pacman -S yay
+````
+
+如果您愿意的话, 也可以试试 paru, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
+
+# 4 汉化
+
+打开`/etc/locale.gen`, 找到:
+
+```
+#en_US.UTF-8 UTF-8
+```
+
+```
+#zh_CN.UTF-8 UTF-8
+```
+
+将前面的`#`去掉.
+
+打开`/etc/locale.conf`, 将所有文本替换为:
+
+```
+LANG=en_US.UTF-8
+```
+
+打开`/etc/profile`, 在末尾追加:
+
+```
+export LC_ALL=zh_CN.UTF-8
+export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:en_US
+```
+
+然后执行以下命令:
+
+```bash
+sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
+sudo locale-gen
+```
+
+# 5 解决 WSLg 及 Systemd 问题
+
+执行:
+
+```bash
+echo '# Type Path           Mode UID  GID  Age Argument
+L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
+```
+
+如果 Systemd 没有启动, 可以试试:
+
+```
+echo '[boot]
+systemd=true' | sudo tee /etc/wsl.conf
+```
+
+# 6 善后工作及后续使用注意事项
+
+执行以下命令:
+
+```bash
+sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm
+sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
+sudo pacman -Scc --noconfirm
+sudo rm -rf /tmp/*
+for i in {font,ICE,X11,XIM}; do sudo rm -rf /tmp/.${i}-unix; done
+for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done
+```
+
+&gt; [!IMPORTANT]
+&gt; 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
 。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/2.html</guid><pubDate>Thu, 20 Jun 2024 11:15:36 +0000</pubDate></item><item><title>关于</title><link>https://MaxLHy0424.github.io/about.html</link><description>欢迎来到我 MaxLHy0424 的 Blog 🤗.
 
 这里会发布**我整理的一些资源**, 和**我自己写的文章** (包括但不限于**教程**, **同人文**).
