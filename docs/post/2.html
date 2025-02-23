@@ -52,7 +52,7 @@ bestEffortDnsParsing=true
 useWindowsDnsCache=true
 ```
 
-然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
+然后, 在 Microsoft Store 中搜索 `Arch WSL`, 点击下图中所示的软件 (一般为第1个):
 
 ![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
 
@@ -60,11 +60,11 @@ useWindowsDnsCache=true
 
 # 1 修改 root 用户密码
 
-通过`sudo passwd root`修改`root`用户密码.
+通过 `sudo passwd root` 修改`root` 用户密码.
 
-# 2 配置 *GNU Nano* 文本编辑器
+# 2 配置 GNU Nano 文本编辑器
 
-打开`/etc/nanorc`, 在末尾追加:
+打开 `/etc/nanorc`, 在末尾追加:
 
 ```
 bind ^X cut main
@@ -116,13 +116,13 @@ include /usr/share/nano/*.*
 
 # 3 配置包管理器
 
-打开`/etc/pacman.d/mirrorlist`, 在顶部添加:
+打开 `/etc/pacman.d/mirrorlist`, 在顶部添加:
 
 ```
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 ```
 
-打开`/etc/pacman.conf`, 找到:
+打开 `/etc/pacman.conf`, 找到:
 
 ```
 #UseSyslog
@@ -144,7 +144,7 @@ Color
 ParallelDownloads = 5
 ```
 
-将后面的`5`修改成你想要同时下载的软件包的数量.
+将后面的 `5` 修改成你想要同时下载的软件包的数量.
 
 接着把后面的软件源全部删掉, 换成下面的:
 
@@ -192,13 +192,13 @@ sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
 sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 ```
 
-执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
+执行以下命令安装 yay 稳定版 (安装开发版把 `yay` 改为 `yay-git`):
 
 ````bash
 sudo pacman -S yay
 ````
 
-如果您愿意的话, 也可以试试 *paru*, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
+如果您愿意的话, 也可以试试 paru, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
 
 # 4 汉化
 
@@ -235,7 +235,7 @@ sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wq
 sudo locale-gen
 ```
 
-# 5 解决 *WSLg* 及 *Systemd* 问题
+# 5 解决 WSLg 及 Systemd 问题
 
 执行:
 
@@ -244,7 +244,7 @@ echo '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
-如果 *Systemd* 没有启动, 可以试试:
+如果 Systemd 没有启动, 可以试试:
 
 ```
 echo '[boot]
@@ -310,7 +310,7 @@ bestEffortDnsParsing=true
 useWindowsDnsCache=true
 ```
 
-然后, 在 Microsoft Store 中搜索`Arch WSL`, 点击下图中所示的软件 (一般为第1个):
+然后, 在 Microsoft Store 中搜索 `Arch WSL`, 点击下图中所示的软件 (一般为第1个):
 
 ![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
 
@@ -318,11 +318,11 @@ useWindowsDnsCache=true
 
 # 1 修改 root 用户密码
 
-通过`sudo passwd root`修改`root`用户密码.
+通过 `sudo passwd root` 修改`root` 用户密码.
 
-# 2 配置 *GNU Nano* 文本编辑器
+# 2 配置 GNU Nano 文本编辑器
 
-打开`/etc/nanorc`, 在末尾追加:
+打开 `/etc/nanorc`, 在末尾追加:
 
 ```
 bind ^X cut main
@@ -374,13 +374,13 @@ include /usr/share/nano/*.*
 
 # 3 配置包管理器
 
-打开`/etc/pacman.d/mirrorlist`, 在顶部添加:
+打开 `/etc/pacman.d/mirrorlist`, 在顶部添加:
 
 ```
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 ```
 
-打开`/etc/pacman.conf`, 找到:
+打开 `/etc/pacman.conf`, 找到:
 
 ```
 #UseSyslog
@@ -402,7 +402,7 @@ Color
 ParallelDownloads = 5
 ```
 
-将后面的`5`修改成你想要同时下载的软件包的数量.
+将后面的 `5` 修改成你想要同时下载的软件包的数量.
 
 接着把后面的软件源全部删掉, 换成下面的:
 
@@ -450,13 +450,13 @@ sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
 sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 ```
 
-执行以下命令安装 *yay* 稳定版 (安装开发版把`yay`改为`yay-git`):
+执行以下命令安装 yay 稳定版 (安装开发版把 `yay` 改为 `yay-git`):
 
 ````bash
 sudo pacman -S yay
 ````
 
-如果您愿意的话, 也可以试试 *paru*, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
+如果您愿意的话, 也可以试试 paru, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
 
 # 4 汉化
 
@@ -493,7 +493,7 @@ sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wq
 sudo locale-gen
 ```
 
-# 5 解决 *WSLg* 及 *Systemd* 问题
+# 5 解决 WSLg 及 Systemd 问题
 
 执行:
 
@@ -502,7 +502,7 @@ echo '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
-如果 *Systemd* 没有启动, 可以试试:
+如果 Systemd 没有启动, 可以试试:
 
 ```
 echo '[boot]
@@ -622,13 +622,13 @@ autoMemoryReclaim=gradual
 bestEffortDnsParsing=true
 useWindowsDnsCache=true
 </code></pre>
-<p>然后, 在 Microsoft Store 中搜索<code class="notranslate">Arch WSL</code>, 点击下图中所示的软件 (一般为第1个):</p>
+<p>然后, 在 Microsoft Store 中搜索 <code class="notranslate">Arch WSL</code>, 点击下图中所示的软件 (一般为第1个):</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178"><img src="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178" alt="Microsoft Store 搜索结果的局部截图" style="max-width: 100%;"></a></p>
 <p>按照正常流程安装, 打开, 创建账户.</p>
 <h1>1 修改 root 用户密码</h1>
-<p>通过<code class="notranslate">sudo passwd root</code>修改<code class="notranslate">root</code>用户密码.</p>
-<h1>2 配置 <em>GNU Nano</em> 文本编辑器</h1>
-<p>打开<code class="notranslate">/etc/nanorc</code>, 在末尾追加:</p>
+<p>通过 <code class="notranslate">sudo passwd root</code> 修改<code class="notranslate">root</code> 用户密码.</p>
+<h1>2 配置 GNU Nano 文本编辑器</h1>
+<p>打开 <code class="notranslate">/etc/nanorc</code>, 在末尾追加:</p>
 <pre class="notranslate"><code class="notranslate">bind ^X cut main
 bind ^C copy main
 bind ^V paste all
@@ -676,10 +676,10 @@ set constantshow
 include /usr/share/nano/*.*
 </code></pre>
 <h1>3 配置包管理器</h1>
-<p>打开<code class="notranslate">/etc/pacman.d/mirrorlist</code>, 在顶部添加:</p>
+<p>打开 <code class="notranslate">/etc/pacman.d/mirrorlist</code>, 在顶部添加:</p>
 <pre class="notranslate"><code class="notranslate">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 </code></pre>
-<p>打开<code class="notranslate">/etc/pacman.conf</code>, 找到:</p>
+<p>打开 <code class="notranslate">/etc/pacman.conf</code>, 找到:</p>
 <pre class="notranslate"><code class="notranslate">#UseSyslog
 #Color
 NoProgressBar
@@ -692,7 +692,7 @@ Color
 <p>然后找到这一行:</p>
 <pre class="notranslate"><code class="notranslate">ParallelDownloads = 5
 </code></pre>
-<p>将后面的<code class="notranslate">5</code>修改成你想要同时下载的软件包的数量.</p>
+<p>将后面的 <code class="notranslate">5</code> 修改成你想要同时下载的软件包的数量.</p>
 <p>接着把后面的软件源全部删掉, 换成下面的:</p>
 <pre class="notranslate"><code class="notranslate">[testing]
 Include = /etc/pacman.d/mirrorlist
@@ -732,9 +732,9 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman-key --init
 sudo pacman-key --lsign-key <span class="pl-s"><span class="pl-pds">'</span>farseerfc@archlinux.org<span class="pl-pds">'</span></span>
 sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm</pre></div>
-<p>执行以下命令安装 <em>yay</em> 稳定版 (安装开发版把<code class="notranslate">yay</code>改为<code class="notranslate">yay-git</code>):</p>
+<p>执行以下命令安装 yay 稳定版 (安装开发版把 <code class="notranslate">yay</code> 改为 <code class="notranslate">yay-git</code>):</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S yay</pre></div>
-<p>如果您愿意的话, 也可以试试 <em>paru</em>, 可以参考<a href="https://maxlhy0424.github.io/post/10.html" rel="nofollow">这篇教程</a>.</p>
+<p>如果您愿意的话, 也可以试试 paru, 可以参考<a href="https://maxlhy0424.github.io/post/10.html" rel="nofollow">这篇教程</a>.</p>
 <h1>4 汉化</h1>
 <p>打开<code class="notranslate">/etc/locale.gen</code>, 找到:</p>
 <pre class="notranslate"><code class="notranslate">#en_US.UTF-8 UTF-8
@@ -753,11 +753,11 @@ export LANGUAGE=zh_CN:en_US
 <p>然后执行以下命令:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
 sudo locale-gen</pre></div>
-<h1>5 解决 <em>WSLg</em> 及 <em>Systemd</em> 问题</h1>
+<h1>5 解决 WSLg 及 Systemd 问题</h1>
 <p>执行:</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span># Type Path           Mode UID  GID  Age Argument</span>
 <span class="pl-s">L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/tmpfiles.d/wslg.conf</pre></div>
-<p>如果 <em>Systemd</em> 没有启动, 可以试试:</p>
+<p>如果 Systemd 没有启动, 可以试试:</p>
 <pre class="notranslate"><code class="notranslate">echo '[boot]
 systemd=true' | sudo tee /etc/wsl.conf
 </code></pre>
