@@ -95,7 +95,7 @@ sudo ./install-config.sh
 > [!WARNING]
 > 不要使用 `linux-vm-tools/arch` 中的 `makepkg.sh` 脚本, 其编译选项并不正确.
 
-# 4 解决 *XRDP* 反复连接问题
+# 4 解决 XRDP 反复连接问题
 
 在当前用户的家目录下创建 `.xinitrc`.
 
