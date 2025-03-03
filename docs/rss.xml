@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Mon, 03 Mar 2025 13:17:23 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>停下脚步, 于迷茫中思索</title><link>https://MaxLHy0424.github.io/post/13.html</link><description>日复一日熬夜开发 SCLTK, 我的精力大抵就是因此而消磨了吧.
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Mon, 03 Mar 2025 13:18:38 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>停下脚步, 于迷茫中思索</title><link>https://MaxLHy0424.github.io/post/13.html</link><description>日复一日熬夜开发 SCLTK, 我的精力大抵就是因此而消磨了吧.
 
-SCLTK v6.0.0 的开发, 几乎竭尽了我的所有精力. 现在, 我也不知做什么了. 主题系统, 自定义命令等等, 在我脑中已成为一团乱麻.
+SCLTK 6 的开发, 几乎竭尽了我的所有精力. 现在, 我也不知做什么了. 主题系统, 自定义命令等等, 在我脑中已成为一团乱麻.
 
 我思索着, 精力进一步消磨. 我的身体充满了疲惫.
 
 **'要不, 先停更? '**
 
-也许, 在这片迷茫中, 停下脚步, 思索未来, 或者休息, 变为最优解.
+在这片迷茫中, 停下脚步, 思索未来, 或者休息, 也许是最优解.
 
 我选择了这条路.
 
-从 SCLTK v6.1.2 发布起, 将暂时停止 SCLTK 的开发 1 ~ 2 个星期.。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/13.html</guid><pubDate>Mon, 03 Mar 2025 13:16:11 +0000</pubDate></item><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
+所以从 SCLTK v6.1.2 发布起, 我将暂时停止 SCLTK 的开发 1 ~ 2 个星期, 望周知.。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/13.html</guid><pubDate>Mon, 03 Mar 2025 13:16:11 +0000</pubDate></item><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
 
 然而, C++ 中, 直到 C++ 20 的发布, 才正式引入了协程. 对于开发者来说, 这地毫不亚于 C++ 11 中正式引入线程 (Thread) 一样. 但 C++ 20 中, 仅仅是给了两个关键字 (即 `co_return` 和 `co_await`) 和一个运算符 (即 `co_await`), 还有协程相关的底层库 (比如 `std::coroutine_handle`). 这显然没有协程在 Python 等其他编程语言中 '开箱即用'.
 
