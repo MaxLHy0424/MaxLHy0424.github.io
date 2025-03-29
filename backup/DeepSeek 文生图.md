@@ -29,23 +29,18 @@
 <details>
 <summary>点击展开</summary>
 
+![image](https://github.com/user-attachments/assets/10f38dff-f171-470d-8d78-b94ef941f476)
 **提示词: anime style, a cute 16-year-old Japanese girl, blue hair, pink eyes, wear a white T-shirt and a black miniskirt, play with her hair, in a big forest**
 
-![image](https://github.com/user-attachments/assets/10f38dff-f171-470d-8d78-b94ef941f476)
-
+![image](https://github.com/user-attachments/assets/19ab51d2-0857-4e67-b09a-ee798334e1dc)
 **提示词: anime style, a cute 12-year-old Japanese girl, pink hair, blue eyes, wear a white dress, play with her hair, in the nature park**
 
-![image](https://github.com/user-attachments/assets/19ab51d2-0857-4e67-b09a-ee798334e1dc)
-
+![image](https://github.com/user-attachments/assets/7ff8f33d-0f47-4929-8182-aed59e8b275c)
 **提示词: anime style, a cute 13-year-old Japanese girl, pink hair, blue eyes, wear a grey dress, play with her hair, in a sakura forest**
 
-![image](https://github.com/user-attachments/assets/7ff8f33d-0f47-4929-8182-aed59e8b275c)
-
+![image](https://github.com/user-attachments/assets/807f6be5-3371-4514-8d1a-7e4e8f445baa)
 **提示词: anime style, a cute 17-year-old girl, black hair, brown eyes, wear a grey dress, stay with her boyfriend, have a bit shy, in the night**
 
-![Image](https://github.com/user-attachments/assets/807f6be5-3371-4514-8d1a-7e4e8f445baa)
-
+![image](https://github.com/user-attachments/assets/0a3980dd-a27f-4309-aeaa-673c789c6577)
 **提示词: anime style, a boy, about 13 years old, brown eyes, black hair, wear a black T-shirt and grey shorts, sit at a desk, feel tired, programming with C++, in the midnight**
-
-![Image](https://github.com/user-attachments/assets/0a3980dd-a27f-4309-aeaa-673c789c6577)
 </details>

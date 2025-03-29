@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 29 Mar 2025 08:56:33 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>DeepSeek 文生图</title><link>https://MaxLHy0424.github.io/post/15.html</link><description>&gt; 参考自 [BV1rAoqYRETP](https://www.bilibili.com/video/BV1rAoqYRETP).
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 29 Mar 2025 09:01:38 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>DeepSeek 文生图</title><link>https://MaxLHy0424.github.io/post/15.html</link><description>&gt; 参考自 [BV1rAoqYRETP](https://www.bilibili.com/video/BV1rAoqYRETP).
 
 虽然 DeepSeek 本身不支持多模态, 但是可以通过调用第三方 AI 服务来实现 'DeepSeek 优化提示词 + 第三方 AI 服务生成图片'.
 
@@ -30,25 +30,20 @@
 &lt;details&gt;
 &lt;summary&gt;点击展开&lt;/summary&gt;
 
+![image](https://github.com/user-attachments/assets/10f38dff-f171-470d-8d78-b94ef941f476)
 **提示词: anime style, a cute 16-year-old Japanese girl, blue hair, pink eyes, wear a white T-shirt and a black miniskirt, play with her hair, in a big forest**
 
-![image](https://github.com/user-attachments/assets/10f38dff-f171-470d-8d78-b94ef941f476)
-
+![image](https://github.com/user-attachments/assets/19ab51d2-0857-4e67-b09a-ee798334e1dc)
 **提示词: anime style, a cute 12-year-old Japanese girl, pink hair, blue eyes, wear a white dress, play with her hair, in the nature park**
 
-![image](https://github.com/user-attachments/assets/19ab51d2-0857-4e67-b09a-ee798334e1dc)
-
+![image](https://github.com/user-attachments/assets/7ff8f33d-0f47-4929-8182-aed59e8b275c)
 **提示词: anime style, a cute 13-year-old Japanese girl, pink hair, blue eyes, wear a grey dress, play with her hair, in a sakura forest**
 
-![image](https://github.com/user-attachments/assets/7ff8f33d-0f47-4929-8182-aed59e8b275c)
-
+![image](https://github.com/user-attachments/assets/807f6be5-3371-4514-8d1a-7e4e8f445baa)
 **提示词: anime style, a cute 17-year-old girl, black hair, brown eyes, wear a grey dress, stay with her boyfriend, have a bit shy, in the night**
 
-![Image](https://github.com/user-attachments/assets/807f6be5-3371-4514-8d1a-7e4e8f445baa)
-
+![image](https://github.com/user-attachments/assets/0a3980dd-a27f-4309-aeaa-673c789c6577)
 **提示词: anime style, a boy, about 13 years old, brown eyes, black hair, wear a black T-shirt and grey shorts, sit at a desk, feel tired, programming with C++, in the midnight**
-
-![Image](https://github.com/user-attachments/assets/0a3980dd-a27f-4309-aeaa-673c789c6577)
 &lt;/details&gt;。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/15.html</guid><pubDate>Sat, 29 Mar 2025 08:47:41 +0000</pubDate></item><item><title>本站 Arch WSL 配置教程已过时</title><link>https://MaxLHy0424.github.io/post/14.html</link><description>如题, 本站最初发布的 Arch WSL 配置指南, 随着 WSL 和 Arch Linux 的更新已经过时. 以下为最新自动化配置脚本:
 
 ```bash
