@@ -6,7 +6,7 @@
     "GMEEK_VERSION":"last",
     "email":"MaxLHy974413@outlook.com",
     "startSite":"06/20/2024",
-    "onePageListNum":10,
+    "onePageListNum":15,
     "needComment":1,
     "commentLabelColor":"#5fabfe",
     "UTC":8,
@@ -21,6 +21,6 @@
     "indexStyle":"",
     "indexScript":"",
     "showPostSource":1,
-    "bottomText":"© 转载请注明出处",
+    "bottomText":"转载请注明出处",
     "singlePage":["about"]
 }
