@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 29 Mar 2025 09:04:54 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>DeepSeek 文生图</title><link>https://MaxLHy0424.github.io/post/15.html</link><description>&gt; 参考自 [BV1rAoqYRETP](https://www.bilibili.com/video/BV1rAoqYRETP).
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/142279449?v=4</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Thu, 03 Apr 2025 12:44:31 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>DeepSeek 文生图</title><link>https://MaxLHy0424.github.io/post/15.html</link><description>&gt; 参考自 [BV1rAoqYRETP](https://www.bilibili.com/video/BV1rAoqYRETP).
 
 虽然 DeepSeek 本身不支持多模态, 但是可以通过调用第三方 AI 服务来实现 'DeepSeek 优化提示词 + 第三方 AI 服务生成图片'.
 
@@ -23,7 +23,7 @@
 
 其中, URL 中的 `width=1024&amp;height=1024` 可根据需要自行修改.
 
-接下来, 进入 [DeepSeek 官网](https://chat.deepseek.com/), 关闭 '深度思考', 创建新对话, 输入上文中的提示词. 接下来, **使用英语编写提示词**, 然后发送出去. 不出意外的话, DeepSeek 就会回复一张图片加上描述和简体中文提示词了.
+接下来, 进入 [DeepSeek 官网](https://chat.deepseek.com), 关闭 '深度思考', 创建新对话, 输入上文中的提示词. 接下来, 编写提示词 \(**最好使用英语编写**\), 然后发送出去. 不出意外的话, DeepSeek 就会回复一张图片加上描述和简体中文提示词了.
 
 感兴趣可以看看笔者通过此方法生成的一些图片:
 
