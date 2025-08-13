@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/142279449?v=4"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
+
+然而, C++ 中, 直到 C++ 20 的发布, 才正式引入了协程. 对于开发者来说, 这地毫不亚于 C++ 11 中正式引入线程 (Thread) 一样. 但 C++ 20 中, 仅仅是给了两个关键字 (即 `co_return` 和 `co_await`) 和一个运算符 (即 `co_await`), 还有协程相关的底层库 (比如 `std::coroutine_handle`). 这显然没有协程在 Python 等其他编程语言中 '开箱即用'.
+
+不过首先要清楚, 我们为什么需要使用协程.
+
+目前主流语言基本上都选择了多线程作为并发设施, 与线程相关的概念就是抢占式多任务 (Preemptive Multitasking), 而与协程相关的是协作式多任务.
+
+其实不管是进程还是线程, 每次阻塞和切换都需要陷入系统调用 (System Call), 先让 CPU 运行操作系统的调度程序, 然后再由调度程序决定该跑哪一个进程或线程.
+
+而且由于抢占式调度执行顺序无法确定的特点, 使用线程时需要非常小心地处理同步问题, 而协程完全不存在这个问题 (事件驱动和异步程序也有同样的优点).
+
+因为协程是用户自己来编写调度逻辑的, 对于我们的 CPU 来说, 协程其实是单线程, 所以 CPU 不用去考虑怎么调度和切换上下文, 这就省去了 CPU 的切换开销, 所以协程的性能开销在一定程度上又好于多线程.
+
+所以综合看来, 协程的有点有以下几点:
+
+- 无需系统内核的上下文切换, 减小开销.
+- 无需原子操作锁定及同步的开销, 不用担心资源共享的问题.
+- 单线程即可实现高并发, 单核 CPU 即便支持上万的协程都不是问题, 所以很适合用于高并发处理, 尤其是在应用在网络爬虫中.
+
+但因此, 协程也存在以下缺点:
+
+- 无法充分利用 CPU 多核.
+- 处处都要使用非阻塞代码.
+
+但问题来了, C++ 中的协程, 正如上文所述, **非常简陋**, 几乎所有东西都需要程序员自己手搓, 而且可能会出现各种问题. 另外由于协程的特性, 所有的协程函数几乎无法执行 RVO (Return Value Optimization, 返回值优化) 和 NRVO (Named Return Value Optimization, 命名返回值优化), 很多情况下需要手动调用 `std::move` 来降低性能开销. 况且移动构造的开销也不一定低.
+
+那么, C++ 中的协程究竟有什么应用场景呢?
+
+在此之前, 先要了解 C++ 23 加入的类模板 `std::generator`. 顾名思义, 其作用就是充当 '生成器'. 如果不是很理解, 可以参考 [cppreference 上的文档说明](https://zh.cppreference.com/w/cpp/coroutine/generator).
+
+如果现在需要输出 1 ~ 100 的所有数字, 且输出函数内部实现使用范围 for 循环来输出, 可以怎么写?
+
+如果不使用协程, 可能会这么写:
+```cpp
+#include <deque>
+#include <print>
+auto f()
+{
+    std::deque< int > lst;
+    for ( auto i{ 1 }; i <= 100; ++i ) {
+        lst.emplace_back( i );
+    }
+    return lst;
+}
+auto output( auto &&_obj )
+{
+    for ( const auto &i : _obj ) {
+        std::print( '{} ', i );
+    }
+}
+auto main() -> int
+{
+    output( f() );
+    return 0;
+}
+```
+
+如果使用协程 (这里使用 `std::generator`), 可以这么写:
+
+```cpp
+#include <generator>
+#include <print>
+auto f() -> std::generator< int >
+{
+    for ( auto i{ 1 }; i <= 100; ++i ) {
+        co_yield i;
+    }
+}
+auto output( auto &&_obj )
+{
+    for ( const auto &i : _obj ) {
+        std::print( '{} ', i );
+    }
+}
+auto main() -> int
+{
+    output( f() );
+    return 0;
+}
+```
+
+两种写法的运行结果都是一样的. 但是, 不妨想一下, 如果需要生成 1 ~ 1e8 之间的数字, 或者数字的类型是 `long long`, 甚至改成生成字符串...... 这样, 内存迟早会消耗完, 而在此之前, 根本无法输出结果.
+
+现在再次审视下协程的定义, **'可以被挂起 (暂停执行) 并恢复的函数'**, 这就是协程最大的优点.
+
+但再次重申, **C++ 中的协程非常简陋, 一切都需要程序员自己写**. 这就是 C++ 的协程的最大缺点.
+
+~当然我们不可能连夜说服标准委员会去添加一个 '开箱即用' 的协程库,~ 目前较为成熟的解决方案就是使用第三方库. 如果您感兴趣的话, 也可以试试我写的协程模板类. 它使用 `std::optional` 存储返回值, 支持在范围 for 循环中使用, 支持 `co_return` 和 `co_yield`. 代码见下:
+
+```cpp
+#include <coroutine>
+#include <optional>
+class coroutine_void final {
+  public:
+    struct promise_type final {
+        auto get_return_object()
+        {
+            return coroutine_void{ handle::from_promise( *this ) };
+        }
+        static auto initial_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        static auto final_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        static auto return_void() noexcept { }
+        [[noreturn]]
+        static auto unhandled_exception()
+        {
+            throw;
+        }
+        auto await_transform() -> void                               = delete;
+        auto operator=( const promise_type & ) -> promise_type &     = default;
+        auto operator=( promise_type && ) noexcept -> promise_type & = default;
+        promise_type()                                               = default;
+        promise_type( const promise_type & )                         = default;
+        promise_type( promise_type && ) noexcept                     = default;
+        ~promise_type()                                              = default;
+    };
+    using handle = std::coroutine_handle< promise_type >;
+    auto empty() const noexcept
+    {
+        return coroutine_handle_ == nullptr;
+    }
+    auto done() const noexcept
+    {
+        return coroutine_handle_.done();
+    }
+    auto address() const noexcept
+    {
+        return coroutine_handle_.address();
+    }
+    auto destroy() const
+    {
+        coroutine_handle_.destroy();
+    }
+    auto safe_destroy() noexcept
+    {
+        if ( !empty() ) {
+            destroy();
+            coroutine_handle_ = {};
+        }
+    }
+    auto reset( coroutine_void &&_src )
+    {
+        if ( this != &_src ) {
+            if ( !empty() ) {
+                destroy();
+            }
+            coroutine_handle_      = _src.coroutine_handle_;
+            _src.coroutine_handle_ = {};
+        }
+    }
+    auto resume() const
+    {
+        coroutine_handle_.resume();
+    }
+    auto safe_resume() const noexcept
+    {
+        if ( !done() ) {
+            resume();
+        }
+    }
+    auto operator=( const coroutine_void & ) -> coroutine_void & = delete;
+    auto operator=( coroutine_void &&_src ) -> coroutine_void &
+    {
+        reset( std::move( _src ) );
+        return *this;
+    }
+    coroutine_void() = default;
+    coroutine_void( const handle _coroutine_handle )
+      : coroutine_handle_{ _coroutine_handle }
+    { }
+    coroutine_void( const coroutine_void & ) = delete;
+    coroutine_void( coroutine_void &&_src ) noexcept
+      : coroutine_handle_{ _src.coroutine_handle_ }
+    {
+        _src.coroutine_handle_ = {};
+    }
+    ~coroutine_void()
+    {
+        if ( !empty() ) {
+            coroutine_handle_.destroy();
+        }
+    }
+  private:
+    handle coroutine_handle_{};
+};
+template < std::movable _type_ >
+class coroutine final {
+  public:
+    struct promise_type final {
+        std::optional< _type_ > current_value{ std::nullopt };
+        auto get_return_object()
+        {
+            return coroutine< _type_ >{ handle::from_promise( *this ) };
+        }
+        static auto initial_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        static auto final_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        auto yield_value( _type_ _value ) noexcept
+        {
+            current_value = std::move( _value );
+            return std::suspend_always{};
+        }
+        auto yield_value( std::nullopt_t ) noexcept
+        {
+            current_value = std::nullopt;
+            return std::suspend_always{};
+        }
+        auto return_value( _type_ _value ) noexcept
+        {
+            current_value = std::move( _value );
+        }
+        auto return_value( std::nullopt_t ) noexcept
+        {
+            current_value = std::nullopt;
+        }
+        [[noreturn]]
+        static auto unhandled_exception()
+        {
+            throw;
+        }
+        auto await_transform() -> void                               = delete;
+        auto operator=( const promise_type & ) -> promise_type &     = default;
+        auto operator=( promise_type && ) noexcept -> promise_type & = default;
+        promise_type()                                               = default;
+        promise_type( const promise_type & )                         = default;
+        promise_type( promise_type && ) noexcept                     = default;
+        ~promise_type()                                              = default;
+    };
+    using handle = std::coroutine_handle< promise_type >;
+    class iterator final {
+      private:
+        const handle coroutine_handle_;
+      public:
+        auto operator++() -> coroutine< _type_ >::iterator &
+        {
+            coroutine_handle_.resume();
+            return *this;
+        }
+        auto operator++( int ) -> coroutine< _type_ >::iterator
+        {
+            coroutine_handle_.resume();
+            return *this;
+        }
+        auto &operator*()
+        {
+            return coroutine_handle_.promise().current_value;
+        }
+        const auto &operator*() const
+        {
+            return coroutine_handle_.promise().current_value;
+        }
+        auto operator&() const
+        {
+            return &coroutine_handle_.promise().current_value;
+        }
+        auto operator==( std::default_sentinel_t ) const
+        {
+            return !coroutine_handle_ || coroutine_handle_.done();
+        }
+        auto operator=( const iterator & ) -> iterator &     = default;
+        auto operator=( iterator && ) noexcept -> iterator & = default;
+        iterator( const handle _coroutine_handle )
+          : coroutine_handle_{ _coroutine_handle }
+        { }
+        iterator( const iterator & )     = default;
+        iterator( iterator && ) noexcept = default;
+        ~iterator()                      = default;
+    };
+    auto empty() const noexcept
+    {
+        return coroutine_handle_ == nullptr;
+    }
+    auto done() const noexcept
+    {
+        return coroutine_handle_.done();
+    }
+    auto address() const noexcept
+    {
+        return coroutine_handle_.address();
+    }
+    auto destroy() const
+    {
+        coroutine_handle_.destroy();
+    }
+    auto safe_destroy() noexcept
+    {
+        if ( !empty() ) {
+            destroy();
+            coroutine_handle_ = {};
+        }
+    }
+    auto reset( coroutine< _type_ > &&_src )
+    {
+        if ( this != &_src ) {
+            if ( !empty() ) {
+                destroy();
+            }
+            coroutine_handle_      = _src.coroutine_handle_;
+            _src.coroutine_handle_ = {};
+        }
+    }
+    auto resume() const
+    {
+        coroutine_handle_.resume();
+    }
+    auto safe_resume() const noexcept
+    {
+        if ( !done() ) {
+            resume();
+        }
+    }
+    auto copy_optional() const
+    {
+        return coroutine_handle_.promise().current_value;
+    }
+    auto resume_and_copy_optional() const
+    {
+        resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto safe_resume_and_copy_optional() const noexcept
+    {
+        safe_resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &reference_optional() noexcept
+    {
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &resume_and_reference_optional()
+    {
+        resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &safe_resume_and_reference_optional() noexcept
+    {
+        safe_resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &&move_optional() noexcept
+    {
+        return std::move( coroutine_handle_.promise().current_value );
+    }
+    auto &&resume_and_move_optional() noexcept
+    {
+        resume();
+        return std::move( coroutine_handle_.promise().current_value );
+    }
+    auto &&safe_resume_and_move_optional() noexcept
+    {
+        safe_resume();
+        return std::move( coroutine_handle_.promise().current_value );
+    }
+    auto begin()
+    {
+        if ( !empty() ) {
+            coroutine_handle_.resume();
+        }
+        return iterator{ coroutine_handle_ };
+    }
+    auto end() noexcept
+    {
+        return std::default_sentinel_t{};
+    }
+    auto operator=( const coroutine< _type_ > & ) -> coroutine< _type_ > & = delete;
+    auto operator=( coroutine< _type_ > &&_src ) noexcept -> coroutine< _type_ > &
+    {
+        reset( std::move( _src ) );
+        return *this;
+    }
+    coroutine() = default;
+    coroutine( const handle _coroutine_handle )
+      : coroutine_handle_{ _coroutine_handle }
+    { }
+    coroutine( const coroutine< _type_ > & ) = delete;
+    coroutine( coroutine< _type_ > &&_src ) noexcept
+      : coroutine_handle_{ _src.coroutine_handle_ }
+    {
+        _src.coroutine_handle_ = {};
+    }
+    ~coroutine()
+    {
+        safe_destroy();
+    }
+  private:
+    handle coroutine_handle_{};
+};
+```
+
+综合来看, C++ 标准中的协程支持还算不上完善, 况且能采用上 C++ 20 及以上标准进行开发的项目本就不多. 不过支持了总是好事. 协程只是 C++ 并发编程中的沧海一粟, 仅此而已.。">
+<meta property="og:title" content="谈谈 C++ 的协程">
+<meta property="og:description" content="协程 (Coroutine) 的概念由来已久, 一句话来解释就是 '可以被挂起 (暂停执行) 并恢复的函数'.
+
+然而, C++ 中, 直到 C++ 20 的发布, 才正式引入了协程. 对于开发者来说, 这地毫不亚于 C++ 11 中正式引入线程 (Thread) 一样. 但 C++ 20 中, 仅仅是给了两个关键字 (即 `co_return` 和 `co_await`) 和一个运算符 (即 `co_await`), 还有协程相关的底层库 (比如 `std::coroutine_handle`). 这显然没有协程在 Python 等其他编程语言中 '开箱即用'.
+
+不过首先要清楚, 我们为什么需要使用协程.
+
+目前主流语言基本上都选择了多线程作为并发设施, 与线程相关的概念就是抢占式多任务 (Preemptive Multitasking), 而与协程相关的是协作式多任务.
+
+其实不管是进程还是线程, 每次阻塞和切换都需要陷入系统调用 (System Call), 先让 CPU 运行操作系统的调度程序, 然后再由调度程序决定该跑哪一个进程或线程.
+
+而且由于抢占式调度执行顺序无法确定的特点, 使用线程时需要非常小心地处理同步问题, 而协程完全不存在这个问题 (事件驱动和异步程序也有同样的优点).
+
+因为协程是用户自己来编写调度逻辑的, 对于我们的 CPU 来说, 协程其实是单线程, 所以 CPU 不用去考虑怎么调度和切换上下文, 这就省去了 CPU 的切换开销, 所以协程的性能开销在一定程度上又好于多线程.
+
+所以综合看来, 协程的有点有以下几点:
+
+- 无需系统内核的上下文切换, 减小开销.
+- 无需原子操作锁定及同步的开销, 不用担心资源共享的问题.
+- 单线程即可实现高并发, 单核 CPU 即便支持上万的协程都不是问题, 所以很适合用于高并发处理, 尤其是在应用在网络爬虫中.
+
+但因此, 协程也存在以下缺点:
+
+- 无法充分利用 CPU 多核.
+- 处处都要使用非阻塞代码.
+
+但问题来了, C++ 中的协程, 正如上文所述, **非常简陋**, 几乎所有东西都需要程序员自己手搓, 而且可能会出现各种问题. 另外由于协程的特性, 所有的协程函数几乎无法执行 RVO (Return Value Optimization, 返回值优化) 和 NRVO (Named Return Value Optimization, 命名返回值优化), 很多情况下需要手动调用 `std::move` 来降低性能开销. 况且移动构造的开销也不一定低.
+
+那么, C++ 中的协程究竟有什么应用场景呢?
+
+在此之前, 先要了解 C++ 23 加入的类模板 `std::generator`. 顾名思义, 其作用就是充当 '生成器'. 如果不是很理解, 可以参考 [cppreference 上的文档说明](https://zh.cppreference.com/w/cpp/coroutine/generator).
+
+如果现在需要输出 1 ~ 100 的所有数字, 且输出函数内部实现使用范围 for 循环来输出, 可以怎么写?
+
+如果不使用协程, 可能会这么写:
+```cpp
+#include <deque>
+#include <print>
+auto f()
+{
+    std::deque< int > lst;
+    for ( auto i{ 1 }; i <= 100; ++i ) {
+        lst.emplace_back( i );
+    }
+    return lst;
+}
+auto output( auto &&_obj )
+{
+    for ( const auto &i : _obj ) {
+        std::print( '{} ', i );
+    }
+}
+auto main() -> int
+{
+    output( f() );
+    return 0;
+}
+```
+
+如果使用协程 (这里使用 `std::generator`), 可以这么写:
+
+```cpp
+#include <generator>
+#include <print>
+auto f() -> std::generator< int >
+{
+    for ( auto i{ 1 }; i <= 100; ++i ) {
+        co_yield i;
+    }
+}
+auto output( auto &&_obj )
+{
+    for ( const auto &i : _obj ) {
+        std::print( '{} ', i );
+    }
+}
+auto main() -> int
+{
+    output( f() );
+    return 0;
+}
+```
+
+两种写法的运行结果都是一样的. 但是, 不妨想一下, 如果需要生成 1 ~ 1e8 之间的数字, 或者数字的类型是 `long long`, 甚至改成生成字符串...... 这样, 内存迟早会消耗完, 而在此之前, 根本无法输出结果.
+
+现在再次审视下协程的定义, **'可以被挂起 (暂停执行) 并恢复的函数'**, 这就是协程最大的优点.
+
+但再次重申, **C++ 中的协程非常简陋, 一切都需要程序员自己写**. 这就是 C++ 的协程的最大缺点.
+
+~当然我们不可能连夜说服标准委员会去添加一个 '开箱即用' 的协程库,~ 目前较为成熟的解决方案就是使用第三方库. 如果您感兴趣的话, 也可以试试我写的协程模板类. 它使用 `std::optional` 存储返回值, 支持在范围 for 循环中使用, 支持 `co_return` 和 `co_yield`. 代码见下:
+
+```cpp
+#include <coroutine>
+#include <optional>
+class coroutine_void final {
+  public:
+    struct promise_type final {
+        auto get_return_object()
+        {
+            return coroutine_void{ handle::from_promise( *this ) };
+        }
+        static auto initial_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        static auto final_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        static auto return_void() noexcept { }
+        [[noreturn]]
+        static auto unhandled_exception()
+        {
+            throw;
+        }
+        auto await_transform() -> void                               = delete;
+        auto operator=( const promise_type & ) -> promise_type &     = default;
+        auto operator=( promise_type && ) noexcept -> promise_type & = default;
+        promise_type()                                               = default;
+        promise_type( const promise_type & )                         = default;
+        promise_type( promise_type && ) noexcept                     = default;
+        ~promise_type()                                              = default;
+    };
+    using handle = std::coroutine_handle< promise_type >;
+    auto empty() const noexcept
+    {
+        return coroutine_handle_ == nullptr;
+    }
+    auto done() const noexcept
+    {
+        return coroutine_handle_.done();
+    }
+    auto address() const noexcept
+    {
+        return coroutine_handle_.address();
+    }
+    auto destroy() const
+    {
+        coroutine_handle_.destroy();
+    }
+    auto safe_destroy() noexcept
+    {
+        if ( !empty() ) {
+            destroy();
+            coroutine_handle_ = {};
+        }
+    }
+    auto reset( coroutine_void &&_src )
+    {
+        if ( this != &_src ) {
+            if ( !empty() ) {
+                destroy();
+            }
+            coroutine_handle_      = _src.coroutine_handle_;
+            _src.coroutine_handle_ = {};
+        }
+    }
+    auto resume() const
+    {
+        coroutine_handle_.resume();
+    }
+    auto safe_resume() const noexcept
+    {
+        if ( !done() ) {
+            resume();
+        }
+    }
+    auto operator=( const coroutine_void & ) -> coroutine_void & = delete;
+    auto operator=( coroutine_void &&_src ) -> coroutine_void &
+    {
+        reset( std::move( _src ) );
+        return *this;
+    }
+    coroutine_void() = default;
+    coroutine_void( const handle _coroutine_handle )
+      : coroutine_handle_{ _coroutine_handle }
+    { }
+    coroutine_void( const coroutine_void & ) = delete;
+    coroutine_void( coroutine_void &&_src ) noexcept
+      : coroutine_handle_{ _src.coroutine_handle_ }
+    {
+        _src.coroutine_handle_ = {};
+    }
+    ~coroutine_void()
+    {
+        if ( !empty() ) {
+            coroutine_handle_.destroy();
+        }
+    }
+  private:
+    handle coroutine_handle_{};
+};
+template < std::movable _type_ >
+class coroutine final {
+  public:
+    struct promise_type final {
+        std::optional< _type_ > current_value{ std::nullopt };
+        auto get_return_object()
+        {
+            return coroutine< _type_ >{ handle::from_promise( *this ) };
+        }
+        static auto initial_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        static auto final_suspend() noexcept
+        {
+            return std::suspend_always{};
+        }
+        auto yield_value( _type_ _value ) noexcept
+        {
+            current_value = std::move( _value );
+            return std::suspend_always{};
+        }
+        auto yield_value( std::nullopt_t ) noexcept
+        {
+            current_value = std::nullopt;
+            return std::suspend_always{};
+        }
+        auto return_value( _type_ _value ) noexcept
+        {
+            current_value = std::move( _value );
+        }
+        auto return_value( std::nullopt_t ) noexcept
+        {
+            current_value = std::nullopt;
+        }
+        [[noreturn]]
+        static auto unhandled_exception()
+        {
+            throw;
+        }
+        auto await_transform() -> void                               = delete;
+        auto operator=( const promise_type & ) -> promise_type &     = default;
+        auto operator=( promise_type && ) noexcept -> promise_type & = default;
+        promise_type()                                               = default;
+        promise_type( const promise_type & )                         = default;
+        promise_type( promise_type && ) noexcept                     = default;
+        ~promise_type()                                              = default;
+    };
+    using handle = std::coroutine_handle< promise_type >;
+    class iterator final {
+      private:
+        const handle coroutine_handle_;
+      public:
+        auto operator++() -> coroutine< _type_ >::iterator &
+        {
+            coroutine_handle_.resume();
+            return *this;
+        }
+        auto operator++( int ) -> coroutine< _type_ >::iterator
+        {
+            coroutine_handle_.resume();
+            return *this;
+        }
+        auto &operator*()
+        {
+            return coroutine_handle_.promise().current_value;
+        }
+        const auto &operator*() const
+        {
+            return coroutine_handle_.promise().current_value;
+        }
+        auto operator&() const
+        {
+            return &coroutine_handle_.promise().current_value;
+        }
+        auto operator==( std::default_sentinel_t ) const
+        {
+            return !coroutine_handle_ || coroutine_handle_.done();
+        }
+        auto operator=( const iterator & ) -> iterator &     = default;
+        auto operator=( iterator && ) noexcept -> iterator & = default;
+        iterator( const handle _coroutine_handle )
+          : coroutine_handle_{ _coroutine_handle }
+        { }
+        iterator( const iterator & )     = default;
+        iterator( iterator && ) noexcept = default;
+        ~iterator()                      = default;
+    };
+    auto empty() const noexcept
+    {
+        return coroutine_handle_ == nullptr;
+    }
+    auto done() const noexcept
+    {
+        return coroutine_handle_.done();
+    }
+    auto address() const noexcept
+    {
+        return coroutine_handle_.address();
+    }
+    auto destroy() const
+    {
+        coroutine_handle_.destroy();
+    }
+    auto safe_destroy() noexcept
+    {
+        if ( !empty() ) {
+            destroy();
+            coroutine_handle_ = {};
+        }
+    }
+    auto reset( coroutine< _type_ > &&_src )
+    {
+        if ( this != &_src ) {
+            if ( !empty() ) {
+                destroy();
+            }
+            coroutine_handle_      = _src.coroutine_handle_;
+            _src.coroutine_handle_ = {};
+        }
+    }
+    auto resume() const
+    {
+        coroutine_handle_.resume();
+    }
+    auto safe_resume() const noexcept
+    {
+        if ( !done() ) {
+            resume();
+        }
+    }
+    auto copy_optional() const
+    {
+        return coroutine_handle_.promise().current_value;
+    }
+    auto resume_and_copy_optional() const
+    {
+        resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto safe_resume_and_copy_optional() const noexcept
+    {
+        safe_resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &reference_optional() noexcept
+    {
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &resume_and_reference_optional()
+    {
+        resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &safe_resume_and_reference_optional() noexcept
+    {
+        safe_resume();
+        return coroutine_handle_.promise().current_value;
+    }
+    auto &&move_optional() noexcept
+    {
+        return std::move( coroutine_handle_.promise().current_value );
+    }
+    auto &&resume_and_move_optional() noexcept
+    {
+        resume();
+        return std::move( coroutine_handle_.promise().current_value );
+    }
+    auto &&safe_resume_and_move_optional() noexcept
+    {
+        safe_resume();
+        return std::move( coroutine_handle_.promise().current_value );
+    }
+    auto begin()
+    {
+        if ( !empty() ) {
+            coroutine_handle_.resume();
+        }
+        return iterator{ coroutine_handle_ };
+    }
+    auto end() noexcept
+    {
+        return std::default_sentinel_t{};
+    }
+    auto operator=( const coroutine< _type_ > & ) -> coroutine< _type_ > & = delete;
+    auto operator=( coroutine< _type_ > &&_src ) noexcept -> coroutine< _type_ > &
+    {
+        reset( std::move( _src ) );
+        return *this;
+    }
+    coroutine() = default;
+    coroutine( const handle _coroutine_handle )
+      : coroutine_handle_{ _coroutine_handle }
+    { }
+    coroutine( const coroutine< _type_ > & ) = delete;
+    coroutine( coroutine< _type_ > &&_src ) noexcept
+      : coroutine_handle_{ _src.coroutine_handle_ }
+    {
+        _src.coroutine_handle_ = {};
+    }
+    ~coroutine()
+    {
+        safe_destroy();
+    }
+  private:
+    handle coroutine_handle_{};
+};
+```
+
+综合来看, C++ 标准中的协程支持还算不上完善, 况且能采用上 C++ 20 及以上标准进行开发的项目本就不多. 不过支持了总是好事. 协程只是 C++ 并发编程中的沧海一粟, 仅此而已.。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://MaxLHy0424.github.io/post/12.html">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/142279449?v=4">
+<title>谈谈 C++ 的协程</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">谈谈 C++ 的协程</h1>
+<div class="title-right">
+    <a href="https://MaxLHy0424.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/MaxLHy0424/MaxLHy0424.github.io/issues/12" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>协程 (Coroutine) 的概念由来已久, 一句话来解释就是 "可以被挂起 (暂停执行) 并恢复的函数".</p>
+<p>然而, C++ 中, 直到 C++ 20 的发布, 才正式引入了协程. 对于开发者来说, 这地毫不亚于 C++ 11 中正式引入线程 (Thread) 一样. 但 C++ 20 中, 仅仅是给了两个关键字 (即 <code class="notranslate">co_return</code> 和 <code class="notranslate">co_await</code>) 和一个运算符 (即 <code class="notranslate">co_await</code>), 还有协程相关的底层库 (比如 <code class="notranslate">std::coroutine_handle</code>). 这显然没有协程在 Python 等其他编程语言中 "开箱即用".</p>
+<p>不过首先要清楚, 我们为什么需要使用协程.</p>
+<p>目前主流语言基本上都选择了多线程作为并发设施, 与线程相关的概念就是抢占式多任务 (Preemptive Multitasking), 而与协程相关的是协作式多任务.</p>
+<p>其实不管是进程还是线程, 每次阻塞和切换都需要陷入系统调用 (System Call), 先让 CPU 运行操作系统的调度程序, 然后再由调度程序决定该跑哪一个进程或线程.</p>
+<p>而且由于抢占式调度执行顺序无法确定的特点, 使用线程时需要非常小心地处理同步问题, 而协程完全不存在这个问题 (事件驱动和异步程序也有同样的优点).</p>
+<p>因为协程是用户自己来编写调度逻辑的, 对于我们的 CPU 来说, 协程其实是单线程, 所以 CPU 不用去考虑怎么调度和切换上下文, 这就省去了 CPU 的切换开销, 所以协程的性能开销在一定程度上又好于多线程.</p>
+<p>所以综合看来, 协程的有点有以下几点:</p>
+<ul>
+<li>无需系统内核的上下文切换, 减小开销.</li>
+<li>无需原子操作锁定及同步的开销, 不用担心资源共享的问题.</li>
+<li>单线程即可实现高并发, 单核 CPU 即便支持上万的协程都不是问题, 所以很适合用于高并发处理, 尤其是在应用在网络爬虫中.</li>
+</ul>
+<p>但因此, 协程也存在以下缺点:</p>
+<ul>
+<li>无法充分利用 CPU 多核.</li>
+<li>处处都要使用非阻塞代码.</li>
+</ul>
+<p>但问题来了, C++ 中的协程, 正如上文所述, <strong>非常简陋</strong>, 几乎所有东西都需要程序员自己手搓, 而且可能会出现各种问题. 另外由于协程的特性, 所有的协程函数几乎无法执行 RVO (Return Value Optimization, 返回值优化) 和 NRVO (Named Return Value Optimization, 命名返回值优化), 很多情况下需要手动调用 <code class="notranslate">std::move</code> 来降低性能开销. 况且移动构造的开销也不一定低.</p>
+<p>那么, C++ 中的协程究竟有什么应用场景呢?</p>
+<p>在此之前, 先要了解 C++ 23 加入的类模板 <code class="notranslate">std::generator</code>. 顾名思义, 其作用就是充当 "生成器". 如果不是很理解, 可以参考 <a href="https://zh.cppreference.com/w/cpp/coroutine/generator" rel="nofollow">cppreference 上的文档说明</a>.</p>
+<p>如果现在需要输出 1 ~ 100 的所有数字, 且输出函数内部实现使用范围 for 循环来输出, 可以怎么写?</p>
+<p>如果不使用协程, 可能会这么写:</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>deque<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>print<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">auto</span> <span class="pl-en">f</span>()
+{
+    std::deque&lt; <span class="pl-k">int</span> &gt; lst;
+    <span class="pl-k">for</span> ( <span class="pl-k">auto</span> i{ <span class="pl-c1">1</span> }; i &lt;= <span class="pl-c1">100</span>; ++i ) {
+        lst.<span class="pl-c1">emplace_back</span>( i );
+    }
+    <span class="pl-k">return</span> lst;
+}
+<span class="pl-k">auto</span> <span class="pl-en">output</span>( <span class="pl-k">auto</span> &amp;&amp;_obj )
+{
+    <span class="pl-k">for</span> ( <span class="pl-k">const</span> <span class="pl-k">auto</span> &amp;i : _obj ) {
+        <span class="pl-c1">std::print</span>( <span class="pl-s"><span class="pl-pds">"</span>{} <span class="pl-pds">"</span></span>, i );
+    }
+}
+<span class="pl-k">auto</span> <span class="pl-en">main</span>() -&gt; int
+{
+    <span class="pl-c1">output</span>( <span class="pl-c1">f</span>() );
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<p>如果使用协程 (这里使用 <code class="notranslate">std::generator</code>), 可以这么写:</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>generator<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>print<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">auto</span> <span class="pl-en">f</span>() -&gt; std::generator&lt; int &gt;
+{
+    <span class="pl-k">for</span> ( <span class="pl-k">auto</span> i{ <span class="pl-c1">1</span> }; i &lt;= <span class="pl-c1">100</span>; ++i ) {
+        <span class="pl-k">co_yield</span> i;
+    }
+}
+<span class="pl-k">auto</span> <span class="pl-en">output</span>( <span class="pl-k">auto</span> &amp;&amp;_obj )
+{
+    <span class="pl-k">for</span> ( <span class="pl-k">const</span> <span class="pl-k">auto</span> &amp;i : _obj ) {
+        <span class="pl-c1">std::print</span>( <span class="pl-s"><span class="pl-pds">"</span>{} <span class="pl-pds">"</span></span>, i );
+    }
+}
+<span class="pl-k">auto</span> <span class="pl-en">main</span>() -&gt; int
+{
+    <span class="pl-c1">output</span>( <span class="pl-c1">f</span>() );
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<p>两种写法的运行结果都是一样的. 但是, 不妨想一下, 如果需要生成 1 ~ 1e8 之间的数字, 或者数字的类型是 <code class="notranslate">long long</code>, 甚至改成生成字符串...... 这样, 内存迟早会消耗完, 而在此之前, 根本无法输出结果.</p>
+<p>现在再次审视下协程的定义, <strong>"可以被挂起 (暂停执行) 并恢复的函数"</strong>, 这就是协程最大的优点.</p>
+<p>但再次重申, <strong>C++ 中的协程非常简陋, 一切都需要程序员自己写</strong>. 这就是 C++ 的协程的最大缺点.</p>
+<p><del>当然我们不可能连夜说服标准委员会去添加一个 "开箱即用" 的协程库,</del> 目前较为成熟的解决方案就是使用第三方库. 如果您感兴趣的话, 也可以试试我写的协程模板类. 它使用 <code class="notranslate">std::optional</code> 存储返回值, 支持在范围 for 循环中使用, 支持 <code class="notranslate">co_return</code> 和 <code class="notranslate">co_yield</code>. 代码见下:</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>coroutine<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>optional<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">class</span> <span class="pl-en">coroutine_void</span> <span class="pl-k">final</span> {
+  <span class="pl-k">public:</span>
+    <span class="pl-k">struct</span> <span class="pl-en">promise_type</span> <span class="pl-k">final</span> {
+        <span class="pl-k">auto</span> <span class="pl-en">get_return_object</span>()
+        {
+            <span class="pl-k">return</span> coroutine_void{ <span class="pl-c1">handle::from_promise</span>( *<span class="pl-c1">this</span> ) };
+        }
+        <span class="pl-k">static</span> <span class="pl-k">auto</span> <span class="pl-en">initial_suspend</span>() <span class="pl-k">noexcept</span>
+        {
+            <span class="pl-k">return</span> std::suspend_always{};
+        }
+        <span class="pl-k">static</span> <span class="pl-k">auto</span> <span class="pl-en">final_suspend</span>() <span class="pl-k">noexcept</span>
+        {
+            <span class="pl-k">return</span> std::suspend_always{};
+        }
+        <span class="pl-k">static</span> <span class="pl-k">auto</span> <span class="pl-en">return_void</span>() <span class="pl-k">noexcept</span> { }
+        [[noreturn]]
+        <span class="pl-k">static</span> <span class="pl-k">auto</span> <span class="pl-en">unhandled_exception</span>()
+        {
+            <span class="pl-k">throw</span>;
+        }
+        <span class="pl-k">auto</span> <span class="pl-en">await_transform</span>() -&gt; void                               = delete;
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( <span class="pl-k">const</span> promise_type &amp; ) -&gt; promise_type &amp;     = <span class="pl-k">default</span>;
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( promise_type &amp;&amp; ) <span class="pl-k">noexcept</span> -&gt; promise_type &amp; = <span class="pl-k">default</span>;
+        <span class="pl-en">promise_type</span>()                                               = <span class="pl-k">default</span>;
+        <span class="pl-en">promise_type</span>( <span class="pl-k">const</span> promise_type &amp; )                         = <span class="pl-k">default</span>;
+        <span class="pl-en">promise_type</span>( promise_type &amp;&amp; ) <span class="pl-k">noexcept</span>                     = <span class="pl-k">default</span>;
+        <span class="pl-en">~promise_type</span>()                                              = <span class="pl-k">default</span>;
+    };
+    <span class="pl-k">using</span> handle = std::coroutine_handle&lt; promise_type &gt;;
+    <span class="pl-k">auto</span> <span class="pl-en">empty</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_ == <span class="pl-c1">nullptr</span>;
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">done</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">done</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">address</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">address</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">destroy</span>() <span class="pl-k">const</span>
+    {
+        coroutine_handle_.<span class="pl-c1">destroy</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">safe_destroy</span>() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
+            <span class="pl-c1">destroy</span>();
+            coroutine_handle_ = {};
+        }
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">reset</span>( coroutine_void &amp;&amp;_src )
+    {
+        <span class="pl-k">if</span> ( <span class="pl-c1">this</span> != &amp;_src ) {
+            <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
+                <span class="pl-c1">destroy</span>();
+            }
+            coroutine_handle_      = _src.<span class="pl-smi">coroutine_handle_</span>;
+            _src.<span class="pl-smi">coroutine_handle_</span> = {};
+        }
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">resume</span>() <span class="pl-k">const</span>
+    {
+        coroutine_handle_.<span class="pl-c1">resume</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">safe_resume</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">if</span> ( !<span class="pl-c1">done</span>() ) {
+            <span class="pl-c1">resume</span>();
+        }
+    }
+    <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( <span class="pl-k">const</span> coroutine_void &amp; ) -&gt; coroutine_void &amp; = <span class="pl-k">delete</span>;
+    <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( coroutine_void &amp;&amp;_src ) -&gt; coroutine_void &amp;
+    {
+        <span class="pl-c1">reset</span>( <span class="pl-c1">std::move</span>( _src ) );
+        <span class="pl-k">return</span> *<span class="pl-c1">this</span>;
+    }
+    <span class="pl-en">coroutine_void</span>() = <span class="pl-k">default</span>;
+    <span class="pl-en">coroutine_void</span>( <span class="pl-k">const</span> handle _coroutine_handle )
+      : coroutine_handle_{ _coroutine_handle }
+    { }
+    <span class="pl-en">coroutine_void</span>( <span class="pl-k">const</span> coroutine_void &amp; ) = <span class="pl-k">delete</span>;
+    <span class="pl-en">coroutine_void</span>( coroutine_void &amp;&amp;_src ) <span class="pl-k">noexcept</span>
+      : coroutine_handle_{ _src.<span class="pl-smi">coroutine_handle_</span> }
+    {
+        _src.<span class="pl-smi">coroutine_handle_</span> = {};
+    }
+    <span class="pl-en">~coroutine_void</span>()
+    {
+        <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
+            coroutine_handle_.<span class="pl-c1">destroy</span>();
+        }
+    }
+  <span class="pl-k">private:</span>
+    handle coroutine_handle_{};
+};
+<span class="pl-k">template </span>&lt; std::movable _type_ &gt;
+<span class="pl-k">class</span> <span class="pl-en">coroutine</span> <span class="pl-k">final</span> {
+  <span class="pl-k">public:</span>
+    <span class="pl-k">struct</span> <span class="pl-en">promise_type</span> <span class="pl-k">final</span> {
+        std::optional&lt; _type_ &gt; current_value{ std::nullopt };
+        <span class="pl-k">auto</span> <span class="pl-en">get_return_object</span>()
+        {
+            <span class="pl-k">return</span> coroutine&lt; _type_ &gt;{ <span class="pl-c1">handle::from_promise</span>( *<span class="pl-c1">this</span> ) };
+        }
+        <span class="pl-k">static</span> <span class="pl-k">auto</span> <span class="pl-en">initial_suspend</span>() <span class="pl-k">noexcept</span>
+        {
+            <span class="pl-k">return</span> std::suspend_always{};
+        }
+        <span class="pl-k">static</span> <span class="pl-k">auto</span> <span class="pl-en">final_suspend</span>() <span class="pl-k">noexcept</span>
+        {
+            <span class="pl-k">return</span> std::suspend_always{};
+        }
+        <span class="pl-k">auto</span> <span class="pl-en">yield_value</span>( _type_ _value ) <span class="pl-k">noexcept</span>
+        {
+            current_value = <span class="pl-c1">std::move</span>( _value );
+            <span class="pl-k">return</span> std::suspend_always{};
+        }
+        <span class="pl-k">auto</span> <span class="pl-en">yield_value</span>( std::<span class="pl-c1">nullopt_t</span> ) <span class="pl-k">noexcept</span>
+        {
+            current_value = std::nullopt;
+            <span class="pl-k">return</span> std::suspend_always{};
+        }
+        <span class="pl-k">auto</span> <span class="pl-en">return_value</span>( _type_ _value ) <span class="pl-k">noexcept</span>
+        {
+            current_value = <span class="pl-c1">std::move</span>( _value );
+        }
+        <span class="pl-k">auto</span> <span class="pl-en">return_value</span>( std::<span class="pl-c1">nullopt_t</span> ) <span class="pl-k">noexcept</span>
+        {
+            current_value = std::nullopt;
+        }
+        [[noreturn]]
+        <span class="pl-k">static</span> <span class="pl-k">auto</span> <span class="pl-en">unhandled_exception</span>()
+        {
+            <span class="pl-k">throw</span>;
+        }
+        <span class="pl-k">auto</span> <span class="pl-en">await_transform</span>() -&gt; void                               = delete;
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( <span class="pl-k">const</span> promise_type &amp; ) -&gt; promise_type &amp;     = <span class="pl-k">default</span>;
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( promise_type &amp;&amp; ) <span class="pl-k">noexcept</span> -&gt; promise_type &amp; = <span class="pl-k">default</span>;
+        <span class="pl-en">promise_type</span>()                                               = <span class="pl-k">default</span>;
+        <span class="pl-en">promise_type</span>( <span class="pl-k">const</span> promise_type &amp; )                         = <span class="pl-k">default</span>;
+        <span class="pl-en">promise_type</span>( promise_type &amp;&amp; ) <span class="pl-k">noexcept</span>                     = <span class="pl-k">default</span>;
+        <span class="pl-en">~promise_type</span>()                                              = <span class="pl-k">default</span>;
+    };
+    <span class="pl-k">using</span> handle = std::coroutine_handle&lt; promise_type &gt;;
+    <span class="pl-k">class</span> <span class="pl-en">iterator</span> <span class="pl-k">final</span> {
+      <span class="pl-k">private:</span>
+        <span class="pl-k">const</span> handle coroutine_handle_;
+      <span class="pl-k">public:</span>
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>++() -&gt; coroutine&lt; _type_ &gt;::iterator &amp;
+        {
+            coroutine_handle_.<span class="pl-c1">resume</span>();
+            <span class="pl-k">return</span> *<span class="pl-c1">this</span>;
+        }
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>++( <span class="pl-k">int</span> ) -&gt; coroutine&lt; _type_ &gt;::iterator
+        {
+            coroutine_handle_.<span class="pl-c1">resume</span>();
+            <span class="pl-k">return</span> *<span class="pl-c1">this</span>;
+        }
+        <span class="pl-k">auto</span> &amp;<span class="pl-k">operator</span>*()
+        {
+            <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+        }
+        <span class="pl-k">const</span> <span class="pl-k">auto</span> &amp;<span class="pl-k">operator</span>*() <span class="pl-k">const</span>
+        {
+            <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+        }
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>&amp;() <span class="pl-k">const</span>
+        {
+            <span class="pl-k">return</span> &amp;coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+        }
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>==( std::<span class="pl-c1">default_sentinel_t</span> ) <span class="pl-k">const</span>
+        {
+            <span class="pl-k">return</span> !coroutine_handle_ || coroutine_handle_.<span class="pl-c1">done</span>();
+        }
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( <span class="pl-k">const</span> iterator &amp; ) -&gt; iterator &amp;     = <span class="pl-k">default</span>;
+        <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( iterator &amp;&amp; ) <span class="pl-k">noexcept</span> -&gt; iterator &amp; = <span class="pl-k">default</span>;
+        <span class="pl-en">iterator</span>( <span class="pl-k">const</span> handle _coroutine_handle )
+          : coroutine_handle_{ _coroutine_handle }
+        { }
+        <span class="pl-en">iterator</span>( <span class="pl-k">const</span> iterator &amp; )     = <span class="pl-k">default</span>;
+        <span class="pl-en">iterator</span>( iterator &amp;&amp; ) <span class="pl-k">noexcept</span> = <span class="pl-k">default</span>;
+        <span class="pl-en">~iterator</span>()                      = <span class="pl-k">default</span>;
+    };
+    <span class="pl-k">auto</span> <span class="pl-en">empty</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_ == <span class="pl-c1">nullptr</span>;
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">done</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">done</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">address</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">address</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">destroy</span>() <span class="pl-k">const</span>
+    {
+        coroutine_handle_.<span class="pl-c1">destroy</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">safe_destroy</span>() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
+            <span class="pl-c1">destroy</span>();
+            coroutine_handle_ = {};
+        }
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">reset</span>( coroutine&lt; _type_ &gt; &amp;&amp;_src )
+    {
+        <span class="pl-k">if</span> ( <span class="pl-c1">this</span> != &amp;_src ) {
+            <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
+                <span class="pl-c1">destroy</span>();
+            }
+            coroutine_handle_      = _src.<span class="pl-smi">coroutine_handle_</span>;
+            _src.<span class="pl-smi">coroutine_handle_</span> = {};
+        }
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">resume</span>() <span class="pl-k">const</span>
+    {
+        coroutine_handle_.<span class="pl-c1">resume</span>();
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">safe_resume</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">if</span> ( !<span class="pl-c1">done</span>() ) {
+            <span class="pl-c1">resume</span>();
+        }
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">copy_optional</span>() <span class="pl-k">const</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">resume_and_copy_optional</span>() <span class="pl-k">const</span>
+    {
+        <span class="pl-c1">resume</span>();
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">safe_resume_and_copy_optional</span>() <span class="pl-k">const</span> <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-c1">safe_resume</span>();
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+    }
+    <span class="pl-k">auto</span> &amp;<span class="pl-en">reference_optional</span>() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+    }
+    <span class="pl-k">auto</span> &amp;<span class="pl-en">resume_and_reference_optional</span>()
+    {
+        <span class="pl-c1">resume</span>();
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+    }
+    <span class="pl-k">auto</span> &amp;<span class="pl-en">safe_resume_and_reference_optional</span>() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-c1">safe_resume</span>();
+        <span class="pl-k">return</span> coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span>;
+    }
+    <span class="pl-k">auto</span> &amp;&amp;move_optional() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> <span class="pl-c1">std::move</span>( coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span> );
+    }
+    <span class="pl-k">auto</span> &amp;&amp;resume_and_move_optional() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-c1">resume</span>();
+        <span class="pl-k">return</span> <span class="pl-c1">std::move</span>( coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span> );
+    }
+    <span class="pl-k">auto</span> &amp;&amp;safe_resume_and_move_optional() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-c1">safe_resume</span>();
+        <span class="pl-k">return</span> <span class="pl-c1">std::move</span>( coroutine_handle_.<span class="pl-c1">promise</span>().<span class="pl-smi">current_value</span> );
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">begin</span>()
+    {
+        <span class="pl-k">if</span> ( !<span class="pl-c1">empty</span>() ) {
+            coroutine_handle_.<span class="pl-c1">resume</span>();
+        }
+        <span class="pl-k">return</span> iterator{ coroutine_handle_ };
+    }
+    <span class="pl-k">auto</span> <span class="pl-en">end</span>() <span class="pl-k">noexcept</span>
+    {
+        <span class="pl-k">return</span> std::<span class="pl-c1">default_sentinel_t</span>{};
+    }
+    <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( <span class="pl-k">const</span> coroutine&lt; _type_ &gt; &amp; ) -&gt; coroutine&lt; _type_ &gt; &amp; = <span class="pl-k">delete</span>;
+    <span class="pl-k">auto</span> <span class="pl-k">operator</span>=( coroutine&lt; _type_ &gt; &amp;&amp;_src ) <span class="pl-k">noexcept</span> -&gt; coroutine&lt; _type_ &gt; &amp;
+    {
+        <span class="pl-c1">reset</span>( <span class="pl-c1">std::move</span>( _src ) );
+        <span class="pl-k">return</span> *<span class="pl-c1">this</span>;
+    }
+    <span class="pl-en">coroutine</span>() = <span class="pl-k">default</span>;
+    <span class="pl-en">coroutine</span>( <span class="pl-k">const</span> handle _coroutine_handle )
+      : coroutine_handle_{ _coroutine_handle }
+    { }
+    <span class="pl-en">coroutine</span>( <span class="pl-k">const</span> coroutine&lt; _type_ &gt; &amp; ) = <span class="pl-k">delete</span>;
+    <span class="pl-en">coroutine</span>( coroutine&lt; _type_ &gt; &amp;&amp;_src ) <span class="pl-k">noexcept</span>
+      : coroutine_handle_{ _src.<span class="pl-smi">coroutine_handle_</span> }
+    {
+        _src.<span class="pl-smi">coroutine_handle_</span> = {};
+    }
+    <span class="pl-en">~coroutine</span>()
+    {
+        <span class="pl-c1">safe_destroy</span>();
+    }
+  <span class="pl-k">private:</span>
+    handle coroutine_handle_{};
+};</pre></div>
+<p>综合来看, C++ 标准中的协程支持还算不上完善, 况且能采用上 C++ 20 及以上标准进行开发的项目本就不多. 不过支持了总是好事. 协程只是 C++ 并发编程中的沧海一粟, 仅此而已.</p></div>
+<div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://MaxLHy0424.github.io">MaxLHy0424</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("06/20/2024"!=""){
+    var startSite=new Date("06/20/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","MaxLHy0424/MaxLHy0424.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script><script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script>
+
+</html>
