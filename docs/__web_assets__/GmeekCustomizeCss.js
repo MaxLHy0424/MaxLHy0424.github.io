@@ -112,8 +112,6 @@
                 return `<span class="post-tag" style="background-color:${bg};color:${fg}">${tag}</span>`;
             }).join("");
 
-            const summary = `本篇内容涵盖主题「${labels.map(x => x.textContent.trim()).join(" / ")}」，带你深入探索相关知识点。`;
-
             const newCard = document.createElement("a");
             newCard.href = link;
             newCard.className = "post-card";
@@ -121,7 +119,6 @@
             newCard.innerHTML = `
         <div class="post-meta">${tags}<span class="post-date">${time}</span></div>
         <h2 class="post-title">${title}</h2>
-        <p class="post-summary">${summary}</p>
       `;
             card.replaceWith(newCard);
         });
