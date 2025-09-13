@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 在无心的日常中, 发现少许奇迹的故事. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://MaxLHy0424.github.io/__web__/avatar.png</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 13 Sep 2025 11:08:27 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>即将推出下一代 SCLTK</title><link>https://MaxLHy0424.github.io/post/19.html</link><description>经过一个半月的开发，SCLTK v6.4.0 即将进入功能冻结阶段，接下来的一个月的开发将以性能优化和兼容性增强为主。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/19.html</guid><pubDate>Fri, 01 Aug 2025 13:52:16 +0000</pubDate></item><item><title>今天生日</title><link>https://MaxLHy0424.github.io/post/18.html</link><description>不知不觉间，2025 年 4 月 24 日迎来了。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/18.html</guid><pubDate>Thu, 24 Apr 2025 11:50:01 +0000</pubDate></item><item><title>DeepSeek 推测期中考语文作文题</title><link>https://MaxLHy0424.github.io/post/17.html</link><description>明天就是期中考了，一上来就是语文。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/17.html</guid><pubDate>Wed, 23 Apr 2025 12:52:29 +0000</pubDate></item><item><title>恩师难忘，来日方长</title><link>https://MaxLHy0424.github.io/post/16.html</link><description>终究要迎来这天的离别。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/16.html</guid><pubDate>Fri, 18 Apr 2025 13:41:20 +0000</pubDate></item><item><title>DeepSeek 文生图</title><link>https://MaxLHy0424.github.io/post/15.html</link><description>&gt; 参考自 [BV1rAoqYRETP](https://www.bilibili.com/video/BV1rAoqYRETP).
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>MaxLHy0424</title><link>https://MaxLHy0424.github.io</link><description>「一定能找到, 通往与这扭曲的终点所截然不同的, 另一种结局的正确选项. 在无心的日常中, 发现少许奇迹的故事. 所在皆是奇迹的起点. 」</description><copyright>MaxLHy0424</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://MaxLHy0424.github.io/__web__/avatar.png</url><title>avatar</title><link>https://MaxLHy0424.github.io</link></image><lastBuildDate>Sat, 13 Sep 2025 11:09:31 +0000</lastBuildDate><managingEditor>MaxLHy0424</managingEditor><ttl>60</ttl><webMaster>MaxLHy0424</webMaster><item><title>即将推出下一代 SCLTK</title><link>https://MaxLHy0424.github.io/post/19.html</link><description>经过一个半月的开发，SCLTK v6.4.0 即将进入功能冻结阶段，接下来的一个月的开发将以性能优化和兼容性增强为主。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/19.html</guid><pubDate>Fri, 01 Aug 2025 13:52:16 +0000</pubDate></item><item><title>今天生日</title><link>https://MaxLHy0424.github.io/post/18.html</link><description>不知不觉间，2025 年 4 月 24 日迎来了。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/18.html</guid><pubDate>Thu, 24 Apr 2025 11:50:01 +0000</pubDate></item><item><title>DeepSeek 推测期中考语文作文题</title><link>https://MaxLHy0424.github.io/post/17.html</link><description>明天就是期中考了，一上来就是语文。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/17.html</guid><pubDate>Wed, 23 Apr 2025 12:52:29 +0000</pubDate></item><item><title>恩师难忘，来日方长</title><link>https://MaxLHy0424.github.io/post/16.html</link><description>终究要迎来这天的离别。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/16.html</guid><pubDate>Fri, 18 Apr 2025 13:41:20 +0000</pubDate></item><item><title>DeepSeek 文生图</title><link>https://MaxLHy0424.github.io/post/15.html</link><description>&gt; 参考自 [BV1rAoqYRETP](https://www.bilibili.com/video/BV1rAoqYRETP).
 
 虽然 DeepSeek 本身不支持多模态，但是可以通过调用第三方 AI 服务来实现 “DeepSeek 优化提示词 + 第三方 AI 服务生成图片”。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/15.html</guid><pubDate>Sat, 29 Mar 2025 08:47:41 +0000</pubDate></item><item><title>本站 Arch WSL 配置教程已过时</title><link>https://MaxLHy0424.github.io/post/14.html</link><description>如题, 本站最初发布的 Arch WSL 配置指南, 随着 WSL 和 Arch Linux 的更新已经过时. 以下为最新自动化配置脚本:
 
@@ -180,48 +180,7 @@ echo '
 如果只有 root 用户, 建议您再创建一个普通用户.
 如果不知道 root 用户密码, 请尽快使用命令 sudo passwd 修改.
 请尽快重启 Arch WSL.'
-```。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/14.html</guid><pubDate>Sat, 15 Mar 2025 08:30:20 +0000</pubDate></item><item><title>停下脚步, 于迷茫中思索</title><link>https://MaxLHy0424.github.io/post/13.html</link><description>日复一日熬夜开发 SCLTK，我的精力大抵就是因此而消磨了吧。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/13.html</guid><pubDate>Mon, 03 Mar 2025 13:16:11 +0000</pubDate></item><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程（Coroutine）的概念由来已久，一句话来解释就是“可以被挂起（暂停执行）并恢复的函数”。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/12.html</guid><pubDate>Sat, 22 Feb 2025 08:11:42 +0000</pubDate></item><item><title>CRCSN 开发小记 03</title><link>https://MaxLHy0424.github.io/post/11.html</link><description>日子过得真快呢. 不知不觉间, CRCSN **v5.0.0** 的开发已经接近尾声, 面向公众测试的 **v5.0.0-beta.2** 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).&#13;
-&#13;
-至于什么时候发布, 嗯......如果一切顺利的话, 可能会在 8 月 25 日, 具体时间待定.&#13;
-&#13;
-废话不多说, 在此罗列这一个多月的开发成果 ~(我才不会告诉你这些东西是 v5.0.0 正式版更新日志的一部分, 绝对不是因为我太懒了)~:&#13;
-&#13;
-### 软件本体 (v5.0.0)&#13;
-&#13;
-- 拆分源代码文件;&#13;
-- 迁移至现代 C++ 标准;&#13;
-- 重构软件架构;&#13;
-- 重构破解/恢复模块, 增强拓展性;&#13;
-- 添加软件图标;&#13;
-- 支持老旧的 Windows OS (如 Windows 7);&#13;
-- 移除键盘输入选择, 改为鼠标点选;&#13;
-- 移除命令行参数`-color=`;&#13;
-- 添加命令行参数`--sparse--view`;&#13;
-- 默认锁定窗口大小, 禁用部分窗口控件;&#13;
-- 支持窗口半透明;&#13;
-- 移除 '工具箱';&#13;
-- 修复在置顶窗口的线程创建前切换前台窗口, 导致错误置顶其他窗口;&#13;
-- 修复以管理员权限启动时, 窗口标题中出现`管理员: `字样;&#13;
-- 修复从非 GBK 文字编码的控制台中启动, 所有非 ASCII 字符乱码;&#13;
-- 修复部分数据类型不匹配;&#13;
-- 修正版权信息;&#13;
-- 其他技术性更改.&#13;
-&#13;
-### 启动脚本 (v2.0.0)&#13;
-&#13;
-- 重构启动脚本;&#13;
-- 改为非内联启动;&#13;
-- 添加启动等待提示;&#13;
-- 添加显示当前启动的软件版本支持的 CPU 架构, 依赖的 Runtime;&#13;
-- 修正版权信息;&#13;
-- 其他技术性更改.&#13;
-&#13;
-### 其他&#13;
-&#13;
-- 优化项目结构;&#13;
-- 重构构建系统.&#13;
-- 优化编译命令.&#13;
-。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/11.html</guid><pubDate>Thu, 15 Aug 2024 11:25:32 +0000</pubDate></item><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[paru](https://github.com/Morganamilo/paru) 是 yay 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 yay 和 pacman 几乎一样, 所以迁移过来不会有任何困难.
+```。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/14.html</guid><pubDate>Sat, 15 Mar 2025 08:30:20 +0000</pubDate></item><item><title>停下脚步, 于迷茫中思索</title><link>https://MaxLHy0424.github.io/post/13.html</link><description>日复一日熬夜开发 SCLTK，我的精力大抵就是因此而消磨了吧。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/13.html</guid><pubDate>Mon, 03 Mar 2025 13:16:11 +0000</pubDate></item><item><title>谈谈 C++ 的协程</title><link>https://MaxLHy0424.github.io/post/12.html</link><description>协程（Coroutine）的概念由来已久，一句话来解释就是“可以被挂起（暂停执行）并恢复的函数”。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/12.html</guid><pubDate>Sat, 22 Feb 2025 08:11:42 +0000</pubDate></item><item><title>CRCSN 开发小记 03</title><link>https://MaxLHy0424.github.io/post/11.html</link><description>日子过得真快呢。</description><guid isPermaLink="true">https://MaxLHy0424.github.io/post/11.html</guid><pubDate>Thu, 15 Aug 2024 11:25:32 +0000</pubDate></item><item><title>paru: 比 yay 更加强大的 AUR 助手</title><link>https://MaxLHy0424.github.io/post/10.html</link><description>[paru](https://github.com/Morganamilo/paru) 是 yay 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手. 基本命令与功能与 yay 和 pacman 几乎一样, 所以迁移过来不会有任何困难.
 
 # 0 安装
 
