@@ -5,7 +5,7 @@
 本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。
 
 > [!NOTE]  
-> 如果您觉得手动操作有些麻烦，您可以试试博主写的【自动配置脚本】(https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)。但还是建议看看教程。
+> 如果您觉得手动操作有些麻烦，您可以试试博主写的[自动配置脚本](https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)。但还是建议看看教程。
 
 > [!IMPORTANT]  
 > 适用于 Windows 11 22H2 及以上版本，其以下的版本可能会出现各种问题。
@@ -186,7 +186,7 @@ sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 sudo pacman -S yay
 ```
 
-如果您愿意的话，也可以试试 paru，可以参考【这篇教程】(https://maxlhy0424.github.io/post/10.html)。
+如果您愿意的话，也可以试试 paru，可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html)。
 
 # 4 汉化
 
