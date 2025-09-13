@@ -1,8 +1,4 @@
-在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。
-
-但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。
-
-本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。
+在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。
 
 > [!NOTE]  
 > 如果您觉得手动操作有些麻烦，您可以试试博主写的[自动配置脚本](https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)。但还是建议看看教程。
