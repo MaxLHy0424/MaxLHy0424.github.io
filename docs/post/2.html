@@ -10,521 +10,9 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="在 Windows OS 上开发 GNU/Linux 软件时, WSL 2 常为不二之选.
-
-但是, WSL 2 上开箱即用的 GNU/Linux 发行版, 几乎只有 Ubuntu. 想要在 WSL 2 上使用 Arch Linux, 配置较为麻烦.
-
-本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.
-
-> [!NOTE]
-> 如果您觉得手动操作有些麻烦, 可以试试博主写的[自动配置脚本](https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9). 但还是建议看看教程.
-
-> [!IMPORTANT]
-> 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
-
-# 0 准备工作
-
-WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
-
-> [!NOTE]
-> 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
-
-启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
-
-```Batch
-wsl --update
-wsl --update --pre-release
-```
-
-接着, 在当前的 Windows OS 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
-
-```
-[wsl2]
-ipv6=true
-networkingMode=mirrored
-dnsTunneling=true
-firewall=true
-autoProxy=true
-defaultVhdSize=137438953472
-[experimental]
-autoMemoryReclaim=gradual
-bestEffortDnsParsing=true
-useWindowsDnsCache=true
-```
-
-然后, 在 Microsoft Store 中搜索 `Arch WSL`, 点击下图中所示的软件 (一般为第1个):
-
-![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
-
-按照正常流程安装, 打开, 创建账户. 
-
-# 1 修改 root 用户密码
-
-通过 `sudo passwd root` 修改`root` 用户密码.
-
-# 2 配置 GNU Nano 文本编辑器
-
-打开 `/etc/nanorc`, 在末尾追加:
-
-```
-bind ^X cut main
-bind ^C copy main
-bind ^V paste all
-bind ^Q exit all
-bind ^S savefile main
-bind ^W writeout main
-bind ^O insert main
-bind ^H help all
-bind ^H exit help
-bind ^F whereis all
-bind ^G findnext all
-bind ^B wherewas all
-bind ^D findprevious all
-bind ^R replace main
-unbind ^U all
-unbind ^N main
-unbind ^Y all
-unbind M-J main
-unbind M-T main
-bind ^A mark main
-bind ^P location main
-bind ^T gotoline main
-bind ^T gotodir browser
-bind ^T cutrestoffile execute
-bind ^L linter execute
-bind ^E execute main
-bind ^K '{mark}{end}{zap}' main
-bind ^U '{mark}{home}{zap}' main
-bind ^Z undo main
-bind ^Y redo main
-set tabsize 4
-set autoindent
-set noconvert
-set smarthome
-set tabstospaces
-set mouse
-set linenumbers
-set casesensitive
-set multibuffer
-set nonewlines
-set magic
-set softwrap
-set wordbounds
-set constantshow
-include /usr/share/nano/*.*
-```
-
-# 3 配置包管理器
-
-打开 `/etc/pacman.d/mirrorlist`, 在顶部添加:
-
-```
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
-```
-
-打开 `/etc/pacman.conf`, 找到:
-
-```
-#UseSyslog
-#Color
-NoProgressBar
-```
-
-换成:
-
-```
-UseSyslog
-Color
-#NoProgressBar
-```
-
-然后找到这一行:
-
-```
-ParallelDownloads = 5
-```
-
-将后面的 `5` 修改成你想要同时下载的软件包的数量.
-
-接着把后面的软件源全部删掉, 换成下面的:
-
-```
-[testing]
-Include = /etc/pacman.d/mirrorlist
-[staging]
-Include = /etc/pacman.d/mirrorlist
-[core-testing]
-Include = /etc/pacman.d/mirrorlist
-[core-staging]
-Include = /etc/pacman.d/mirrorlist
-[core]
-Include = /etc/pacman.d/mirrorlist
-[extra-testing]
-Include = /etc/pacman.d/mirrorlist
-[extra-staging]
-Include = /etc/pacman.d/mirrorlist
-[extra]
-Include = /etc/pacman.d/mirrorlist
-[community-testing]
-Include = /etc/pacman.d/mirrorlist
-[community-staging]
-Include = /etc/pacman.d/mirrorlist
-[community]
-Include = /etc/pacman.d/mirrorlist
-[multilib-testing]
-Include = /etc/pacman.d/mirrorlist
-[multilib-staging]
-Include = /etc/pacman.d/mirrorlist
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-[archlinuxcn]
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
-[blackarch]
-SigLevel = Never
-Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
-```
-
-执行以命令:
-
-```bash
-sudo pacman-key --init
-sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
-sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
-```
-
-执行以下命令安装 yay 稳定版 (安装开发版把 `yay` 改为 `yay-git`):
-
-````bash
-sudo pacman -S yay
-````
-
-如果您愿意的话, 也可以试试 paru, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
-
-# 4 汉化
-
-打开`/etc/locale.gen`, 找到:
-
-```
-#en_US.UTF-8 UTF-8
-```
-
-```
-#zh_CN.UTF-8 UTF-8
-```
-
-将前面的`#`去掉.
-
-打开`/etc/locale.conf`, 将所有文本替换为:
-
-```
-LANG=en_US.UTF-8
-```
-
-打开`/etc/profile`, 在末尾追加:
-
-```
-export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8
-export LANGUAGE=zh_CN:en_US
-```
-
-然后执行以下命令:
-
-```bash
-sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
-sudo locale-gen
-```
-
-# 5 解决 WSLg 及 Systemd 问题
-
-执行:
-
-```bash
-echo '# Type Path           Mode UID  GID  Age Argument
-L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
-```
-
-如果 Systemd 没有启动, 可以试试:
-
-```
-echo '[boot]
-systemd=true' | sudo tee /etc/wsl.conf
-```
-
-# 6 善后工作及后续使用注意事项
-
-执行以下命令:
-
-```bash
-sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm
-sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
-sudo pacman -Scc --noconfirm
-sudo rm -rf /tmp/*
-for i in {font,ICE,X11,XIM}; do sudo rm -rf /tmp/.${i}-unix; done
-for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done
-```
-
-> [!IMPORTANT]
-> 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
-。">
+<meta name="description" content="在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
 <meta property="og:title" content="下江小春都能看懂的 Arch WSL 安装与配置指南">
-<meta property="og:description" content="在 Windows OS 上开发 GNU/Linux 软件时, WSL 2 常为不二之选.
-
-但是, WSL 2 上开箱即用的 GNU/Linux 发行版, 几乎只有 Ubuntu. 想要在 WSL 2 上使用 Arch Linux, 配置较为麻烦.
-
-本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.
-
-> [!NOTE]
-> 如果您觉得手动操作有些麻烦, 可以试试博主写的[自动配置脚本](https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9). 但还是建议看看教程.
-
-> [!IMPORTANT]
-> 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
-
-# 0 准备工作
-
-WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
-
-> [!NOTE]
-> 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
-
-启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
-
-```Batch
-wsl --update
-wsl --update --pre-release
-```
-
-接着, 在当前的 Windows OS 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
-
-```
-[wsl2]
-ipv6=true
-networkingMode=mirrored
-dnsTunneling=true
-firewall=true
-autoProxy=true
-defaultVhdSize=137438953472
-[experimental]
-autoMemoryReclaim=gradual
-bestEffortDnsParsing=true
-useWindowsDnsCache=true
-```
-
-然后, 在 Microsoft Store 中搜索 `Arch WSL`, 点击下图中所示的软件 (一般为第1个):
-
-![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
-
-按照正常流程安装, 打开, 创建账户. 
-
-# 1 修改 root 用户密码
-
-通过 `sudo passwd root` 修改`root` 用户密码.
-
-# 2 配置 GNU Nano 文本编辑器
-
-打开 `/etc/nanorc`, 在末尾追加:
-
-```
-bind ^X cut main
-bind ^C copy main
-bind ^V paste all
-bind ^Q exit all
-bind ^S savefile main
-bind ^W writeout main
-bind ^O insert main
-bind ^H help all
-bind ^H exit help
-bind ^F whereis all
-bind ^G findnext all
-bind ^B wherewas all
-bind ^D findprevious all
-bind ^R replace main
-unbind ^U all
-unbind ^N main
-unbind ^Y all
-unbind M-J main
-unbind M-T main
-bind ^A mark main
-bind ^P location main
-bind ^T gotoline main
-bind ^T gotodir browser
-bind ^T cutrestoffile execute
-bind ^L linter execute
-bind ^E execute main
-bind ^K '{mark}{end}{zap}' main
-bind ^U '{mark}{home}{zap}' main
-bind ^Z undo main
-bind ^Y redo main
-set tabsize 4
-set autoindent
-set noconvert
-set smarthome
-set tabstospaces
-set mouse
-set linenumbers
-set casesensitive
-set multibuffer
-set nonewlines
-set magic
-set softwrap
-set wordbounds
-set constantshow
-include /usr/share/nano/*.*
-```
-
-# 3 配置包管理器
-
-打开 `/etc/pacman.d/mirrorlist`, 在顶部添加:
-
-```
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
-```
-
-打开 `/etc/pacman.conf`, 找到:
-
-```
-#UseSyslog
-#Color
-NoProgressBar
-```
-
-换成:
-
-```
-UseSyslog
-Color
-#NoProgressBar
-```
-
-然后找到这一行:
-
-```
-ParallelDownloads = 5
-```
-
-将后面的 `5` 修改成你想要同时下载的软件包的数量.
-
-接着把后面的软件源全部删掉, 换成下面的:
-
-```
-[testing]
-Include = /etc/pacman.d/mirrorlist
-[staging]
-Include = /etc/pacman.d/mirrorlist
-[core-testing]
-Include = /etc/pacman.d/mirrorlist
-[core-staging]
-Include = /etc/pacman.d/mirrorlist
-[core]
-Include = /etc/pacman.d/mirrorlist
-[extra-testing]
-Include = /etc/pacman.d/mirrorlist
-[extra-staging]
-Include = /etc/pacman.d/mirrorlist
-[extra]
-Include = /etc/pacman.d/mirrorlist
-[community-testing]
-Include = /etc/pacman.d/mirrorlist
-[community-staging]
-Include = /etc/pacman.d/mirrorlist
-[community]
-Include = /etc/pacman.d/mirrorlist
-[multilib-testing]
-Include = /etc/pacman.d/mirrorlist
-[multilib-staging]
-Include = /etc/pacman.d/mirrorlist
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-[archlinuxcn]
-Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
-[blackarch]
-SigLevel = Never
-Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
-```
-
-执行以命令:
-
-```bash
-sudo pacman-key --init
-sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
-sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
-```
-
-执行以下命令安装 yay 稳定版 (安装开发版把 `yay` 改为 `yay-git`):
-
-````bash
-sudo pacman -S yay
-````
-
-如果您愿意的话, 也可以试试 paru, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
-
-# 4 汉化
-
-打开`/etc/locale.gen`, 找到:
-
-```
-#en_US.UTF-8 UTF-8
-```
-
-```
-#zh_CN.UTF-8 UTF-8
-```
-
-将前面的`#`去掉.
-
-打开`/etc/locale.conf`, 将所有文本替换为:
-
-```
-LANG=en_US.UTF-8
-```
-
-打开`/etc/profile`, 在末尾追加:
-
-```
-export LC_ALL=zh_CN.UTF-8
-export LANG=zh_CN.UTF-8
-export LANGUAGE=zh_CN:en_US
-```
-
-然后执行以下命令:
-
-```bash
-sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
-sudo locale-gen
-```
-
-# 5 解决 WSLg 及 Systemd 问题
-
-执行:
-
-```bash
-echo '# Type Path           Mode UID  GID  Age Argument
-L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
-```
-
-如果 Systemd 没有启动, 可以试试:
-
-```
-echo '[boot]
-systemd=true' | sudo tee /etc/wsl.conf
-```
-
-# 6 善后工作及后续使用注意事项
-
-执行以下命令:
-
-```bash
-sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm
-sudo pacman -Rcns $(pacman -Qtdq) --noconfirm
-sudo pacman -Scc --noconfirm
-sudo rm -rf /tmp/*
-for i in {font,ICE,X11,XIM}; do sudo rm -rf /tmp/.${i}-unix; done
-for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done
-```
-
-> [!IMPORTANT]
-> 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
-。">
+<meta property="og:description" content="在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/2.html">
 <meta property="og:image" content="https://MaxLHy0424.github.io/__web__/avatar.png">
@@ -595,21 +83,21 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>在 Windows OS 上开发 GNU/Linux 软件时, WSL 2 常为不二之选.</p>
-<p>但是, WSL 2 上开箱即用的 GNU/Linux 发行版, 几乎只有 Ubuntu. 想要在 WSL 2 上使用 Arch Linux, 配置较为麻烦.</p>
-<p>本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.</p>
-<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您觉得手动操作有些麻烦, 可以试试博主写的<a href="https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9">自动配置脚本</a>. 但还是建议看看教程.</p>
+<div class="markdown-body" id="postBody"><p>在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。</p>
+<p>但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。</p>
+<p>本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。</p>
+<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您觉得手动操作有些麻烦，您可以试试博主写的【自动配置脚本】(<a href="https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)%E3%80%82%E4%BD%86%E8%BF%98%E6%98%AF%E5%BB%BA%E8%AE%AE%E7%9C%8B%E7%9C%8B%E6%95%99%E7%A8%8B%E3%80%82">https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)。但还是建议看看教程。</a></p>
 </div>
-<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.</p>
+<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>适用于 Windows 11 22H2 及以上版本，其以下的版本可能会出现各种问题。</p>
 </div>
 <h1>0 准备工作</h1>
-<p>WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.</p>
-<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.</p>
+<p>WSL 2 的硬件需求及启用方法在此处不多赘述，请自行查阅。</p>
+<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您有安装 VMware Workstation Pro 等寄居型虚拟机，推荐改用 Microsoft Hyper-V。否则其运行的虚拟机性能可能会受到影响。</p>
 </div>
-<p>启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:</p>
+<p>启用后，在 Windows Terminal（管理员权限）中执行以下命令：</p>
 <div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">wsl</span> --update
 <span class="pl-k">wsl</span> --update --pre-release</pre></div>
-<p>接着, 在当前的 Windows OS 用户目录下创建文件<code class="notranslate">.wslconfig</code>, 在文件中添加以下内容:</p>
+<p>接着，在当前的 Windows OS 用户目录下创建文件 <code class="notranslate">.wslconfig</code>，在文件中添加以下内容：</p>
 <pre class="notranslate"><code class="notranslate">[wsl2]
 ipv6=true
 networkingMode=mirrored
@@ -622,13 +110,13 @@ autoMemoryReclaim=gradual
 bestEffortDnsParsing=true
 useWindowsDnsCache=true
 </code></pre>
-<p>然后, 在 Microsoft Store 中搜索 <code class="notranslate">Arch WSL</code>, 点击下图中所示的软件 (一般为第1个):</p>
+<p>然后，在 Microsoft Store 中搜索 <code class="notranslate">Arch WSL</code>，点击下图中所示的软件（一般为第1个）：</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178"><img src="https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178" alt="Microsoft Store 搜索结果的局部截图" style="max-width: 100%;"></a></p>
-<p>按照正常流程安装, 打开, 创建账户.</p>
+<p>按照正常流程安装、打开、创建账户。</p>
 <h1>1 修改 root 用户密码</h1>
-<p>通过 <code class="notranslate">sudo passwd root</code> 修改<code class="notranslate">root</code> 用户密码.</p>
+<p>通过 <code class="notranslate">sudo passwd root</code> 修改 <code class="notranslate">root</code> 用户密码。</p>
 <h1>2 配置 GNU Nano 文本编辑器</h1>
-<p>打开 <code class="notranslate">/etc/nanorc</code>, 在末尾追加:</p>
+<p>打开 <code class="notranslate">/etc/nanorc</code>，在末尾追加：</p>
 <pre class="notranslate"><code class="notranslate">bind ^X cut main
 bind ^C copy main
 bind ^V paste all
@@ -676,24 +164,24 @@ set constantshow
 include /usr/share/nano/*.*
 </code></pre>
 <h1>3 配置包管理器</h1>
-<p>打开 <code class="notranslate">/etc/pacman.d/mirrorlist</code>, 在顶部添加:</p>
+<p>打开 <code class="notranslate">/etc/pacman.d/mirrorlist</code>，在顶部添加：</p>
 <pre class="notranslate"><code class="notranslate">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 </code></pre>
-<p>打开 <code class="notranslate">/etc/pacman.conf</code>, 找到:</p>
+<p>打开 <code class="notranslate">/etc/pacman.conf</code>，找到：</p>
 <pre class="notranslate"><code class="notranslate">#UseSyslog
 #Color
 NoProgressBar
 </code></pre>
-<p>换成:</p>
+<p>换成：</p>
 <pre class="notranslate"><code class="notranslate">UseSyslog
 Color
 #NoProgressBar
 </code></pre>
-<p>然后找到这一行:</p>
+<p>然后找到这一行：</p>
 <pre class="notranslate"><code class="notranslate">ParallelDownloads = 5
 </code></pre>
-<p>将后面的 <code class="notranslate">5</code> 修改成你想要同时下载的软件包的数量.</p>
-<p>接着把后面的软件源全部删掉, 换成下面的:</p>
+<p>将后面的 <code class="notranslate">5</code> 修改成您想要同时下载的软件包的数量。</p>
+<p>接着把后面的软件源全部删掉，换成下面的：</p>
 <pre class="notranslate"><code class="notranslate">[testing]
 Include = /etc/pacman.d/mirrorlist
 [staging]
@@ -728,48 +216,47 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 SigLevel = Never
 Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 </code></pre>
-<p>执行以命令:</p>
+<p>执行以下命令：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman-key --init
 sudo pacman-key --lsign-key <span class="pl-s"><span class="pl-pds">'</span>farseerfc@archlinux.org<span class="pl-pds">'</span></span>
 sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm</pre></div>
-<p>执行以下命令安装 yay 稳定版 (安装开发版把 <code class="notranslate">yay</code> 改为 <code class="notranslate">yay-git</code>):</p>
+<p>执行以下命令安装 yay 稳定版（安装开发版把 <code class="notranslate">yay</code> 改为 <code class="notranslate">yay-git</code>）：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S yay</pre></div>
-<p>如果您愿意的话, 也可以试试 paru, 可以参考<a href="https://maxlhy0424.github.io/post/10.html" rel="nofollow">这篇教程</a>.</p>
+<p>如果您愿意的话，也可以试试 paru，可以参考【这篇教程】(<a href="https://maxlhy0424.github.io/post/10.html)%E3%80%82" rel="nofollow">https://maxlhy0424.github.io/post/10.html)。</a></p>
 <h1>4 汉化</h1>
-<p>打开<code class="notranslate">/etc/locale.gen</code>, 找到:</p>
+<p>打开 <code class="notranslate">/etc/locale.gen</code>，找到：</p>
 <pre class="notranslate"><code class="notranslate">#en_US.UTF-8 UTF-8
 </code></pre>
 <pre class="notranslate"><code class="notranslate">#zh_CN.UTF-8 UTF-8
 </code></pre>
-<p>将前面的<code class="notranslate">#</code>去掉.</p>
-<p>打开<code class="notranslate">/etc/locale.conf</code>, 将所有文本替换为:</p>
+<p>将前面的 <code class="notranslate">#</code> 去掉。</p>
+<p>打开 <code class="notranslate">/etc/locale.conf</code>，将所有文本替换为：</p>
 <pre class="notranslate"><code class="notranslate">LANG=en_US.UTF-8
 </code></pre>
-<p>打开<code class="notranslate">/etc/profile</code>, 在末尾追加:</p>
+<p>打开 <code class="notranslate">/etc/profile</code>，在末尾追加：</p>
 <pre class="notranslate"><code class="notranslate">export LC_ALL=zh_CN.UTF-8
 export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 </code></pre>
-<p>然后执行以下命令:</p>
+<p>然后执行以下命令：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
 sudo locale-gen</pre></div>
 <h1>5 解决 WSLg 及 Systemd 问题</h1>
-<p>执行:</p>
+<p>执行：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span># Type Path           Mode UID  GID  Age Argument</span>
 <span class="pl-s">L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/tmpfiles.d/wslg.conf</pre></div>
-<p>如果 Systemd 没有启动, 可以试试:</p>
-<pre class="notranslate"><code class="notranslate">echo '[boot]
-systemd=true' | sudo tee /etc/wsl.conf
-</code></pre>
+<p>如果 Systemd 没有启动，可以试试：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>[boot]</span>
+<span class="pl-s">systemd=true<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/wsl.conf</pre></div>
 <h1>6 善后工作及后续使用注意事项</h1>
-<p>执行以下命令:</p>
+<p>执行以下命令：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm
 sudo pacman -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span> --noconfirm
 sudo pacman -Scc --noconfirm
 sudo rm -rf /tmp/<span class="pl-k">*</span>
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {font,ICE,X11,XIM}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo rm -rf /tmp/.<span class="pl-smi">${i}</span>-unix<span class="pl-k">;</span> <span class="pl-k">done</span>
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {cache,log,tmp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo rm -rf /var/<span class="pl-smi">${i}</span>/<span class="pl-k">*</span><span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
-<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>如果后续安装软件包缺少依赖, 可以临时注释掉<code class="notranslate">/etc/pacman.conf</code>中所有后缀为<code class="notranslate">testing</code>或<code class="notranslate">staging</code>的软件源, 完成后使用<code class="notranslate">sudo pacman -Syyu</code>更新依赖即可.</p>
+<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>如果后续安装软件包缺少依赖，可以临时注释掉 <code class="notranslate">/etc/pacman.conf</code> 中所有后缀为 <code class="notranslate">testing</code> 或 <code class="notranslate">staging</code> 的软件源，完成后使用 <code class="notranslate">sudo pacman -Syyu</code> 更新依赖即可。</p>
 </div></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
