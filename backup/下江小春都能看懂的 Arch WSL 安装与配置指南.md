@@ -1,30 +1,30 @@
-在 Windows OS 上开发 GNU/Linux 软件时, WSL 2 常为不二之选.
+在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。
 
-但是, WSL 2 上开箱即用的 GNU/Linux 发行版, 几乎只有 Ubuntu. 想要在 WSL 2 上使用 Arch Linux, 配置较为麻烦.
+但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。
 
-本教程将帮助您在 WSL 2 上安装并配置 Arch Linux.
+本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。
 
-> [!NOTE]
-> 如果您觉得手动操作有些麻烦, 可以试试博主写的[自动配置脚本](https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9). 但还是建议看看教程.
+> [!NOTE]  
+> 如果您觉得手动操作有些麻烦，您可以试试博主写的【自动配置脚本】(https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)。但还是建议看看教程。
 
-> [!IMPORTANT]
-> 适用于 Windows 11 22H2 及以上版本, 其以下的版本可能会出现各种问题.
+> [!IMPORTANT]  
+> 适用于 Windows 11 22H2 及以上版本，其以下的版本可能会出现各种问题。
 
 # 0 准备工作
 
-WSL 2 的硬件需求及启用方法在此处不多赘述, 请自行查阅.
+WSL 2 的硬件需求及启用方法在此处不多赘述，请自行查阅。
 
-> [!NOTE]
-> 如果您有安装 VMware Workstation Pro 等寄居型虚拟机, 推荐改用 Microsoft Hyper-V. 否则其运行的虚拟机性能可能会受到影响.
+> [!NOTE]  
+> 如果您有安装 VMware Workstation Pro 等寄居型虚拟机，推荐改用 Microsoft Hyper-V。否则其运行的虚拟机性能可能会受到影响。
 
-启用后, 在 Windows Terminal (管理员权限) 中执行以下命令:
+启用后，在 Windows Terminal（管理员权限）中执行以下命令：
 
 ```Batch
 wsl --update
 wsl --update --pre-release
 ```
 
-接着, 在当前的 Windows OS 用户目录下创建文件`.wslconfig`, 在文件中添加以下内容:
+接着，在当前的 Windows OS 用户目录下创建文件 `.wslconfig`，在文件中添加以下内容：
 
 ```
 [wsl2]
@@ -40,19 +40,19 @@ bestEffortDnsParsing=true
 useWindowsDnsCache=true
 ```
 
-然后, 在 Microsoft Store 中搜索 `Arch WSL`, 点击下图中所示的软件 (一般为第1个):
+然后，在 Microsoft Store 中搜索 `Arch WSL`，点击下图中所示的软件（一般为第1个）：
 
 ![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
 
-按照正常流程安装, 打开, 创建账户. 
+按照正常流程安装、打开、创建账户。
 
 # 1 修改 root 用户密码
 
-通过 `sudo passwd root` 修改`root` 用户密码.
+通过 `sudo passwd root` 修改 `root` 用户密码。
 
 # 2 配置 GNU Nano 文本编辑器
 
-打开 `/etc/nanorc`, 在末尾追加:
+打开 `/etc/nanorc`，在末尾追加：
 
 ```
 bind ^X cut main
@@ -104,13 +104,13 @@ include /usr/share/nano/*.*
 
 # 3 配置包管理器
 
-打开 `/etc/pacman.d/mirrorlist`, 在顶部添加:
+打开 `/etc/pacman.d/mirrorlist`，在顶部添加：
 
 ```
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 ```
 
-打开 `/etc/pacman.conf`, 找到:
+打开 `/etc/pacman.conf`，找到：
 
 ```
 #UseSyslog
@@ -118,7 +118,7 @@ Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 NoProgressBar
 ```
 
-换成:
+换成：
 
 ```
 UseSyslog
@@ -126,15 +126,15 @@ Color
 #NoProgressBar
 ```
 
-然后找到这一行:
+然后找到这一行：
 
 ```
 ParallelDownloads = 5
 ```
 
-将后面的 `5` 修改成你想要同时下载的软件包的数量.
+将后面的 `5` 修改成您想要同时下载的软件包的数量。
 
-接着把后面的软件源全部删掉, 换成下面的:
+接着把后面的软件源全部删掉，换成下面的：
 
 ```
 [testing]
@@ -172,7 +172,7 @@ SigLevel = Never
 Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
 ```
 
-执行以命令:
+执行以下命令：
 
 ```bash
 sudo pacman-key --init
@@ -180,17 +180,17 @@ sudo pacman-key --lsign-key 'farseerfc@archlinux.org'
 sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 ```
 
-执行以下命令安装 yay 稳定版 (安装开发版把 `yay` 改为 `yay-git`):
+执行以下命令安装 yay 稳定版（安装开发版把 `yay` 改为 `yay-git`）：
 
-````bash
+```bash
 sudo pacman -S yay
-````
+```
 
-如果您愿意的话, 也可以试试 paru, 可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html).
+如果您愿意的话，也可以试试 paru，可以参考【这篇教程】(https://maxlhy0424.github.io/post/10.html)。
 
 # 4 汉化
 
-打开`/etc/locale.gen`, 找到:
+打开 `/etc/locale.gen`，找到：
 
 ```
 #en_US.UTF-8 UTF-8
@@ -200,15 +200,15 @@ sudo pacman -S yay
 #zh_CN.UTF-8 UTF-8
 ```
 
-将前面的`#`去掉.
+将前面的 `#` 去掉。
 
-打开`/etc/locale.conf`, 将所有文本替换为:
+打开 `/etc/locale.conf`，将所有文本替换为：
 
 ```
 LANG=en_US.UTF-8
 ```
 
-打开`/etc/profile`, 在末尾追加:
+打开 `/etc/profile`，在末尾追加：
 
 ```
 export LC_ALL=zh_CN.UTF-8
@@ -216,7 +216,7 @@ export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 ```
 
-然后执行以下命令:
+然后执行以下命令：
 
 ```bash
 sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
@@ -225,23 +225,23 @@ sudo locale-gen
 
 # 5 解决 WSLg 及 Systemd 问题
 
-执行:
+执行：
 
 ```bash
 echo '# Type Path           Mode UID  GID  Age Argument
 L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix' | sudo tee /etc/tmpfiles.d/wslg.conf
 ```
 
-如果 Systemd 没有启动, 可以试试:
+如果 Systemd 没有启动，可以试试：
 
-```
+```bash
 echo '[boot]
 systemd=true' | sudo tee /etc/wsl.conf
 ```
 
 # 6 善后工作及后续使用注意事项
 
-执行以下命令:
+执行以下命令：
 
 ```bash
 sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm
@@ -252,5 +252,5 @@ for i in {font,ICE,X11,XIM}; do sudo rm -rf /tmp/.${i}-unix; done
 for i in {cache,log,tmp}; do sudo rm -rf /var/${i}/*; done
 ```
 
-> [!IMPORTANT]
-> 如果后续安装软件包缺少依赖, 可以临时注释掉`/etc/pacman.conf`中所有后缀为`testing`或`staging`的软件源, 完成后使用`sudo pacman -Syyu`更新依赖即可.
+> [!IMPORTANT]  
+> 如果后续安装软件包缺少依赖，可以临时注释掉 `/etc/pacman.conf` 中所有后缀为 `testing` 或 `staging` 的软件源，完成后使用 `sudo pacman -Syyu` 更新依赖即可。
