@@ -1,4 +1,4 @@
-如题, 本站最初发布的 Arch WSL 配置指南, 随着 WSL 和 Arch Linux 的更新已经过时. 以下为最新自动化配置脚本:
+如题，本站最初发布的 Arch WSL 配置指南，随着 WSL 和 Arch Linux 的更新已经过时。以下为最新自动化配置脚本：
 
 ```bash
 #!/bin/bash
