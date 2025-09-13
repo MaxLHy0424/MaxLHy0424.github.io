@@ -86,7 +86,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><p>在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。</p>
 <p>但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。</p>
 <p>本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。</p>
-<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您觉得手动操作有些麻烦，您可以试试博主写的【自动配置脚本】(<a href="https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)%E3%80%82%E4%BD%86%E8%BF%98%E6%98%AF%E5%BB%BA%E8%AE%AE%E7%9C%8B%E7%9C%8B%E6%95%99%E7%A8%8B%E3%80%82">https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9)。但还是建议看看教程。</a></p>
+<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您觉得手动操作有些麻烦，您可以试试博主写的<a href="https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9">自动配置脚本</a>。但还是建议看看教程。</p>
 </div>
 <div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>适用于 Windows 11 22H2 及以上版本，其以下的版本可能会出现各种问题。</p>
 </div>
@@ -222,7 +222,7 @@ sudo pacman-key --lsign-key <span class="pl-s"><span class="pl-pds">'</span>fars
 sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm</pre></div>
 <p>执行以下命令安装 yay 稳定版（安装开发版把 <code class="notranslate">yay</code> 改为 <code class="notranslate">yay-git</code>）：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S yay</pre></div>
-<p>如果您愿意的话，也可以试试 paru，可以参考【这篇教程】(<a href="https://maxlhy0424.github.io/post/10.html)%E3%80%82" rel="nofollow">https://maxlhy0424.github.io/post/10.html)。</a></p>
+<p>如果您愿意的话，也可以试试 paru，可以参考<a href="https://maxlhy0424.github.io/post/10.html" rel="nofollow">这篇教程</a>。</p>
 <h1>4 汉化</h1>
 <p>打开 <code class="notranslate">/etc/locale.gen</code>，找到：</p>
 <pre class="notranslate"><code class="notranslate">#en_US.UTF-8 UTF-8
