@@ -10,91 +10,9 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="日子过得真快呢. 不知不觉间, CRCSN **v5.0.0** 的开发已经接近尾声, 面向公众测试的 **v5.0.0-beta.2** 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).
-
-至于什么时候发布, 嗯......如果一切顺利的话, 可能会在 8 月 25 日, 具体时间待定.
-
-废话不多说, 在此罗列这一个多月的开发成果 ~(我才不会告诉你这些东西是 v5.0.0 正式版更新日志的一部分, 绝对不是因为我太懒了)~:
-
-### 软件本体 (v5.0.0)
-
-- 拆分源代码文件;
-- 迁移至现代 C++ 标准;
-- 重构软件架构;
-- 重构破解/恢复模块, 增强拓展性;
-- 添加软件图标;
-- 支持老旧的 Windows OS (如 Windows 7);
-- 移除键盘输入选择, 改为鼠标点选;
-- 移除命令行参数`-color=`;
-- 添加命令行参数`--sparse--view`;
-- 默认锁定窗口大小, 禁用部分窗口控件;
-- 支持窗口半透明;
-- 移除 '工具箱';
-- 修复在置顶窗口的线程创建前切换前台窗口, 导致错误置顶其他窗口;
-- 修复以管理员权限启动时, 窗口标题中出现`管理员: `字样;
-- 修复从非 GBK 文字编码的控制台中启动, 所有非 ASCII 字符乱码;
-- 修复部分数据类型不匹配;
-- 修正版权信息;
-- 其他技术性更改.
-
-### 启动脚本 (v2.0.0)
-
-- 重构启动脚本;
-- 改为非内联启动;
-- 添加启动等待提示;
-- 添加显示当前启动的软件版本支持的 CPU 架构, 依赖的 Runtime;
-- 修正版权信息;
-- 其他技术性更改.
-
-### 其他
-
-- 优化项目结构;
-- 重构构建系统.
-- 优化编译命令.
-。">
+<meta name="description" content="日子过得真快呢。">
 <meta property="og:title" content="CRCSN 开发小记 03">
-<meta property="og:description" content="日子过得真快呢. 不知不觉间, CRCSN **v5.0.0** 的开发已经接近尾声, 面向公众测试的 **v5.0.0-beta.2** 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).
-
-至于什么时候发布, 嗯......如果一切顺利的话, 可能会在 8 月 25 日, 具体时间待定.
-
-废话不多说, 在此罗列这一个多月的开发成果 ~(我才不会告诉你这些东西是 v5.0.0 正式版更新日志的一部分, 绝对不是因为我太懒了)~:
-
-### 软件本体 (v5.0.0)
-
-- 拆分源代码文件;
-- 迁移至现代 C++ 标准;
-- 重构软件架构;
-- 重构破解/恢复模块, 增强拓展性;
-- 添加软件图标;
-- 支持老旧的 Windows OS (如 Windows 7);
-- 移除键盘输入选择, 改为鼠标点选;
-- 移除命令行参数`-color=`;
-- 添加命令行参数`--sparse--view`;
-- 默认锁定窗口大小, 禁用部分窗口控件;
-- 支持窗口半透明;
-- 移除 '工具箱';
-- 修复在置顶窗口的线程创建前切换前台窗口, 导致错误置顶其他窗口;
-- 修复以管理员权限启动时, 窗口标题中出现`管理员: `字样;
-- 修复从非 GBK 文字编码的控制台中启动, 所有非 ASCII 字符乱码;
-- 修复部分数据类型不匹配;
-- 修正版权信息;
-- 其他技术性更改.
-
-### 启动脚本 (v2.0.0)
-
-- 重构启动脚本;
-- 改为非内联启动;
-- 添加启动等待提示;
-- 添加显示当前启动的软件版本支持的 CPU 架构, 依赖的 Runtime;
-- 修正版权信息;
-- 其他技术性更改.
-
-### 其他
-
-- 优化项目结构;
-- 重构构建系统.
-- 优化编译命令.
-。">
+<meta property="og:description" content="日子过得真快呢。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/11.html">
 <meta property="og:image" content="https://MaxLHy0424.github.io/__web__/avatar.png">
@@ -155,45 +73,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>日子过得真快呢. 不知不觉间, CRCSN <strong>v5.0.0</strong> 的开发已经接近尾声, 面向公众测试的 <strong>v5.0.0-beta.2</strong> 也已经发布. 也越来越临近开学了, 希望初中能上电脑课吧 (笑).</p>
-<p>至于什么时候发布, 嗯......如果一切顺利的话, 可能会在 8 月 25 日, 具体时间待定.</p>
-<p>废话不多说, 在此罗列这一个多月的开发成果 <del>(我才不会告诉你这些东西是 v5.0.0 正式版更新日志的一部分, 绝对不是因为我太懒了)</del>:</p>
-<h3>软件本体 (v5.0.0)</h3>
-<ul>
-<li>拆分源代码文件;</li>
-<li>迁移至现代 C++ 标准;</li>
-<li>重构软件架构;</li>
-<li>重构破解/恢复模块, 增强拓展性;</li>
-<li>添加软件图标;</li>
-<li>支持老旧的 Windows OS (如 Windows 7);</li>
-<li>移除键盘输入选择, 改为鼠标点选;</li>
-<li>移除命令行参数<code class="notranslate">-color=</code>;</li>
-<li>添加命令行参数<code class="notranslate">--sparse--view</code>;</li>
-<li>默认锁定窗口大小, 禁用部分窗口控件;</li>
-<li>支持窗口半透明;</li>
-<li>移除 "工具箱";</li>
-<li>修复在置顶窗口的线程创建前切换前台窗口, 导致错误置顶其他窗口;</li>
-<li>修复以管理员权限启动时, 窗口标题中出现<code class="notranslate">管理员: </code>字样;</li>
-<li>修复从非 GBK 文字编码的控制台中启动, 所有非 ASCII 字符乱码;</li>
-<li>修复部分数据类型不匹配;</li>
-<li>修正版权信息;</li>
-<li>其他技术性更改.</li>
-</ul>
-<h3>启动脚本 (v2.0.0)</h3>
-<ul>
-<li>重构启动脚本;</li>
-<li>改为非内联启动;</li>
-<li>添加启动等待提示;</li>
-<li>添加显示当前启动的软件版本支持的 CPU 架构, 依赖的 Runtime;</li>
-<li>修正版权信息;</li>
-<li>其他技术性更改.</li>
-</ul>
-<h3>其他</h3>
-<ul>
-<li>优化项目结构;</li>
-<li>重构构建系统.</li>
-<li>优化编译命令.</li>
-</ul></div>
+<div class="markdown-body" id="postBody"><p>日子过得真快呢。不知不觉间，CRCSN v5.0.0 的开发已经接近尾声，面向公众测试的 <strong>v5.0.0-beta.2</strong> 也已经发布。也越来越临近开学了，希望初中能上电脑课吧（笑）。</p>
+<p>至于什么时候发布，嗯……如果一切顺利的话，可能会在 8 月 25 日，具体时间待定。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
