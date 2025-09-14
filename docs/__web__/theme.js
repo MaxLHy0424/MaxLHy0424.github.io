@@ -41,19 +41,24 @@
         document.body.appendChild(el);
         const style = document.createElement("style");
         style.textContent = `
+      :root {
+        --hue: 0deg;
+      }
       .herobgcolor {
         position: fixed;
         top: 0; left: 0;
         width: 100vw; height: 100vh;
         z-index: -1;
-        background-size: 600% 600%;
-        animation: hueflow 30s ease infinite;
-        transition: background 0.6s ease;
+        background-size: 200% 200%;
+        transform: translateZ(0); /* 提升为合成层 */
+        animation: bgflow 90s linear infinite;
+        transition: background 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: background-position; /* 只用于动画属性 */
       }
-      @keyframes hueflow {
-        0% { filter: hue-rotate(0deg); background-position: 0% 50%; }
-        50% { filter: hue-rotate(180deg); background-position: 100% 50%; }
-        100% { filter: hue-rotate(360deg); background-position: 0% 50%; }
+      @keyframes bgflow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
     `;
         document.head.appendChild(style);
@@ -69,8 +74,11 @@
         document.querySelectorAll(".post-card").forEach(card => {
             card.style.background = theme.cardBg;
             card.style.border = theme.cardBorder;
-            card.style.backdropFilter = "blur(16px)";
-            card.style.webkitBackdropFilter = "blur(16px)";
+            card.style.backdropFilter = "blur(10px)";
+            card.style.webkitBackdropFilter = "blur(10px)";
+            card.style.transform = "translateZ(0)";
+            card.style.willChange = "opacity, transform"; // 仅用于动画
+            card.style.transition = "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
             card.style.boxShadow = "0 8px 24px rgba(0,0,0,0.12)";
 
             const title = card.querySelector(".post-title");
@@ -97,40 +105,56 @@
         attributeFilter: ["data-color-mode"]
     });
 
+    const requestIdleCallback = window.requestIdleCallback || function (cb) {
+        return setTimeout(cb, 1);
+    };
+
     function rebuildCards() {
-        document.querySelectorAll(".SideNav-item").forEach((card, i) => {
-            const title = card.querySelector(".listTitle")?.innerText || "未命名文章";
-            const link = card.getAttribute("href");
-            const labels = [...card.querySelectorAll(".Label")];
-            const time = labels.find(el => /^\d{4}/.test(el.textContent.trim()))?.textContent.trim() || "";
+        const cards = Array.from(document.querySelectorAll(".SideNav-item"));
+        let processed = 0;
 
-            const tags = labels.filter(el => el.textContent.trim() !== time).map(el => {
-                const tag = el.textContent.trim();
-                const bg = el.style.backgroundColor || "#999";
-                const fg = getTextColor(bg);
-                return `<span class="post-tag" style="background-color:${bg};color:${fg}">${tag}</span>`;
-            }).join("");
+        function processNextBatch(deadline) {
+            while (processed < cards.length && (deadline.timeRemaining() > 0 || deadline.didTimeout)) {
+                const card = cards[processed];
+                const title = card.querySelector(".listTitle")?.innerText || "未命名文章";
+                const link = card.getAttribute("href");
+                const labels = [...card.querySelectorAll(".Label")];
+                const time = labels.find(el => /^\d{4}/.test(el.textContent.trim()))?.textContent.trim() || "";
 
+                const tags = labels.filter(el => el.textContent.trim() !== time).map(el => {
+                    const tag = el.textContent.trim();
+                    const bg = el.style.backgroundColor || "#999";
+                    const fg = getTextColor(bg);
+                    return `<span class="post-tag" style="background-color:${bg};color:${fg}">${tag}</span>`;
+                }).join("");
 
-            const newCard = document.createElement("a");
-            newCard.href = link;
-            newCard.className = "post-card";
-            newCard.style.animationDelay = `${i * 60}ms`;
-            newCard.innerHTML = `
-        <div class="post-meta">${tags}<span class="post-date">${time}</span></div>
-        <h2 class="post-title">${title}</h2>
-      `;
-            card.replaceWith(newCard);
-        });
+                const newCard = document.createElement("a");
+                newCard.href = link;
+                newCard.className = "post-card";
+                newCard.style.animationDelay = `${processed * 60}ms`;
+                newCard.innerHTML = `
+          <div class="post-meta">${tags}<span class="post-date">${time}</span></div>
+          <h2 class="post-title">${title}</h2>
+        `;
+                card.replaceWith(newCard);
+                processed++;
+            }
 
-        applyTheme();
+            if (processed < cards.length) {
+                requestIdleCallback(processNextBatch);
+            } else {
+                applyTheme();
+            }
+        }
+
+        if (document.readyState === "loading") {
+            window.addEventListener("DOMContentLoaded", () => requestIdleCallback(processNextBatch));
+        } else {
+            requestIdleCallback(processNextBatch);
+        }
+
+        document.documentElement.removeAttribute("data-ui-pending");
     }
 
-    document.readyState === "loading"
-        ? window.addEventListener("DOMContentLoaded", rebuildCards)
-        : rebuildCards();
-
-    document.documentElement.removeAttribute("data-ui-pending");
+    rebuildCards();
 })();
-
-
