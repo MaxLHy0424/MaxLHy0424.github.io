@@ -5,7 +5,7 @@
     const themeColors = {
         light: {
             bgGradient: "linear-gradient(135deg, #f4f4f4, #fef2f2, #f4f0ff)",
-            cardBg: "rgba(255,255,255,0.25)",
+            cardBg: "rgba(255,255,255,0.6)",
             cardBorder: "1px solid rgba(255,255,255,0.2)",
             title: "#1c1c1e",
             summary: "#444",
@@ -13,13 +13,15 @@
         },
         dark: {
             bgGradient: "linear-gradient(135deg, #1a1a2b, #222c3a, #2e3950)",
-            cardBg: "rgba(32,32,32,0.3)",
+            cardBg: "rgba(32,32,32,0.6)",
             cardBorder: "1px solid rgba(255,255,255,0.08)",
             title: "#eee",
             summary: "#aaa",
             meta: "#bbb"
         }
     };
+
+    let isApplyingTheme = false;
 
     function getEffectiveMode() {
         const raw = document.documentElement.getAttribute("data-color-mode");
@@ -46,14 +48,15 @@
         top: 0; left: 0;
         width: 100vw; height: 100vh;
         z-index: -1;
-        background-size: 600% 600%;
-        animation: hueflow 30s ease infinite;
+        background-size: 200% 200%;
+        animation: bgflow 20s ease infinite;
         transition: background 0.6s ease;
+        will-change: background-position;
       }
-      @keyframes hueflow {
-        0% { filter: hue-rotate(0deg); background-position: 0% 50%; }
-        50% { filter: hue-rotate(180deg); background-position: 100% 50%; }
-        100% { filter: hue-rotate(360deg); background-position: 0% 50%; }
+      @keyframes bgflow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
     `;
         document.head.appendChild(style);
@@ -61,30 +64,34 @@
     })();
 
     function applyTheme() {
-        const mode = getEffectiveMode();
-        const theme = themeColors[mode];
+        if (isApplyingTheme) return;
+        isApplyingTheme = true;
+        requestAnimationFrame(() => {
+            const mode = getEffectiveMode();
+            const theme = themeColors[mode];
 
-        bg.style.background = theme.bgGradient;
+            bg.style.background = theme.bgGradient;
 
-        document.querySelectorAll(".post-card").forEach(card => {
-            card.style.background = theme.cardBg;
-            card.style.border = theme.cardBorder;
-            card.style.backdropFilter = "blur(16px)";
-            card.style.webkitBackdropFilter = "blur(16px)";
-            card.style.boxShadow = "0 8px 24px rgba(0,0,0,0.12)";
+            document.querySelectorAll(".post-card").forEach(card => {
+                card.style.background = theme.cardBg;
+                card.style.border = theme.cardBorder;
+                card.style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)";
 
-            const title = card.querySelector(".post-title");
-            const summary = card.querySelector(".post-summary");
-            const meta = card.querySelector(".post-meta");
+                const title = card.querySelector(".post-title");
+                const summary = card.querySelector(".post-summary");
+                const meta = card.querySelector(".post-meta");
 
-            if (title) title.style.color = theme.title;
-            if (summary) summary.style.color = theme.summary;
-            if (meta) meta.style.color = theme.meta;
-        });
+                if (title) title.style.color = theme.title;
+                if (summary) summary.style.color = theme.summary;
+                if (meta) meta.style.color = theme.meta;
+            });
 
-        ["#header", "#footer"].forEach(sel => {
-            const el = document.querySelector(sel);
-            if (el) el.style.color = mode === "dark" ? "#ddd" : "";
+            ["#header", "#footer"].forEach(sel => {
+                const el = document.querySelector(sel);
+                if (el) el.style.color = mode === "dark" ? "#ddd" : "";
+            });
+
+            isApplyingTheme = false;
         });
     }
 
@@ -92,12 +99,16 @@
         window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
     }
 
-    new MutationObserver(applyTheme).observe(document.documentElement, {
+    new MutationObserver(() => {
+        requestAnimationFrame(applyTheme);
+    }).observe(document.documentElement, {
         attributes: true,
         attributeFilter: ["data-color-mode"]
     });
 
     function rebuildCards() {
+        const container = document.createDocumentFragment();
+
         document.querySelectorAll(".SideNav-item").forEach((card, i) => {
             const title = card.querySelector(".listTitle")?.innerText || "未命名文章";
             const link = card.getAttribute("href");
@@ -119,15 +130,23 @@
         <div class="post-meta">${tags}<span class="post-date">${time}</span></div>
         <h2 class="post-title">${title}</h2>
       `;
-            card.replaceWith(newCard);
+            container.appendChild(newCard);
         });
 
-        applyTheme();
+        const sideNav = document.querySelector(".SideNav");
+        if (sideNav) {
+            sideNav.innerHTML = "";
+            sideNav.appendChild(container);
+        }
+
+        requestAnimationFrame(applyTheme);
     }
 
-    document.readyState === "loading"
-        ? window.addEventListener("DOMContentLoaded", rebuildCards)
-        : rebuildCards();
+    if (document.readyState === "loading") {
+        window.addEventListener("DOMContentLoaded", rebuildCards, { once: true });
+    } else {
+        rebuildCards();
+    }
 
     document.documentElement.removeAttribute("data-ui-pending");
 })();
