@@ -79,10 +79,9 @@ function updatePagination(totalPages, currentPage) {
     style.textContent = `
         .pagination a.current-page {
             font-weight: bold;
-            color: red;
-            text-decoration: underline;
+            color: #0078D4;
             font-size: 18px;
-            border-color: #56539d;
+            border-color: #4CC2FF;
         }
     `;
     document.head.appendChild(style);
