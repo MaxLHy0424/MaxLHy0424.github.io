@@ -79,7 +79,7 @@ function updatePagination(totalPages, currentPage) {
     style.textContent = `
         .pagination a.current-page {
             font-weight: bold;
-            color: #0078D4;
+            color: #58A6FF;
             font-size: 18px;
             border-color: #4CC2FF;
         }
