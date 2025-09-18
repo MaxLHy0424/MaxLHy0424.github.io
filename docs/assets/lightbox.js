@@ -7,8 +7,7 @@
                 onOpen: null,
                 onClose: null,
                 onNavigate: null
-            }, options);
-
+            }, options)
             this.images = [];
             this.currentIndex = 0;
             this.isOpen = false;
@@ -17,16 +16,13 @@
             this.touchEndX = 0;
             this.wheelTimer = null;
             this.preloadedImages = {};
-
             this.init();
         }
-
         init() {
             this.createStyles();
             this.createLightbox();
             this.bindEvents();
         }
-
         createStyles() {
             const style = document.createElement('style');
             style.textContent = `
@@ -127,48 +123,36 @@
       `;
             document.head.appendChild(style);
         }
-
         createLightbox() {
             this.overlay = document.createElement('div');
             this.overlay.className = 'lb-lightbox-overlay';
-
             this.contentWrapper = document.createElement('div');
             this.contentWrapper.className = 'lb-lightbox-content-wrapper';
-
             this.container = document.createElement('div');
             this.container.className = 'lb-lightbox-container';
-
             this.imageWrapper = document.createElement('div');
             this.imageWrapper.className = 'lb-lightbox-image-wrapper';
-
             this.image = document.createElement('img');
             this.image.className = 'lb-lightbox-image';
-
             this.prevButton = document.createElement('button');
             this.prevButton.className = 'lb-lightbox-nav lb-lightbox-prev';
             this.prevButton.innerHTML = '&#10094;';
-
             this.nextButton = document.createElement('button');
             this.nextButton.className = 'lb-lightbox-nav lb-lightbox-next';
             this.nextButton.innerHTML = '&#10095;';
-
             this.closeButton = document.createElement('button');
             this.closeButton.className = 'lb-lightbox-close';
             this.closeButton.innerHTML = '&times;';
-
             this.imageWrapper.appendChild(this.image);
             this.container.appendChild(this.imageWrapper);
             this.contentWrapper.appendChild(this.container);
             this.contentWrapper.appendChild(this.prevButton);
             this.contentWrapper.appendChild(this.nextButton);
             this.contentWrapper.appendChild(this.closeButton);
-
             this.overlay.appendChild(this.contentWrapper);
             document.body.appendChild(this.overlay);
-
             this.closeButton.addEventListener('click', this.close.bind(this));
         }
-
         bindEvents() {
             document.addEventListener('click', this.handleImageClick.bind(this), true);
             this.overlay.addEventListener('click', this.handleOverlayClick.bind(this));
@@ -181,7 +165,6 @@
             this.overlay.addEventListener('touchmove', this.handleTouchMove.bind(this));
             this.overlay.addEventListener('touchend', this.handleTouchEnd.bind(this));
         }
-
         handleImageClick(event) {
             const clickedImage = event.target.closest('img');
             if (clickedImage && !this.isOpen) {
@@ -192,13 +175,11 @@
                 this.open();
             }
         }
-
         handleOverlayClick(event) {
             if (event.target === this.overlay && this.options.closeOnOverlayClick) {
                 this.close();
             }
         }
-
         handleKeyDown(event) {
             if (!this.isOpen) return;
             switch (event.key) {
@@ -213,7 +194,6 @@
                     break;
             }
         }
-
         handleWheel(event) {
             event.preventDefault();
 
@@ -233,22 +213,18 @@
                 }, 50);
             }
         }
-
         handleTouchStart(event) {
             this.touchStartX = event.touches[0].clientX;
         }
-
         handleTouchMove(event) {
             this.touchEndX = event.touches[0].clientX;
         }
-
         handleTouchEnd() {
             const difference = this.touchStartX - this.touchEndX;
             if (Math.abs(difference) > 50) {
                 difference > 0 ? this.showNextImage() : this.showPreviousImage();
             }
         }
-
         open() {
             this.isOpen = true;
             this.overlay.classList.add('active');
@@ -258,7 +234,6 @@
                 this.options.onOpen();
             }
         }
-
         close() {
             document.body.style.overflow = '';
             this.overlay.classList.remove('active');
@@ -269,7 +244,6 @@
             }
             this.unbindEvents();
         }
-
         showPreviousImage() {
             if (this.currentIndex > 0) {
                 this.currentIndex--;
@@ -277,7 +251,6 @@
                 this.resetButtonScale(this.prevButton);
             }
         }
-
         showNextImage() {
             if (this.currentIndex < this.images.length - 1) {
                 this.currentIndex++;
@@ -285,56 +258,46 @@
                 this.resetButtonScale(this.nextButton);
             }
         }
-
         resetButtonScale(button) {
             button.style.transform = 'scale(1.1)';
             setTimeout(() => {
                 button.style.transform = 'scale(1)';
             }, 200);
         }
-
         showImage(imgSrc) {
             const newImage = new Image();
             newImage.src = imgSrc;
-
             newImage.onload = () => {
                 this.image.style.transition = `opacity ${this.options.animationDuration}ms ease`;
                 this.image.style.transform = 'scale(1)';
                 this.image.src = imgSrc;
                 this.image.style.opacity = '1';
-
                 this.preloadImages();
                 this.prevButton.style.display = this.currentIndex === 0 ? 'none' : 'block';
                 this.nextButton.style.display = this.currentIndex === this.images.length - 1 ? 'none' : 'block';
             };
-
             newImage.onerror = () => {
                 console.error('Failed to load image:', imgSrc);
             };
         }
-
         preloadImages() {
             const preloadNext = this.currentIndex + 1;
             const preloadPrev = this.currentIndex - 1;
-
             if (preloadNext < this.images.length) {
                 this.preloadedImages[preloadNext] = new Image();
                 this.preloadedImages[preloadNext].src = this.images[preloadNext].src;
             }
-
             if (preloadPrev >= 0) {
                 this.preloadedImages[preloadPrev] = new Image();
                 this.preloadedImages[preloadPrev].src = this.images[preloadPrev].src;
             }
         }
-
         clearPreloadedImages() {
             Object.keys(this.preloadedImages).forEach(key => {
                 this.preloadedImages[key].src = '';
             });
             this.preloadedImages = {};
         }
-
         unbindEvents() {
             document.removeEventListener('click', this.handleImageClick.bind(this), true);
             this.overlay.removeEventListener('click', this.handleOverlayClick.bind(this));
@@ -348,9 +311,7 @@
             this.overlay.removeEventListener('touchend', this.handleTouchEnd.bind(this));
         }
     }
-
     window.Lightbox = Lightbox;
-
     document.addEventListener('DOMContentLoaded', () => {
         new Lightbox();
     });
