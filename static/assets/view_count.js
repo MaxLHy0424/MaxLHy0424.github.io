@@ -6,7 +6,6 @@ function createVercount() {
     var runday = document.getElementById('runday');
     runday.insertAdjacentHTML('afterend', '<span id="busuanzi_container_site_pv" style="display:none">总浏览量<span id="busuanzi_value_site_pv"></span>次 • </span>');
 }
-
 document.addEventListener("DOMContentLoaded", function () {
     createVercount();
     var element = document.createElement('script');
