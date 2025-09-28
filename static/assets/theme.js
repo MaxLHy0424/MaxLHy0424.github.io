@@ -47,6 +47,18 @@
 
     // 初始化背景和样式
     function initializeBackground() {
+        // 如果 body 或 head 尚未初始化（脚本可能在 head 中执行），避免直接 appendChild 导致错误
+        if (!document.body || !document.head) {
+            // 只注册一次 DOMContentLoaded 回调以重试初始化
+            if (!document.__tiengming_init_scheduled) {
+                document.__tiengming_init_scheduled = true;
+                document.addEventListener('DOMContentLoaded', function () {
+                    initializeBackground();
+                }, { once: true });
+            }
+            return null;
+        }
+
         const existingBg = document.querySelector('.herobgcolor');
         if (existingBg) existingBg.remove();
 
@@ -89,11 +101,14 @@
         opacity: 0.8;
       }
     `;
-        document.head.appendChild(style);
+        // 有些极端环境下 document.head 可能不存在，使用回退
+        const head = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
+        head.appendChild(style);
         return bg;
     }
 
-    const bg = initializeBackground();
+    // 不要在脚本加载时就立即操作 DOM，延迟到 DOM 就绪时初始化背景
+    let bg = null;
 
     function applyTheme() {
         const mode = getEffectiveMode();
@@ -246,6 +261,8 @@
 
     // 执行主逻辑
     whenReady(() => {
+        // 在 DOM 就绪时安全初始化背景并保存引用
+        bg = bg || initializeBackground();
         rebuildCards();
         // 标记完成 - 放在最前面，避免重复执行
         window.__TiengmingModernized = true;
