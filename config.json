@@ -16,7 +16,7 @@
     "nightTheme": "dark_colorblind",
     "urlMode": "issue",
     "style": "",
-    "allHead": "<script src='https://MaxLHy0424.github.io/assets/view_count.js'></script></script><link rel=\"preconnect\" href=\"https://code.buxiantang.top\"><link rel=\"preconnect\" href=\"https://blog.meekdai.com\"><link rel=\"stylesheet\" href=\"https://MaxLHy0424.github.io/assets/GmeekBaseTheme.css\"><script src=\"https://MaxLHy0424.github.io/assets/GmeekCustomizeCss.js\"></script>",
+    "allHead": "<script src='https://MaxLHy0424.github.io/assets/view_count.js'></script></script><link rel=\"preconnect\" href=\"https://code.buxiantang.top\"><link rel=\"preconnect\" href=\"https://blog.meekdai.com\"><link rel=\"stylesheet\" href=\"https://MaxLHy0424.github.io/assets/basic_theme.css\"><script src=\"https://MaxLHy0424.github.io/assets/theme.js\"></script>",
     "script": "<script src='https://MaxLHy0424.github.io/assets/articletoc.js'></script><script src='https://MaxLHy0424.github.io/assets/lightbox.js'></script>",
     "indexStyle": "",
     "indexScript": "<script src='https://MaxLHy0424.github.io/assets/num_pagination.js'></script>",
