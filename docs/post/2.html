@@ -255,7 +255,7 @@ sudo rm -rf /tmp/<span class="pl-k">*</span>
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {cache,log,tmp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo rm -rf /var/<span class="pl-smi">${i}</span>/<span class="pl-k">*</span><span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
 <div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>如果后续安装软件包缺少依赖，可以临时注释掉 <code class="notranslate">/etc/pacman.conf</code> 中所有后缀为 <code class="notranslate">testing</code> 或 <code class="notranslate">staging</code> 的软件源，完成后使用 <code class="notranslate">sudo pacman -Syyu</code> 更新依赖即可。</p>
 </div></div>
-<div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
+<div style="font-size:small;margin-top:8px;float:right;">如无另外说明，本文采用 CC BY-NC-SA 4.0 进行许可</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
 <div class="comments" id="comments"></div>
