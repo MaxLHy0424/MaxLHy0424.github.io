@@ -36,9 +36,7 @@ bestEffortDnsParsing=true
 useWindowsDnsCache=true
 ```
 
-然后，在 Microsoft Store 中搜索 `Arch WSL`，点击下图中所示的软件（一般为第1个）：
-
-![Microsoft Store 搜索结果的局部截图](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/ef60802e-5e57-4b6f-81cf-aa6add640178)
+然后，在 Microsoft Store 中搜索 `Arch WSL`，安装。
 
 按照正常流程安装、打开、创建账户。
 
