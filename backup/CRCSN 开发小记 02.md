@@ -8,6 +8,6 @@
 
 Console UI 目前基本取代了键盘输入选择的方式，让操作更加简单方便。经过这几天的打磨，美观度上也无需担心。目前的最新开发版本 `24w27d` 已经基本完成了主页的重构，具体见下图：
 
-![CRCSN 版本 24w27d 的主页](https://github.com/MaxLHy0424/MaxLHy0424.github.io/assets/142279449/49740e9c-bc68-422a-94d2-750ee54cbdeb)
+![CRCSN 版本 24w27d 的主页](https://MaxLHy0424.github.io/assets/CRCSN开发小记_图1.png)
 
 v5.0.0 致力让大家更加满意！
