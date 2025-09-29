@@ -93,9 +93,18 @@
         return bg;
     }
 
-    const bg = initializeBackground();
+    let bg = null;
 
     function applyTheme() {
+        // Ensure background exists when applying theme. If body isn't ready, skip for now.
+        if (!bg) {
+            if (document.body) {
+                bg = initializeBackground();
+            } else {
+                return; // DOM not ready yet
+            }
+        }
+
         const mode = getEffectiveMode();
         const theme = themeColors[mode];
 
@@ -246,6 +255,16 @@
 
     // 执行主逻辑
     whenReady(() => {
+        // 初始化背景在 DOM 就绪后执行，避免 document.body 为 null
+        try {
+            if (!bg && document.body) {
+                bg = initializeBackground();
+            }
+        } catch (e) {
+            // 防御性捕获，避免阻塞后续脚本
+            console.error('初始化背景失败：', e);
+        }
+
         rebuildCards();
         // 标记完成 - 放在最前面，避免重复执行
         window.__TiengmingModernized = true;
@@ -259,8 +278,15 @@
             const existingBg = document.querySelector('.herobgcolor');
 
             if (existingCards && !existingBg) {
-                initializeBackground();
-                applyTheme();
+                // 只有在 document.body 可用时才初始化背景
+                if (document.body) {
+                    try {
+                        bg = initializeBackground();
+                        applyTheme();
+                    } catch (e) {
+                        console.error('visibilitychange 初始化背景失败：', e);
+                    }
+                }
             }
         }
     });
