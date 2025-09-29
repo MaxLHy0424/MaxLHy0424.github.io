@@ -16,7 +16,7 @@
     "nightTheme": "dark_colorblind",
     "urlMode": "issue",
     "style": "",
-    "allHead": "<script src='/assets/view_count.js'></script><link rel=\"preconnect\" href=\"https://code.buxiantang.top\"><link rel=\"preconnect\" href=\"https://blog.meekdai.com\"><link rel=\"stylesheet\" href=\"https://code.buxiantang.top/assets/GmeekBaseTheme.css\"><script src=\"https://code.buxiantang.top/assets/GmeekCustomizeCss.js\"></script>",
+    "allHead": "<script src='/assets/view_count.js'></script><link rel=\"stylesheet\" href=\"https://code.buxiantang.top/assets/GmeekBaseTheme.css\"><script src=\"https://code.buxiantang.top/assets/GmeekCustomizeCss.js\"></script>",
     "script": "<script src='/assets/articletoc.js'></script><script src='/assets/lightbox.js'></script>",
     "indexStyle": "",
     "indexScript": "<script src='/assets/num_pagination.js'></script>",
