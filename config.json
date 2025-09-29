@@ -21,7 +21,7 @@
     "indexStyle": "",
     "indexScript": "<script src='/web/num_pagination.js'></script>",
     "showPostSource": 1,
-    "bottomText": "如无另外说明，本文采用 CC BY-NC-SA 4.0 进行许可",
+    "bottomText": "如无另外说明，本文采用 CC BY-NC-SA 4.0 许可",
     "singlePage": [
         "about",
         "link"
