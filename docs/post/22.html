@@ -10,9 +10,13 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
+<meta name="description" content="# std::initializer_list：C++ 历史设计遗憾
+
+C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
 <meta property="og:title" content="std::initializer_list：C++ 历史设计遗憾">
-<meta property="og:description" content="C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
+<meta property="og:description" content="# std::initializer_list：C++ 历史设计遗憾
+
+C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/22.html">
 <meta property="og:image" content="/web/avatar.webp">
@@ -83,7 +87,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。</p>
+<div class="markdown-body" id="postBody"><h1>std::initializer_list：C++ 历史设计遗憾</h1>
+<p>C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。</p>
 <h2>引入：从 STL 的行为差异说起</h2>
 <p>在探讨 <code class="notranslate">std::initializer_list&lt;&gt;</code> 之前，我们先看看 C++20 引入的函数模板 <code class="notranslate">std::to_array&lt;&gt;()</code>。它的函数签名如下：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">template</span>&lt; <span class="pl-k">class</span> <span class="pl-en">T</span>, std::<span class="pl-c1">size_t</span> N &gt;
@@ -124,7 +129,7 @@ X(const X&amp;)
 ~X()
 </code></pre>
 <p>拷贝构造函数被调用！更严重的是，如果 X 的拷贝构造函数被显式删除（<code class="notranslate">= delete</code>），这段代码将直接编译失败。</p>
-<p>问题出在哪里？答案在于：标准容器（如 <code class="notranslate">std::vector&lt;&gt;</code>）的花括号初始化会优先匹配接受 <code class="notranslate">std::initializer_list&lt;T&gt;</code> 的构造函数，而 <code class="notranslate">std::initializer_list&lt;&gt;</code> 本身的设计限制了移动语义的使用。</p>
+<p>问题出在哪里？答案在于：标准容器（如 <code class="notranslate">std::vector&lt;&gt;</code>）的列表初始化会优先匹配接受 <code class="notranslate">std::initializer_list&lt;T&gt;</code> 的构造函数，而 <code class="notranslate">std::initializer_list&lt;&gt;</code> 本身的设计限制了移动语义的使用。</p>
 <h2>揭开 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的面纱</h2>
 <p><a href="https://zh.cppreference.com/w/cpp/utility/initializer_list" rel="nofollow">cppreference 对 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的描述</a> 中有这样一句关键信息：</p>
 <blockquote>
@@ -132,7 +137,7 @@ X(const X&amp;)
 </blockquote>
 <p>关键词很明确：<strong>代理对象</strong>、<strong>const T 数组</strong>、<strong>只读内存</strong>。</p>
 <p>实际上，<code class="notranslate">std::initializer_list&lt;&gt;</code> 的典型实现就是「一个指向 <code class="notranslate">const T</code> 数组的指针 + 数组长度（<code class="notranslate">std::size_t</code>）」。更重要的是：<strong>它不持有元素的所有权</strong>。</p>
-<p>那花括号初始化列表中对象的生命周期如何？我们修改代码进一步观察：</p>
+<p>那列表初始化中对象的生命周期如何？我们修改代码进一步观察：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++23</span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>array<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>print<span class="pl-pds">&gt;</span></span>
@@ -159,11 +164,11 @@ X(const X&amp;)
 </code></pre>
 <p>过程很清晰：</p>
 <ol>
-<li><code class="notranslate">X{}</code> 在初始化列表中构造，<code class="notranslate">std::initializer_list&lt;&gt;</code> 存储了它的地址（数组长度为 1）；</li>
+<li><code class="notranslate">X{}</code> 在列表初始化中构造，<code class="notranslate">std::initializer_list&lt;&gt;</code> 存储了它的地址（数组长度为 1）；</li>
 <li>容器通过拷贝构造在堆上创建新对象；</li>
-<li>初始化列表中的 <code class="notranslate">X{}</code> 先析构，打印分割线后，堆上的对象再析构。</li>
+<li>列表初始化中的 <code class="notranslate">X{}</code> 先析构，打印分割线后，堆上的对象再析构。</li>
 </ol>
-<p>由此可得出结论：<strong>初始化列表中对象的生命周期，与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 对象本身的生命周期一致</strong>。这是 C++ 中少数规则明确的生命周期场景，但这份「清晰」是以性能为代价的。</p>
+<p>由此可得出结论：<strong>列表初始化中对象的生命周期，与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 对象本身的生命周期一致</strong>。这是 C++ 中少数规则明确的生命周期场景，但这份「清晰」是以性能为代价的。</p>
 <p>基于此，我们可以推测编译器对列表初始化的处理逻辑：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> 程序员编写：</span>
 std::vector v{ X{}, X{} };
