@@ -1,6 +1,6 @@
 C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。
 
-# 引入：从 STL 的行为差异说起
+## 引入：从 STL 的行为差异说起
 
 在探讨 `std::initializer_list<>` 之前，我们先看看 C++20 引入的函数模板 `std::to_array<>()`。它的函数签名如下：
 
@@ -61,7 +61,7 @@ X(const X&)
 
 问题出在哪里？答案在于：标准容器（如 `std::vector<>`）的列表初始化会优先匹配接受 `std::initializer_list<T>` 的构造函数，而 `std::initializer_list<>` 本身的设计限制了移动语义的使用。
 
-# 揭开 `std::initializer_list<>` 的面纱
+## 揭开 `std::initializer_list<>` 的面纱
 
 [cppreference 对 `std::initializer_list<>` 的描述](https://zh.cppreference.com/w/cpp/utility/initializer_list) 中有这样一句关键信息：
 
@@ -133,7 +133,7 @@ auto create_list()
 // 函数返回后，临时 string 已销毁，initializer_list 持有悬垂指针！
 ```
 
-# 为历史遗憾打补丁
+## 为历史遗憾打补丁
 
 `std::initializer_list<>` 的性能缺陷（如强制拷贝）并非无解，实践中可参考这些方案：
 
