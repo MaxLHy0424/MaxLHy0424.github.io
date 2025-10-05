@@ -84,7 +84,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><p>C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。</p>
-<h1>引入：从 STL 的行为差异说起</h1>
+<h2>引入：从 STL 的行为差异说起</h2>
 <p>在探讨 <code class="notranslate">std::initializer_list&lt;&gt;</code> 之前，我们先看看 C++20 引入的函数模板 <code class="notranslate">std::to_array&lt;&gt;()</code>。它的函数签名如下：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">template</span>&lt; <span class="pl-k">class</span> <span class="pl-en">T</span>, std::<span class="pl-c1">size_t</span> N &gt;
 <span class="pl-k">constexpr</span> std::array&lt; std::<span class="pl-c1">remove_cv_t</span>&lt; T &gt;, N &gt; <span class="pl-en">to_array</span>( T ( &amp;a )[ N ] );
@@ -125,7 +125,7 @@ X(const X&amp;)
 </code></pre>
 <p>拷贝构造函数被调用！更严重的是，如果 X 的拷贝构造函数被显式删除（<code class="notranslate">= delete</code>），这段代码将直接编译失败。</p>
 <p>问题出在哪里？答案在于：标准容器（如 <code class="notranslate">std::vector&lt;&gt;</code>）的列表初始化会优先匹配接受 <code class="notranslate">std::initializer_list&lt;T&gt;</code> 的构造函数，而 <code class="notranslate">std::initializer_list&lt;&gt;</code> 本身的设计限制了移动语义的使用。</p>
-<h1>揭开 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的面纱</h1>
+<h2>揭开 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的面纱</h2>
 <p><a href="https://zh.cppreference.com/w/cpp/utility/initializer_list" rel="nofollow">cppreference 对 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的描述</a> 中有这样一句关键信息：</p>
 <blockquote>
 <p><code class="notranslate">std::initializer_list&lt;T&gt;</code> 类型的对象是一个轻量级代理对象，它提供对 <code class="notranslate">const T</code> 类型对象数组的访问（这些对象可能分配在只读内存中）。</p>
@@ -178,7 +178,7 @@ std::vector <span class="pl-en">v</span>( __temp_array, __temp_array + <span cla
     <span class="pl-k">return</span> std::initializer_list&lt; std::string &gt;{ <span class="pl-s"><span class="pl-pds">"</span>a<span class="pl-pds">"</span></span>s, <span class="pl-s"><span class="pl-pds">"</span>b<span class="pl-pds">"</span></span>s };
 }
 <span class="pl-c"><span class="pl-c">//</span> 函数返回后，临时 string 已销毁，initializer_list 持有悬垂指针！</span></pre></div>
-<h1>为历史遗憾打补丁</h1>
+<h2>为历史遗憾打补丁</h2>
 <p><code class="notranslate">std::initializer_list&lt;&gt;</code> 的性能缺陷（如强制拷贝）并非无解，实践中可参考这些方案：</p>
 <ol>
 <li><strong>避免对非平凡拷贝类型使用列表初始化</strong>：对于移动成本低但拷贝成本高的类型（如 <code class="notranslate">std::string</code>、<code class="notranslate">std::vector&lt;&gt;</code>），尽量用其他构造方式替代。</li>
