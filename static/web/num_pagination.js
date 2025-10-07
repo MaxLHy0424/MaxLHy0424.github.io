@@ -1,4 +1,4 @@
-var itemsPerPage = 10;
+var itemsPerPage = 15;
 var custompages = 0;
 var xmlUrl = `${window.location.origin}/rss.xml`;
 function getCurrentPage() {
@@ -69,7 +69,7 @@ fetch(xmlUrl)
         if (itemslength <= itemsPerPage) {
             return;
         }
-        var totalPages = Math.ceil(itemslength / itemsPerPage);
+        var totalPages = (itemslength + itemsPerPage - 1) / itemsPerPage;
         var currentPage = getCurrentPage();
         updatePagination(totalPages, currentPage);
     })
