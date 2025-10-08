@@ -1,8 +1,8 @@
-C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。
+C++ 11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。
 
 ## 引入：从 STL 的行为差异说起
 
-在探讨 `std::initializer_list<>` 之前，我们先看看 C++20 引入的函数模板 `std::to_array<>()`。它的函数签名如下：
+在探讨 `std::initializer_list<>` 之前，我们先看看 C++ 20 引入的函数模板 `std::to_array<>()`。它的函数签名如下：
 
 ```cpp
 template< class T, std::size_t N >
@@ -14,7 +14,7 @@ constexpr std::array< std::remove_cv_t< T >, N > to_array( T ( &&a )[ N ] );
 日常使用中，它的表现符合预期。例如：
 
 ```cpp
-// C++23
+// C++ 23
 #include <array>
 #include <print>
 #include <vector>
@@ -74,7 +74,7 @@ X(const X&)
 那列表初始化中对象的生命周期如何？我们修改代码进一步观察：
 
 ```cpp
-// C++23
+// C++ 23
 #include <array>
 #include <print>
 #include <vector>
@@ -140,7 +140,7 @@ auto create_list()
 1. **避免对非平凡拷贝类型使用列表初始化**：对于移动成本低但拷贝成本高的类型（如 `std::string`、`std::vector<>`），尽量用其他构造方式替代。
 2. **使用工厂函数绕过限制**：我们可以自己实现构造函数，直接转发参数而非依赖 `std::initializer_list<>`。例如：
 ```cpp
-// C++23
+// C++ 23
 #include <concepts>
 #include <vector>
 // 通过参数直接构造 std::vector<T>
