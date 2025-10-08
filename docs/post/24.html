@@ -205,7 +205,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>type_traits<span class="pl-pds">&gt;</span></span>
 <span class="pl-k">struct</span> <span class="pl-en">impl</span>
 {
-    <span class="pl-k">auto</span> <span class="pl-en">f</span>( <span class="pl-c1">this</span> T&amp;&amp; self )
+    <span class="pl-k">auto</span> <span class="pl-en">f</span>( <span class="pl-c1">this</span> <span class="pl-k">auto</span>&amp;&amp; self )
     {
         <span class="pl-c1">std::println</span>( <span class="pl-s"><span class="pl-pds">"</span>(using CRTP...)<span class="pl-pds">"</span></span> );
         self.<span class="pl-c1">g</span>();
