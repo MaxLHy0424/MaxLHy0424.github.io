@@ -57,9 +57,9 @@ X(const X&)
 ~X()
 ```
 
-拷贝构造函数被调用！更严重的是，如果 X 的拷贝构造函数被显式删除（`= delete`），这段代码将直接编译失败。
+拷贝构造函数被调用！更严重的是，如果 `X` 的拷贝构造函数被显式删除（`= delete`），这段代码将直接编译失败。
 
-问题出在哪里？答案在于：标准容器（如 `std::vector<>`）的列表初始化会优先匹配接受 `std::initializer_list<T>` 的构造函数，而 `std::initializer_list<>` 本身的设计限制了移动语义的使用。
+问题出在哪里？答案在于：标准容器（如 `std::vector<>`）的列表初始化会优先匹配接受 `std::initializer_list<>` 的构造函数，而 `std::initializer_list<>` 本身的设计限制了移动语义的使用。
 
 ## 揭开 `std::initializer_list<>` 的面纱
 
