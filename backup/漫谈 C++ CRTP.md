@@ -139,7 +139,7 @@ CRTP 最广为人知的用法就是编译期多态了，但鄙人认为 CRTP 用
 #include <type_traits>
 struct impl
 {
-    auto f( this T&& self )
+    auto f( this auto&& self )
     {
         std::println( "(using CRTP...)" );
         self.g();
