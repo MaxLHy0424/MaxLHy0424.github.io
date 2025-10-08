@@ -10,9 +10,9 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
+<meta name="description" content="C++ 11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
 <meta property="og:title" content="std::initializer_list：C++ 历史遗憾">
-<meta property="og:description" content="C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
+<meta property="og:description" content="C++ 11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 `std::initializer_list<>` 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/22.html">
 <meta property="og:image" content="/web/avatar.webp">
@@ -83,15 +83,15 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>C++11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。</p>
+<div class="markdown-body" id="postBody"><p>C++ 11 推出的列表初始化本应成为统一 C++ 对象初始化方式的利器，提升语言的一致性与表达力，但它与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的深度绑定，却让这一特性沦为 C++ 发展史上颇具争议的设计，其负面影响一直延续至今。</p>
 <h2>引入：从 STL 的行为差异说起</h2>
-<p>在探讨 <code class="notranslate">std::initializer_list&lt;&gt;</code> 之前，我们先看看 C++20 引入的函数模板 <code class="notranslate">std::to_array&lt;&gt;()</code>。它的函数签名如下：</p>
+<p>在探讨 <code class="notranslate">std::initializer_list&lt;&gt;</code> 之前，我们先看看 C++ 20 引入的函数模板 <code class="notranslate">std::to_array&lt;&gt;()</code>。它的函数签名如下：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">template</span>&lt; <span class="pl-k">class</span> <span class="pl-en">T</span>, std::<span class="pl-c1">size_t</span> N &gt;
 <span class="pl-k">constexpr</span> std::array&lt; std::<span class="pl-c1">remove_cv_t</span>&lt; T &gt;, N &gt; <span class="pl-en">to_array</span>( T ( &amp;a )[ N ] );
 <span class="pl-k">template</span>&lt; <span class="pl-k">class</span> <span class="pl-en">T</span>, std::<span class="pl-c1">size_t</span> N &gt;
 <span class="pl-k">constexpr</span> std::array&lt; std::<span class="pl-c1">remove_cv_t</span>&lt; T &gt;, N &gt; <span class="pl-en">to_array</span>( T ( &amp;&amp;a )[ N ] );</pre></div>
 <p>日常使用中，它的表现符合预期。例如：</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++23</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++ 23</span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>array<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>print<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
@@ -133,7 +133,7 @@ X(const X&amp;)
 <p>关键词很明确：<strong>代理对象</strong>、<strong>const T 数组</strong>、<strong>只读内存</strong>。</p>
 <p>实际上，<code class="notranslate">std::initializer_list&lt;&gt;</code> 的典型实现就是「一个指向 <code class="notranslate">const T</code> 数组的指针 + 数组长度（<code class="notranslate">std::size_t</code>）」。更重要的是：<strong>它不持有元素的所有权</strong>。</p>
 <p>那列表初始化中对象的生命周期如何？我们修改代码进一步观察：</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++23</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++ 23</span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>array<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>print<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
@@ -184,7 +184,7 @@ std::vector <span class="pl-en">v</span>( __temp_array, __temp_array + <span cla
 <li><strong>避免对非平凡拷贝类型使用列表初始化</strong>：对于移动成本低但拷贝成本高的类型（如 <code class="notranslate">std::string</code>、<code class="notranslate">std::vector&lt;&gt;</code>），尽量用其他构造方式替代。</li>
 <li><strong>使用工厂函数绕过限制</strong>：我们可以自己实现构造函数，直接转发参数而非依赖 <code class="notranslate">std::initializer_list&lt;&gt;</code>。例如：</li>
 </ol>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++23</span>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++ 23</span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>concepts<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
 <span class="pl-c"><span class="pl-c">//</span> 通过参数直接构造 std::vector&lt;T&gt;</span>
