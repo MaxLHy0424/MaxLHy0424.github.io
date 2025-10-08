@@ -123,8 +123,8 @@ X(const X&amp;)
 ~X()
 ~X()
 </code></pre>
-<p>拷贝构造函数被调用！更严重的是，如果 X 的拷贝构造函数被显式删除（<code class="notranslate">= delete</code>），这段代码将直接编译失败。</p>
-<p>问题出在哪里？答案在于：标准容器（如 <code class="notranslate">std::vector&lt;&gt;</code>）的列表初始化会优先匹配接受 <code class="notranslate">std::initializer_list&lt;T&gt;</code> 的构造函数，而 <code class="notranslate">std::initializer_list&lt;&gt;</code> 本身的设计限制了移动语义的使用。</p>
+<p>拷贝构造函数被调用！更严重的是，如果 <code class="notranslate">X</code> 的拷贝构造函数被显式删除（<code class="notranslate">= delete</code>），这段代码将直接编译失败。</p>
+<p>问题出在哪里？答案在于：标准容器（如 <code class="notranslate">std::vector&lt;&gt;</code>）的列表初始化会优先匹配接受 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的构造函数，而 <code class="notranslate">std::initializer_list&lt;&gt;</code> 本身的设计限制了移动语义的使用。</p>
 <h2>揭开 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的面纱</h2>
 <p><a href="https://zh.cppreference.com/w/cpp/utility/initializer_list" rel="nofollow">cppreference 对 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的描述</a> 中有这样一句关键信息：</p>
 <blockquote>
