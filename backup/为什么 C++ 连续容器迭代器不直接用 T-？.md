@@ -75,7 +75,7 @@ _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX14 __wrap_iter(const __wrap_ite
 > [!NOTE]
 > 在这里插入一点前置知识。
 > 
-> 实参依赖查找（ADL），也称为 Koenig 查找,是查找函数调用表达式中不限定函数名称的规则集，包括对重载运算符的隐式函数调用。这些函数名称除了通常不限定名称查找所考虑的作用域和命名空间外，还会在其实参的命名空间中查找。实参依赖查找使得在不同命名空间中定义的运算符成为可能。例如：
+> 实参依赖查找（ADL），也称为 Koenig 查找，是查找函数调用表达式中不限定函数名称的规则集，包括对重载运算符的隐式函数调用。这些函数名称除了通常不限定名称查找所考虑的作用域和命名空间外，还会在其实参的命名空间中查找。实参依赖查找使得在不同命名空间中定义的运算符成为可能。例如：
 > ```cpp
 > #include <iostream> 
 > int main()
@@ -167,9 +167,9 @@ auto main() -> int
 
 ```cpp
 #include <vector>
-auto f1() -> std::vector< int >::iterator ;
+auto f1() -> std::vector< int >::iterator;
 auto f2() -> int*;
-int main()
+auto main() -> int
 {
     ++f1();
     // ++f2();  // error: lvalue required as increment operand
