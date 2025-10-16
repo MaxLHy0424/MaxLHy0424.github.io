@@ -192,7 +192,7 @@ _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX14 <span class="pl-en">__wrap_i
     : __i_(__u.base()) {}</pre></div>
 <h2>4 for ADL</h2>
 <div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>在这里插入一点前置知识。</p>
-<p>实参依赖查找（ADL），也称为 Koenig 查找,是查找函数调用表达式中不限定函数名称的规则集，包括对重载运算符的隐式函数调用。这些函数名称除了通常不限定名称查找所考虑的作用域和命名空间外，还会在其实参的命名空间中查找。实参依赖查找使得在不同命名空间中定义的运算符成为可能。例如：</p>
+<p>实参依赖查找（ADL），也称为 Koenig 查找，是查找函数调用表达式中不限定函数名称的规则集，包括对重载运算符的隐式函数调用。这些函数名称除了通常不限定名称查找所考虑的作用域和命名空间外，还会在其实参的命名空间中查找。实参依赖查找使得在不同命名空间中定义的运算符成为可能。例如：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span> 
 <span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
@@ -272,9 +272,9 @@ _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX14 <span class="pl-en">__wrap_i
 <p>对于 <code class="notranslate">typename std::Iter&lt;T*&gt;::type</code>，它已经看不到 <code class="notranslate">A</code> 了！只能选择 <code class="notranslate">std::iter_swap&lt;&gt;()</code>。</p>
 <h2>5 内建类型的前置递增等操作只接受左值</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>vector<span class="pl-pds">&gt;</span></span>
-<span class="pl-k">auto</span> <span class="pl-en">f1</span>() -&gt; std::vector&lt; int &gt;::iterator ;
+<span class="pl-k">auto</span> <span class="pl-en">f1</span>() -&gt; std::vector&lt; int &gt;::iterator;
 <span class="pl-k">auto</span> <span class="pl-en">f2</span>() -&gt; int*;
-<span class="pl-k">int</span> <span class="pl-en">main</span>()
+<span class="pl-k">auto</span> <span class="pl-en">main</span>() -&gt; int
 {
     ++<span class="pl-c1">f1</span>();
     <span class="pl-c"><span class="pl-c">//</span> ++f2();  // error: lvalue required as increment operand</span>
