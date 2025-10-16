@@ -10,9 +10,9 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="协程（Coroutine）的概念由来已久，一句话来解释就是“可以被挂起（暂停执行）并恢复的函数”。">
+<meta name="description" content="协程（Coroutine）的概念由来已久，一句话来解释就是 “可以被挂起（暂停执行）并恢复的函数”。">
 <meta property="og:title" content="浅谈 C++ 的协程">
-<meta property="og:description" content="协程（Coroutine）的概念由来已久，一句话来解释就是“可以被挂起（暂停执行）并恢复的函数”。">
+<meta property="og:description" content="协程（Coroutine）的概念由来已久，一句话来解释就是 “可以被挂起（暂停执行）并恢复的函数”。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/12.html">
 <meta property="og:image" content="/web/avatar.webp">
@@ -83,7 +83,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>协程（Coroutine）的概念由来已久，一句话来解释就是“可以被挂起（暂停执行）并恢复的函数”。</p>
+<div class="markdown-body" id="postBody"><p>协程（Coroutine）的概念由来已久，一句话来解释就是 “可以被挂起（暂停执行）并恢复的函数”。</p>
 <p>然而，直到 C++ 20 的发布，才正式引入了协程。对于开发者来说，这毫不亚于 C++ 11 中正式引入线程（Thread）一样。但 C++ 20，仅仅是给了两个关键字（即 <code class="notranslate">co_return</code> 和 <code class="notranslate">co_yield</code>）和一个运算符（即 <code class="notranslate">co_await</code>），还有协程相关的底层库（比如 <code class="notranslate">std::coroutine_handle</code>）。这显然没有协程在 Python 等其他编程语言中“开箱即用”。</p>
 <p>不过首先要清楚，我们为什么需要使用协程。</p>
 <p>目前主流语言基本上都选择了多线程作为并发设施，与线程相关的概念就是抢占式多任务，而与协程相关的是协作式多任务。</p>
@@ -101,9 +101,9 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <li>无法充分利用 CPU 多核。</li>
 <li>处处都要使用非阻塞代码。</li>
 </ul>
-<p>但问题来了，C++ 中的协程，正如上文所述，<strong>非常简陋</strong>，几乎所有东西都需要程序员自己手搓，而且可能会出现各种问题。另外由于协程的特性，所有的协程函数几乎无法执行 RVO（Return Value Optimization，返回值优化）和 NRVO（Named Return Value Optimization，命名返回值优化），很多情况下需要手动调用 <code class="notranslate">std::move</code> 来降低性能开销。况且移动构造的开销也不一定低。</p>
+<p>但问题来了，C++ 中的协程，正如上文所述，<strong>非常简陋</strong>，几乎所有东西都需要程序员自己手搓，而且可能会出现各种问题。另外由于协程的特性，所有的协程函数几乎无法执行 RVO（Return Value Optimization，返回值优化）和 NRVO（Named Return Value Optimization，命名返回值优化），很多情况下需要手动调用 <code class="notranslate">std::move&lt;&gt;()</code> 来降低性能开销。况且移动构造的开销也不一定低。</p>
 <p>那么，C++ 中的协程究竟有什么应用场景呢？</p>
-<p>在此之前，先要了解 C++ 23 加入的类模板 <code class="notranslate">std::generator</code>。顾名思义，其作用就是充当“生成器”。如果不是很理解，可以参考 <a href="https://zh.cppreference.com/w/cpp/coroutine/generator" rel="nofollow">cppreference 上的文档说明</a>。</p>
+<p>在此之前，先要了解 C++ 23 加入的类模板 <code class="notranslate">std::generator&lt;&gt;</code>。顾名思义，其作用就是充当 “生成器”。如果不是很理解，可以参考 <a href="https://zh.cppreference.com/w/cpp/coroutine/generator" rel="nofollow">cppreference 上的文档说明</a>。</p>
 <p>如果现在需要输出 1 ~ 100 的所有数字，且输出函数内部实现使用范围 for 循环来输出，可以怎么写?</p>
 <p>如果不使用协程, 可能会这么写：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>deque<span class="pl-pds">&gt;</span></span>

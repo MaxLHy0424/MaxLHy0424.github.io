@@ -1,4 +1,4 @@
-协程（Coroutine）的概念由来已久，一句话来解释就是“可以被挂起（暂停执行）并恢复的函数”。
+协程（Coroutine）的概念由来已久，一句话来解释就是 “可以被挂起（暂停执行）并恢复的函数”。
 
 然而，直到 C++ 20 的发布，才正式引入了协程。对于开发者来说，这毫不亚于 C++ 11 中正式引入线程（Thread）一样。但 C++ 20，仅仅是给了两个关键字（即 `co_return` 和 `co_yield`）和一个运算符（即 `co_await`），还有协程相关的底层库（比如 `std::coroutine_handle`）。这显然没有协程在 Python 等其他编程语言中“开箱即用”。
 
@@ -23,11 +23,11 @@
 - 无法充分利用 CPU 多核。
 - 处处都要使用非阻塞代码。
 
-但问题来了，C++ 中的协程，正如上文所述，**非常简陋**，几乎所有东西都需要程序员自己手搓，而且可能会出现各种问题。另外由于协程的特性，所有的协程函数几乎无法执行 RVO（Return Value Optimization，返回值优化）和 NRVO（Named Return Value Optimization，命名返回值优化），很多情况下需要手动调用 `std::move` 来降低性能开销。况且移动构造的开销也不一定低。
+但问题来了，C++ 中的协程，正如上文所述，**非常简陋**，几乎所有东西都需要程序员自己手搓，而且可能会出现各种问题。另外由于协程的特性，所有的协程函数几乎无法执行 RVO（Return Value Optimization，返回值优化）和 NRVO（Named Return Value Optimization，命名返回值优化），很多情况下需要手动调用 `std::move<>()` 来降低性能开销。况且移动构造的开销也不一定低。
 
 那么，C++ 中的协程究竟有什么应用场景呢？
 
-在此之前，先要了解 C++ 23 加入的类模板 `std::generator`。顾名思义，其作用就是充当“生成器”。如果不是很理解，可以参考 [cppreference 上的文档说明](https://zh.cppreference.com/w/cpp/coroutine/generator)。
+在此之前，先要了解 C++ 23 加入的类模板 `std::generator<>`。顾名思义，其作用就是充当 “生成器”。如果不是很理解，可以参考 [cppreference 上的文档说明](https://zh.cppreference.com/w/cpp/coroutine/generator)。
 
 如果现在需要输出 1 ~ 100 的所有数字，且输出函数内部实现使用范围 for 循环来输出，可以怎么写?
 
