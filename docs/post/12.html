@@ -84,7 +84,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><p>协程（Coroutine）的概念由来已久，一句话来解释就是“可以被挂起（暂停执行）并恢复的函数”。</p>
-<p>然而，直到 C++ 20 的发布，才正式引入了协程。对于开发者来说，这地毫不亚于 C++ 11 中正式引入线程（Thread）一样。但 C++ 20，仅仅是给了两个关键字（即 <code class="notranslate">co_return</code> 和 <code class="notranslate">co_await</code>）和一个运算符（即 <code class="notranslate">co_await</code>），还有协程相关的底层库（比如 <code class="notranslate">std::coroutine_handle</code>）。这显然没有协程在 Python 等其他编程语言中“开箱即用”。</p>
+<p>然而，直到 C++ 20 的发布，才正式引入了协程。对于开发者来说，这地毫不亚于 C++ 11 中正式引入线程（Thread）一样。但 C++ 20，仅仅是给了两个关键字（即 <code class="notranslate">co_return</code> 和 <code class="notranslate">co_yield</code>）和一个运算符（即 <code class="notranslate">co_await</code>），还有协程相关的底层库（比如 <code class="notranslate">std::coroutine_handle</code>）。这显然没有协程在 Python 等其他编程语言中“开箱即用”。</p>
 <p>不过首先要清楚，我们为什么需要使用协程。</p>
 <p>目前主流语言基本上都选择了多线程作为并发设施，与线程相关的概念就是抢占式多任务，而与协程相关的是协作式多任务。</p>
 <p>其实不管是进程还是线程，每次阻塞和切换都需要陷入系统调用，先让 CPU 运行操作系统的调度程序，然后再由调度程序决定该跑哪一个进程或线程。</p>
