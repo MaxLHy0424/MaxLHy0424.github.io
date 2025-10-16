@@ -131,7 +131,7 @@ X(const X&amp;)
 <p><code class="notranslate">std::initializer_list&lt;T&gt;</code> 类型的对象是一个轻量级代理对象，它提供对 <code class="notranslate">const T</code> 类型对象数组的访问（这些对象可能分配在只读内存中）。</p>
 </blockquote>
 <p>关键词很明确：<strong>代理对象</strong>、<strong>const T 数组</strong>、<strong>只读内存</strong>。</p>
-<p>实际上，<code class="notranslate">std::initializer_list&lt;&gt;</code> 的典型实现就是「一个指向 <code class="notranslate">const T</code> 数组的指针 + 数组长度（<code class="notranslate">std::size_t</code>）」。更重要的是：<strong>它不持有元素的所有权</strong>。</p>
+<p>实际上，<code class="notranslate">std::initializer_list&lt;&gt;</code> 的典型实现就是 “一个指向 <code class="notranslate">const T</code> 数组的指针 + 数组长度（<code class="notranslate">std::size_t</code>）”。更重要的是：<strong>它不持有元素的所有权</strong>。</p>
 <p>那列表初始化中对象的生命周期如何？我们修改代码进一步观察：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> C++ 23</span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>array<span class="pl-pds">&gt;</span></span>
@@ -163,7 +163,7 @@ X(const X&amp;)
 <li>容器通过拷贝构造在堆上创建新对象；</li>
 <li>列表初始化中的 <code class="notranslate">X{}</code> 先析构，打印分割线后，堆上的对象再析构。</li>
 </ol>
-<p>由此可得出结论：<strong>列表初始化中对象的生命周期，与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 对象本身的生命周期一致</strong>。这是 C++ 中少数规则明确的生命周期场景，但这份「清晰」是以性能为代价的。</p>
+<p>由此可得出结论：<strong>列表初始化中对象的生命周期，与 <code class="notranslate">std::initializer_list&lt;&gt;</code> 对象本身的生命周期一致</strong>。这是 C++ 中少数规则明确的生命周期场景，但这份 “清晰” 是以性能为代价的。</p>
 <p>基于此，我们可以推测编译器对列表初始化的处理逻辑：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> 程序员编写：</span>
 std::vector v{ X{}, X{} };
@@ -203,7 +203,7 @@ std::vector <span class="pl-en">v</span>( __temp_array, __temp_array + <span cla
     <span class="pl-c1">std::print</span>( <span class="pl-s"><span class="pl-pds">"</span>{}<span class="pl-pds">"</span></span>, make_vector&lt; <span class="pl-k">int</span> &gt;( <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span> ) );  <span class="pl-c"><span class="pl-c">//</span> 输出：1 2 3</span>
 }</pre></div>
 <p>如今，标准库容器已普遍支持范围构造等更高效的初始化方式，例如：</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">std::vector&lt; <span class="pl-k">int</span> &gt; <span class="pl-en">v</span>( std::from_range, some_range );</pre></div>
+<div class="highlight highlight-source-c++"><pre class="notranslate">std::vector&lt; <span class="pl-k">int</span> &gt; <span class="pl-en">v</span>( std::from_range, any_range );</pre></div>
 <p>这类接口绕过了 <code class="notranslate">std::initializer_list&lt;&gt;</code> 的限制，是更现代、更安全的初始化方式。</p>
 <p><code class="notranslate">std::initializer_list&lt;&gt;</code> 的设计初衷良好，但在实际使用中暴露了诸多问题：强制拷贝、无法移动、生命周期陷阱、悬垂指针风险。这些缺陷促使标准库不断引入更高效的替代方案。</p>
 <p>对开发者而言，关键在于：不要被简洁的花括号语法迷惑。优雅的语法糖背后，可能隐藏着不易察觉的性能陷阱。理解底层机制，才能写出既安全又高效的 C++ 代码。</p></div>
