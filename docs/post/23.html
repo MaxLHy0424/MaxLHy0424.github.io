@@ -267,7 +267,7 @@ _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX14 <span class="pl-en">__wrap_i
 }</pre></div>
 <p>我们假设了三个场景：迭代器分别为 <code class="notranslate">T*</code>、<code class="notranslate">std::Iter&lt; T* &gt;</code> 和 <code class="notranslate">typename std::Iter&lt;T*&gt;::type</code>。</p>
 <p>在 <code class="notranslate">algorithm</code> 头文件中有一个 <code class="notranslate">std::iter_swap&lt;&gt;()</code> 函数模板，<code class="notranslate">A</code> 为三种迭代器类型也都自定义了 <code class="notranslate">iter_swap</code> 函数。</p>
-<p>对于 <code class="notranslate">T*</code>，它不是 <code class="notranslate">std</code> 命名空间成员，所以根本不会去找 <code class="notranslate">std::iter_swap</code>，只有一个 <code class="notranslate">A</code> 的版本能用。</p>
+<p>对于 <code class="notranslate">T*</code>，它不是 <code class="notranslate">std</code> 命名空间成员，所以根本不会去找 <code class="notranslate">std::iter_swap&lt;&gt;()</code>，只有一个 <code class="notranslate">A</code> 的版本能用。</p>
 <p>对于 <code class="notranslate">std::Iter&lt; T* &gt;</code>，它既能找到 <code class="notranslate">std::iter_swap&lt;&gt;()</code> 也能找到 <code class="notranslate">A</code> 的版本。但是 <code class="notranslate">A</code> 版本更特殊，最后选择了 <code class="notranslate">A</code> 版本。</p>
 <p>对于 <code class="notranslate">typename std::Iter&lt;T*&gt;::type</code>，它已经看不到 <code class="notranslate">A</code> 了！只能选择 <code class="notranslate">std::iter_swap&lt;&gt;()</code>。</p>
 <h2>5 内建类型的前置递增等操作只接受左值</h2>
