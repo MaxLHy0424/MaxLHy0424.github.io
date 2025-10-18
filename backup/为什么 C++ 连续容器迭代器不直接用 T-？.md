@@ -157,7 +157,7 @@ auto main() -> int
 
 在 `algorithm` 头文件中有一个 `std::iter_swap<>()` 函数模板，`A` 为三种迭代器类型也都自定义了 `iter_swap` 函数。
 
-对于 `T*`，它不是 `std` 命名空间成员，所以根本不会去找 `std::iter_swap`，只有一个 `A` 的版本能用。
+对于 `T*`，它不是 `std` 命名空间成员，所以根本不会去找 `std::iter_swap<>()`，只有一个 `A` 的版本能用。
 
 对于 `std::Iter< T* >`，它既能找到 `std::iter_swap<>()` 也能找到 `A` 的版本。但是 `A` 版本更特殊，最后选择了 `A` 版本。
 
