@@ -19,6 +19,7 @@ class base
 };
 class derived : public base< derived >
 {
+  public:
     auto impl()
     {
         // do something...
@@ -44,6 +45,7 @@ class base
 };
 class derived : public base
 {
+  public:
     auto impl()
     {
         // do something...
@@ -209,73 +211,6 @@ auto main() -> int
 }
 ```
 
-## 4 综合应用：实现条件性平凡析构
+# 4 总结
 
-`std::optional< T >` 中有一块缓冲区用来存储 `T` 对象，还有一个 `has_value_` 来指示当前是否存储了 `T` 对象。
-
-如果 `has_value_` 为 `true`，则需要调用 `T` 的析构函数，类似于：
-
-```cpp
-~optional()
-{
-    if ( has_value_ ) {
-        storage_.~T();
-    }
-}
-```
-
-但如果 `T` 的析构函数是平凡的，我们完全可以不调用它，让 `std::optional< T >` 的析构函数也是平凡的。这样不仅可以省下一次判断的开销，编译器也能做更多优化操作。
-
-在 C++ 20 引入约束和概念后，我们可以简写成以下形式：
-
-```cpp
-~optional() noexcept
-    requires( std::is_trivially_destructible_v< T > )
-= default;
-~optional()
-{
-    if ( has_value_ ) {
-        storage_.~T();
-    }
-}
-```
-
-然而，`std::optional< T >` 是 C++ 17 的类，那时还没有这么简单优雅的办法。这时，我们就可以借助 CRTP。
-
-```cpp
-#include <type_traits>
-#include <utility>
-// 如果是平凡析构，那么匹配到 has_trivial_destructor，经 EBO 后无任何开销
-struct has_trivial_destructor
-{ };
-// 如果是非平凡析构，那么匹配到 has_non_trivial_destructor<>
-template < class D >
-struct has_non_trivial_destructor
-{
-    // 原本的析构操作
-    ~has_non_trivial_destructor()
-    {
-        auto&& self{ static_cast< D& >( *this ) };
-        if ( self.has_value_ ) {
-            self.storage_.~T();
-        }
-    }
-};
-// 根据是否为平凡析构选择
-template < class T, class D >
-using maybe_has_trivial_destructor
-  = std::conditional_t< std::is_trivially_destructible_v< T >, has_trivial_destructor, has_non_trivial_destructor< D > >;
-template < class T >
-class optional : maybe_has_trivial_destructor< T, optional< T > >
-{
-    // 如果继承了 has_non_trivial_destructor<>，则将在析构时调用 has_non_trivial_destructor<> 的析构函数
-    ~optional() = default;
-};
-```
-
-因为 `optional` 是否可平凡析构不仅关乎 `optional` 本身的析构函数，还关乎其基类的析构函数，所以它整体是否为平凡析构就取决于基类是否为平凡析构了。
-
-此外，当 `T` 为平凡复制/平凡移动构造/平凡赋值时，`std::optional< T >` 相对应的函数也都为平凡的，这使得编译器可以直接生成 `memcpy` 之类的更快的操作。对应的实现方法也比较相似。
-
-> [!CAUTION]
-> **绝对不要在 CRTP 基类的构造函数中访问、修改派生类的成员，因为派生类成员初始化是晚于基类构造函数的，所以这一切相关行为全都是未定义行为。**
+CRTP 作为自 C++ 模板机制诞生起就存在的惯用法，存在其独特的历史价值。善用这一机制，可以更好地践行 C++ 零成本抽象的设计哲学。然而，由于 C++ 的基类生命周期与派生类生命周期不同，所以要格外关注这方面的问题，**在 CRTP 的基类的构造函数和析构函数中，不要访问派生类的非静态成员，与之相关的一切都是未定义行为。**
