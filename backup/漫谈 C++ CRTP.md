@@ -1,6 +1,6 @@
 ## 0 引入
 
-奇特重现模板模式（Curiously Recurring Template Pattern, CRTP）是一种惯用手法。它最关键的特征在于基类 `base` 有一个模板参数 `D`，指的是它的派生类 `derived`，而 `derived` 继承自 `base` 时需要把自己传入 `base` 的模板参数中。这样就可以在 `base` 的函数里通过 `D& self{ static_cast< D& >( *this ) };` 拿到自己的真实类型，从而做一系列调用不同派生类的固定接口的操作，故也被称为编译期多态。
+奇特重现模板模式（Curiously Recurring Template Pattern，CRTP）是一种惯用手法。它最关键的特征在于基类 `base` 有一个模板参数 `D`，指的是它的派生类 `derived`，而 `derived` 继承自 `base` 时需要把自己传入 `base` 的模板参数中。这样就可以在 `base` 的函数里通过 `D& self{ static_cast< D& >( *this ) };` 拿到自己的真实类型，从而做一系列调用不同派生类的固定接口的操作，故也被称为编译期多态。
 
 ```cpp
 template < class D >
@@ -14,8 +14,7 @@ class base
   public:
     auto f()
     {
-        auto&& self{ static_cast< D& >( *this ) };
-        self.impl();
+        static_cast< D& >( *this ).impl();
     }
 };
 class derived : public base< derived >
@@ -54,9 +53,7 @@ class derived : public base
 
 ## 1 编译期多态
 
-CRTP 最广为人知的用法就是编译期多态了，但鄙人认为 CRTP 用作多态的作用十分有限，因为基类是模板类，所以我们只能通过派生类来调用正确的函数。话虽如此，它确实在标准库中也展现了自己的作用。
-
-比如 `std::enable_shared_from_this<>`，这里直接截取 libstdc++ 的源码：
+CRTP 最广为人知的用法就是编译期多态了，但鄙人认为 CRTP 用作多态的作用十分有限，因为基类是模板类，所以我们只能通过派生类来调用正确的函数。话虽如此，它确实在标准库中也展现了自己的作用。比如 `std::enable_shared_from_this<>`，这里直接截取 libstdc++ 的源码：
 
 ```cpp
 
@@ -122,13 +119,13 @@ CRTP 最广为人知的用法就是编译期多态了，但鄙人认为 CRTP 用
     };
 ```
 
-不难发现 `std::enable_shared_from_this< T >` 的内部保存着一个派生类 `T` 对象的 `std::weak_ptr< T >`。即 T 继承自 `std::enable_shared_from_this< T >` 且内部有一个 `std::weak_ptr< T >`。
+不难发现 `std::enable_shared_from_this< T >` 的内部保存着一个派生类 `T` 对象的 `std::weak_ptr< T >`，即 `T` 继承自 `std::enable_shared_from_this< T >` 且内部有一个 `std::weak_ptr< T >`。
 
 具体用法可参考 [cppreference 上对 `std::enable_shared_from_this<>` 的描述](https://zh.cppreference.com/w/cpp/memory/enable_shared_from_this)。
 
 ## 2 消除重复代码（同为多态思想）
 
-其实这也是继承多态干的事情，无需多言。
+其实这也是继承多态干的事情，不过因为对 `this` 指针进行了类型转换，使得其更像是直接把基类的代码复制粘贴到派生类中。
 
 ## 3 代码注入
 
@@ -278,7 +275,7 @@ class optional : maybe_has_trivial_destructor< T, optional< T > >
 
 因为 `optional` 是否可平凡析构不仅关乎 `optional` 本身的析构函数，还关乎其基类的析构函数，所以它整体是否为平凡析构就取决于基类是否为平凡析构了。
 
-此外，当 `T` 为平凡复制/移动构造/赋值时，`std::optional< T >` 相对应的函数也都为平凡的，这使得编译器可以直接生成 `memcpy` 之类的更快的操作。对应的实现方法也比较相似。
+此外，当 `T` 为平凡复制/平凡移动构造/平凡赋值时，`std::optional< T >` 相对应的函数也都为平凡的，这使得编译器可以直接生成 `memcpy` 之类的更快的操作。对应的实现方法也比较相似。
 
 > [!CAUTION]
-> 绝对不要在 CRTP 基类的构造函数中访问、修改派生类的成员，因为派生类成员初始化是晚于基类构造函数的，所以这一切相关行为全都是未定义行为。
+> **绝对不要在 CRTP 基类的构造函数中访问、修改派生类的成员，因为派生类成员初始化是晚于基类构造函数的，所以这一切相关行为全都是未定义行为。**

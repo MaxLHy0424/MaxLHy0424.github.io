@@ -12,11 +12,11 @@
     </script>
 <meta name="description" content="## 0 引入
 
-奇特重现模板模式（Curiously Recurring Template Pattern, CRTP）是一种惯用手法。">
+奇特重现模板模式（Curiously Recurring Template Pattern，CRTP）是一种惯用手法。">
 <meta property="og:title" content="漫谈 C++ CRTP">
 <meta property="og:description" content="## 0 引入
 
-奇特重现模板模式（Curiously Recurring Template Pattern, CRTP）是一种惯用手法。">
+奇特重现模板模式（Curiously Recurring Template Pattern，CRTP）是一种惯用手法。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/24.html">
 <meta property="og:image" content="/web/avatar.webp">
@@ -88,7 +88,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h2>0 引入</h2>
-<p>奇特重现模板模式（Curiously Recurring Template Pattern, CRTP）是一种惯用手法。它最关键的特征在于基类 <code class="notranslate">base</code> 有一个模板参数 <code class="notranslate">D</code>，指的是它的派生类 <code class="notranslate">derived</code>，而 <code class="notranslate">derived</code> 继承自 <code class="notranslate">base</code> 时需要把自己传入 <code class="notranslate">base</code> 的模板参数中。这样就可以在 <code class="notranslate">base</code> 的函数里通过 <code class="notranslate">D&amp; self{ static_cast&lt; D&amp; &gt;( *this ) };</code> 拿到自己的真实类型，从而做一系列调用不同派生类的固定接口的操作，故也被称为编译期多态。</p>
+<p>奇特重现模板模式（Curiously Recurring Template Pattern，CRTP）是一种惯用手法。它最关键的特征在于基类 <code class="notranslate">base</code> 有一个模板参数 <code class="notranslate">D</code>，指的是它的派生类 <code class="notranslate">derived</code>，而 <code class="notranslate">derived</code> 继承自 <code class="notranslate">base</code> 时需要把自己传入 <code class="notranslate">base</code> 的模板参数中。这样就可以在 <code class="notranslate">base</code> 的函数里通过 <code class="notranslate">D&amp; self{ static_cast&lt; D&amp; &gt;( *this ) };</code> 拿到自己的真实类型，从而做一系列调用不同派生类的固定接口的操作，故也被称为编译期多态。</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">template </span>&lt; <span class="pl-k">class</span> <span class="pl-en">D</span> &gt;
 <span class="pl-k">class</span> <span class="pl-en">base</span>
 {
@@ -100,8 +100,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
   <span class="pl-k">public:</span>
     <span class="pl-k">auto</span> <span class="pl-en">f</span>()
     {
-        <span class="pl-k">auto</span>&amp;&amp; self{ <span class="pl-k">static_cast</span>&lt; D&amp; &gt;( *<span class="pl-c1">this</span> ) };
-        self.<span class="pl-c1">impl</span>();
+        <span class="pl-k">static_cast</span>&lt; D&amp; &gt;( *<span class="pl-c1">this</span> ).<span class="pl-c1">impl</span>();
     }
 };
 <span class="pl-k">class</span> <span class="pl-en">derived</span> : <span class="pl-k">public</span> <span class="pl-en">base</span>&lt; derived &gt;
@@ -133,8 +132,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     }
 };</pre></div>
 <h2>1 编译期多态</h2>
-<p>CRTP 最广为人知的用法就是编译期多态了，但鄙人认为 CRTP 用作多态的作用十分有限，因为基类是模板类，所以我们只能通过派生类来调用正确的函数。话虽如此，它确实在标准库中也展现了自己的作用。</p>
-<p>比如 <code class="notranslate">std::enable_shared_from_this&lt;&gt;</code>，这里直接截取 libstdc++ 的源码：</p>
+<p>CRTP 最广为人知的用法就是编译期多态了，但鄙人认为 CRTP 用作多态的作用十分有限，因为基类是模板类，所以我们只能通过派生类来调用正确的函数。话虽如此，它确实在标准库中也展现了自己的作用。比如 <code class="notranslate">std::enable_shared_from_this&lt;&gt;</code>，这里直接截取 libstdc++ 的源码：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">  <span class="pl-c"><span class="pl-c">/*</span>*</span>
 <span class="pl-c">   * @brief Base class allowing use of the member function `shared_from_this`.</span>
 <span class="pl-c">   * @headerfile memory</span>
@@ -195,10 +193,10 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
       <span class="pl-k">mutable</span> weak_ptr&lt;_Tp&gt;  _M_weak_this;
     };</pre></div>
-<p>不难发现 <code class="notranslate">std::enable_shared_from_this&lt; T &gt;</code> 的内部保存着一个派生类 <code class="notranslate">T</code> 对象的 <code class="notranslate">std::weak_ptr&lt; T &gt;</code>。即 T 继承自 <code class="notranslate">std::enable_shared_from_this&lt; T &gt;</code> 且内部有一个 <code class="notranslate">std::weak_ptr&lt; T &gt;</code>。</p>
+<p>不难发现 <code class="notranslate">std::enable_shared_from_this&lt; T &gt;</code> 的内部保存着一个派生类 <code class="notranslate">T</code> 对象的 <code class="notranslate">std::weak_ptr&lt; T &gt;</code>，即 <code class="notranslate">T</code> 继承自 <code class="notranslate">std::enable_shared_from_this&lt; T &gt;</code> 且内部有一个 <code class="notranslate">std::weak_ptr&lt; T &gt;</code>。</p>
 <p>具体用法可参考 <a href="https://zh.cppreference.com/w/cpp/memory/enable_shared_from_this" rel="nofollow">cppreference 上对 <code class="notranslate">std::enable_shared_from_this&lt;&gt;</code> 的描述</a>。</p>
 <h2>2 消除重复代码（同为多态思想）</h2>
-<p>其实这也是继承多态干的事情，无需多言。</p>
+<p>其实这也是继承多态干的事情，不过因为对 <code class="notranslate">this</code> 指针进行了类型转换，使得其更像是直接把基类的代码复制粘贴到派生类中。</p>
 <h2>3 代码注入</h2>
 <p>使用 CRTP，可以在调用派生类的函数前做一些操作。例如：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>print<span class="pl-pds">&gt;</span></span>
@@ -322,8 +320,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <span class="pl-en">~optional</span>() = <span class="pl-k">default</span>;
 };</pre></div>
 <p>因为 <code class="notranslate">optional</code> 是否可平凡析构不仅关乎 <code class="notranslate">optional</code> 本身的析构函数，还关乎其基类的析构函数，所以它整体是否为平凡析构就取决于基类是否为平凡析构了。</p>
-<p>此外，当 <code class="notranslate">T</code> 为平凡复制/移动构造/赋值时，<code class="notranslate">std::optional&lt; T &gt;</code> 相对应的函数也都为平凡的，这使得编译器可以直接生成 <code class="notranslate">memcpy</code> 之类的更快的操作。对应的实现方法也比较相似。</p>
-<div class="markdown-alert markdown-alert-caution"><p class="markdown-alert-title"><svg class="octicon octicon-stop mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p><p>绝对不要在 CRTP 基类的构造函数中访问、修改派生类的成员，因为派生类成员初始化是晚于基类构造函数的，所以这一切相关行为全都是未定义行为。</p>
+<p>此外，当 <code class="notranslate">T</code> 为平凡复制/平凡移动构造/平凡赋值时，<code class="notranslate">std::optional&lt; T &gt;</code> 相对应的函数也都为平凡的，这使得编译器可以直接生成 <code class="notranslate">memcpy</code> 之类的更快的操作。对应的实现方法也比较相似。</p>
+<div class="markdown-alert markdown-alert-caution"><p class="markdown-alert-title"><svg class="octicon octicon-stop mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M4.47.22A.749.749 0 0 1 5 0h6c.199 0 .389.079.53.22l4.25 4.25c.141.14.22.331.22.53v6a.749.749 0 0 1-.22.53l-4.25 4.25A.749.749 0 0 1 11 16H5a.749.749 0 0 1-.53-.22L.22 11.53A.749.749 0 0 1 0 11V5c0-.199.079-.389.22-.53Zm.84 1.28L1.5 5.31v5.38l3.81 3.81h5.38l3.81-3.81V5.31L10.69 1.5ZM8 4a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4Zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Caution</p><p><strong>绝对不要在 CRTP 基类的构造函数中访问、修改派生类的成员，因为派生类成员初始化是晚于基类构造函数的，所以这一切相关行为全都是未定义行为。</strong></p>
 </div></div>
 <div style="font-size:small;margin-top:8px;float:right;">如无另外说明，本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">CC BY-NC-SA 4.0</a> 许可</div>
 
