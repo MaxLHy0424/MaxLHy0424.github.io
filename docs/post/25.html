@@ -21,7 +21,7 @@ SCLTK 作为机房控制软件破解工具，很容易受到各种控制软件�
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/25.html">
 <meta property="og:image" content="/web/avatar.webp">
 <title>获取 SCLTK</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -119,8 +119,52 @@ SOFTWARE.
 <li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.cpp</code>、<code class="notranslate">SCLTK-i686-msvcrt.cpp</code>、<code class="notranslate">SCLTK-x86_64-ucrt.cpp</code>。</li>
 <li>使用 Dev-C++ 打开 <code class="notranslate">SCLTK.cpp</code>，复制如下代码并保存：</li>
 </ol>
-<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>代码将在晚些时候公开。</p>
-</div>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>windows.h<span class="pl-pds">&gt;</span></span>
+#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>Downloading...<span class="pl-cce">\n</span><span class="pl-pds">"</span></span>;
+    <span class="pl-k">struct</span> <span class="pl-en">item</span>
+    {
+        <span class="pl-k">const</span> <span class="pl-k">wchar_t</span> *url;
+        <span class="pl-k">const</span> <span class="pl-k">wchar_t</span> *file_path;
+    };
+    <span class="pl-k">const</span> item items[]{
+      {<span class="pl-s"><span class="pl-pds">L"</span>https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">L"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span>},
+      {<span class="pl-s"><span class="pl-pds">L"</span>https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">L"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span>}
+    };
+    <span class="pl-k">typedef</span> <span class="pl-smi">HRESULT</span>( WINAPI * <span class="pl-c1">func_t</span> )( LPUNKNOWN pCaller, LPCWSTR szURL, LPCWSTR szFileName, DWORD dwReserved, LPVOID lpfnCB );
+    <span class="pl-k">struct</span> <span class="pl-en">dll_manager</span>
+    {
+        HMODULE dll;
+        <span class="pl-en">dll_manager</span>( HMODULE dll_handle )
+          : dll( dll_handle )
+        { }
+        <span class="pl-en">~dll_manager</span>()
+        {
+            <span class="pl-c1">FreeLibrary</span>( dll );
+        }
+    };
+    <span class="pl-k">const</span> dll_manager url_mon = <span class="pl-c1">LoadLibraryW</span>( <span class="pl-s"><span class="pl-pds">L"</span>urlmon.dll<span class="pl-pds">"</span></span> );
+    <span class="pl-k">if</span> ( !url_mon.<span class="pl-smi">dll</span> ) {
+        std::cerr &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[FAILED] <span class="pl-pds">"</span></span> &lt;&lt; <span class="pl-c1">HRESULT_FROM_WIN32</span>( <span class="pl-c1">GetLastError</span>() ) &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+        <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+    }
+    <span class="pl-c1">func_t</span> url_download_to_file_w = <span class="pl-k">reinterpret_cast</span>&lt; <span class="pl-c1">func_t</span> &gt;( <span class="pl-c1">GetProcAddress</span>( url_mon.<span class="pl-smi">dll</span>, <span class="pl-s"><span class="pl-pds">"</span>URLDownloadToFileW<span class="pl-pds">"</span></span> ) );
+    <span class="pl-k">if</span> ( !url_download_to_file_w ) {
+        std::cerr &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[FAILED] <span class="pl-pds">"</span></span> &lt;&lt; <span class="pl-c1">HRESULT_FROM_WIN32</span>( <span class="pl-c1">GetLastError</span>() ) &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+        <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+    }
+    <span class="pl-k">for</span> ( std::<span class="pl-c1">size_t</span> i = <span class="pl-c1">0</span>; i &lt; <span class="pl-k">sizeof</span>( items ) / <span class="pl-k">sizeof</span>( item ); ++i ) {
+        HRESULT hr = <span class="pl-c1">url_download_to_file_w</span>( <span class="pl-c1">NULL</span>, items[ i ].<span class="pl-smi">url</span>, items[ i ].<span class="pl-smi">file_path</span>, <span class="pl-c1">0</span>, <span class="pl-c1">NULL</span> );
+        <span class="pl-k">if</span> ( <span class="pl-c1">FAILED</span>( hr ) ) {
+            std::cerr &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[FAILED] <span class="pl-pds">"</span></span> &lt;&lt; hr &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+            <span class="pl-k">return</span> <span class="pl-c1">1</span>;
+        }
+    }
+    std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>OK!<span class="pl-pds">"</span></span> &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
 <ol start="3">
 <li>编译并运行，等待 SCLTK 下载完毕。</li>
 </ol>
@@ -130,8 +174,35 @@ SOFTWARE.
 <li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.py</code>、<code class="notranslate">SCLTK-i686-msvcrt.cpp</code>、<code class="notranslate">SCLTK-x86_64-ucrt.cpp</code>。</li>
 <li>使用文本编辑器打开 <code class="notranslate">SCLTK.py</code>，复制如下代码并保存：</li>
 </ol>
-<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>代码将在晚些时候公开。</p>
-</div>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">sys</span>
+<span class="pl-k">import</span> <span class="pl-s1">ctypes</span>
+<span class="pl-k">from</span> <span class="pl-s1">ctypes</span> <span class="pl-k">import</span> <span class="pl-s1">wintypes</span>
+<span class="pl-en">print</span>(<span class="pl-s">"Downloading..."</span>)
+<span class="pl-s1">items</span> <span class="pl-c1">=</span> [
+    (<span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>, <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>),
+    (<span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe"</span>, <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>)
+]
+<span class="pl-k">try</span>:
+    <span class="pl-s1">urlmon</span> <span class="pl-c1">=</span> <span class="pl-s1">ctypes</span>.<span class="pl-c1">WinDLL</span>(<span class="pl-s">'urlmon.dll'</span>)
+<span class="pl-k">except</span> <span class="pl-v">OSError</span>:
+    <span class="pl-en">print</span>(<span class="pl-s">f"[FAILED] Cannot load urlmon.dll"</span>, <span class="pl-s1">file</span><span class="pl-c1">=</span><span class="pl-s1">sys</span>.<span class="pl-c1">stderr</span>)
+    <span class="pl-s1">sys</span>.<span class="pl-c1">exit</span>(<span class="pl-c1">1</span>)
+<span class="pl-v">URLDownloadToFileW</span> <span class="pl-c1">=</span> <span class="pl-s1">urlmon</span>.<span class="pl-c1">URLDownloadToFileW</span>
+<span class="pl-v">URLDownloadToFileW</span>.<span class="pl-c1">argtypes</span> <span class="pl-c1">=</span> [
+    <span class="pl-s1">ctypes</span>.<span class="pl-c1">c_void_p</span>,
+    <span class="pl-s1">wintypes</span>.<span class="pl-c1">LPCWSTR</span>,
+    <span class="pl-s1">wintypes</span>.<span class="pl-c1">LPCWSTR</span>,
+    <span class="pl-s1">wintypes</span>.<span class="pl-c1">DWORD</span>,
+    <span class="pl-s1">ctypes</span>.<span class="pl-c1">c_void_p</span>
+]
+<span class="pl-v">URLDownloadToFileW</span>.<span class="pl-c1">restype</span> <span class="pl-c1">=</span> <span class="pl-s1">ctypes</span>.<span class="pl-c1">c_long</span>
+<span class="pl-k">for</span> <span class="pl-s1">url</span>, <span class="pl-s1">file_path</span> <span class="pl-c1">in</span> <span class="pl-s1">items</span>:
+    <span class="pl-s1">hr</span> <span class="pl-c1">=</span> <span class="pl-en">URLDownloadToFileW</span>(<span class="pl-c1">None</span>, <span class="pl-s1">url</span>, <span class="pl-s1">file_path</span>, <span class="pl-c1">0</span>, <span class="pl-c1">None</span>)
+    <span class="pl-k">if</span> <span class="pl-s1">hr</span> <span class="pl-c1">&lt;</span> <span class="pl-c1">0</span>:
+        <span class="pl-c"># 对应 std::cerr</span>
+        <span class="pl-en">print</span>(<span class="pl-s">f"[FAILED] <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">hr</span><span class="pl-kos">}</span></span>"</span>, <span class="pl-s1">file</span><span class="pl-c1">=</span><span class="pl-s1">sys</span>.<span class="pl-c1">stderr</span>)
+        <span class="pl-s1">sys</span>.<span class="pl-c1">exit</span>(<span class="pl-c1">1</span>)
+<span class="pl-en">print</span>(<span class="pl-s">"OK!"</span>)</pre></div>
 <ol start="3">
 <li>使用 Python 3 运行 <code class="notranslate">SCLTK.py</code>，等待 SCLTK 下载完毕。</li>
 </ol></div>
