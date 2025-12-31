@@ -1,4 +1,4 @@
-var itemsPerPage = 15;
+var itemsPerPage = 10;
 var custompages = 0;
 var xmlUrl = `${window.location.origin}/rss.xml`;
 function getCurrentPage() {
