@@ -88,9 +88,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h2>0 总述</h2>
-<p>SCLTK 作为机房控制软件破解工具，很容易受到各种控制软件的限制。尤其是 “机房管理助手”，几乎封堵了绝大多数获取 SCLTK 和其他破解工具的途径。除了访问 <a href="https://github.com/MaxLHy0424/SCLTK/releases">SCLTK 开源仓库发行版页面</a>，还有一些其他的方法可以方便地获取 SCLTK，在此罗列。</p>
+<p>SCLTK 作为机房控制软件破解工具，很容易受到各种控制软件的限制。尤其是 “机房管理助手”，几乎封堵了绝大多数获取 SCLTK 和其他破解工具的途径。除了访问 <a href="https://github.com/MaxLHy0424/SCLTK/releases">SCLTK 开源仓库发行版页面</a>，还有一些其他的方法可以方便地获取 SCLTK，在此罗列。也欢迎各位读者评论其他的获取方法。</p>
 <h2>1 调用 Windows API 下载</h2>
 <div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>SCLTK 的开源许可证内容如下，如有需要请自行保存。</p>
+<details>
+<summary>点击展开</summary>
 <pre class="notranslate"><code class="notranslate">MIT License
 
 Copyright (c) 2023 - present MaxLHy0424
@@ -113,12 +115,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </code></pre>
+</details>
 </div>
 <p>“机房管理助手” 在最近的更新中提供了禁止浏览器下载文件的功能。不过仍有方法可以方便的获取 SCLTK，具体请参考如下步骤：</p>
 <ol>
 <li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.cpp</code>、<code class="notranslate">SCLTK-i686-msvcrt.cpp</code>、<code class="notranslate">SCLTK-x86_64-ucrt.cpp</code>。</li>
 <li>使用 Dev-C++ 打开 <code class="notranslate">SCLTK.cpp</code>，复制如下代码并保存：</li>
 </ol>
+<details>
+<summary>点击展开</summary>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>windows.h<span class="pl-pds">&gt;</span></span>
 #<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>iostream<span class="pl-pds">&gt;</span></span>
 <span class="pl-k">int</span> <span class="pl-en">main</span>()
@@ -165,8 +170,9 @@ SOFTWARE.
     std::cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>OK!<span class="pl-pds">"</span></span> &lt;&lt; <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>;
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
+</details>
 <ol start="3">
-<li>编译并运行，等待 SCLTK 下载完毕。</li>
+<li>编译并运行，等待 SCLTK 下载完毕。当输出 “OK!” 时，SCLTK 已下载完毕。</li>
 </ol>
 <h2>2 借助 Python 3 下载</h2>
 <p>该方法与上一个方法相似，步骤如下：</p>
@@ -174,6 +180,8 @@ SOFTWARE.
 <li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.py</code>、<code class="notranslate">SCLTK-i686-msvcrt.cpp</code>、<code class="notranslate">SCLTK-x86_64-ucrt.cpp</code>。</li>
 <li>使用文本编辑器打开 <code class="notranslate">SCLTK.py</code>，复制如下代码并保存：</li>
 </ol>
+<details>
+<summary>点击展开</summary>
 <div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">sys</span>
 <span class="pl-k">import</span> <span class="pl-s1">ctypes</span>
 <span class="pl-k">from</span> <span class="pl-s1">ctypes</span> <span class="pl-k">import</span> <span class="pl-s1">wintypes</span>
@@ -199,12 +207,70 @@ SOFTWARE.
 <span class="pl-k">for</span> <span class="pl-s1">url</span>, <span class="pl-s1">file_path</span> <span class="pl-c1">in</span> <span class="pl-s1">items</span>:
     <span class="pl-s1">hr</span> <span class="pl-c1">=</span> <span class="pl-en">URLDownloadToFileW</span>(<span class="pl-c1">None</span>, <span class="pl-s1">url</span>, <span class="pl-s1">file_path</span>, <span class="pl-c1">0</span>, <span class="pl-c1">None</span>)
     <span class="pl-k">if</span> <span class="pl-s1">hr</span> <span class="pl-c1">&lt;</span> <span class="pl-c1">0</span>:
-        <span class="pl-c"># 对应 std::cerr</span>
         <span class="pl-en">print</span>(<span class="pl-s">f"[FAILED] <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">hr</span><span class="pl-kos">}</span></span>"</span>, <span class="pl-s1">file</span><span class="pl-c1">=</span><span class="pl-s1">sys</span>.<span class="pl-c1">stderr</span>)
         <span class="pl-s1">sys</span>.<span class="pl-c1">exit</span>(<span class="pl-c1">1</span>)
 <span class="pl-en">print</span>(<span class="pl-s">"OK!"</span>)</pre></div>
+</details>
+<ol>
+<li>使用 Python 3 运行 <code class="notranslate">SCLTK.py</code>。当输出 “OK!” 时，SCLTK 已下载完毕。</li>
+</ol>
+<h2>3 借助 VBScript 下载</h2>
+<ol>
+<li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.vbs</code>、<code class="notranslate">SCLTK-i686-msvcrt.cpp</code>、<code class="notranslate">SCLTK-x86_64-ucrt.cpp</code>。</li>
+<li>使用文本编辑器打开 <code class="notranslate">SCLTK.vbs</code>，复制如下代码并保存：</li>
+</ol>
+<details>
+<summary>点击展开</summary>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-v">Option</span> <span class="pl-v">Explicit</span>
+<span class="pl-v">Sub</span> <span class="pl-en">Main</span>()
+    <span class="pl-v">Dim</span> <span class="pl-en">urls</span>(<span class="pl-c1">1</span>)
+    <span class="pl-v">Dim</span> <span class="pl-en">files</span>(<span class="pl-c1">1</span>)
+    <span class="pl-en">urls</span>(<span class="pl-c1">0</span>) <span class="pl-c1">=</span> <span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>
+    <span class="pl-en">files</span>(<span class="pl-c1">0</span>) <span class="pl-c1">=</span> <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>
+    <span class="pl-en">urls</span>(<span class="pl-c1">1</span>) <span class="pl-c1">=</span> <span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe"</span>
+    <span class="pl-en">files</span>(<span class="pl-c1">1</span>) <span class="pl-c1">=</span> <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>
+    <span class="pl-v">Dim</span> <span class="pl-s1">i</span>
+    <span class="pl-v">For</span> <span class="pl-s1">i</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span> <span class="pl-v">To</span> <span class="pl-en">UBound</span>(<span class="pl-s1">urls</span>)
+        <span class="pl-v">If</span> <span class="pl-en">DownloadFile</span>(<span class="pl-en">urls</span>(<span class="pl-s1">i</span>), <span class="pl-en">files</span>(<span class="pl-s1">i</span>)) <span class="pl-c1">&lt;&gt;</span> <span class="pl-c1">0</span> <span class="pl-v">Then</span>
+            <span class="pl-v">WScript</span>.<span class="pl-c1">Quit</span> <span class="pl-c1">1</span>
+        <span class="pl-v">End</span> <span class="pl-v">If</span>
+    <span class="pl-v">Next</span>
+    <span class="pl-v">WScript</span>.<span class="pl-c1">Echo</span> <span class="pl-s">"OK!"</span>
+    <span class="pl-v">WScript</span>.<span class="pl-c1">Quit</span> <span class="pl-c1">0</span>
+<span class="pl-v">End</span> <span class="pl-v">Sub</span>
+<span class="pl-v">Function</span> <span class="pl-en">DownloadFile</span>(<span class="pl-s1">strUrl</span>, <span class="pl-s1">strFile</span>)
+    <span class="pl-v">On</span> <span class="pl-v">Error</span> <span class="pl-v">Resume</span> <span class="pl-v">Next</span>
+    <span class="pl-v">Dim</span> <span class="pl-s1">objHTTP</span>, <span class="pl-s1">objStream</span>
+    <span class="pl-v">Set</span> <span class="pl-s1">objHTTP</span> <span class="pl-c1">=</span> <span class="pl-en">CreateObject</span>(<span class="pl-s">"MSXML2.XMLHTTP"</span>)
+    <span class="pl-s1">objHTTP</span>.<span class="pl-c1">Open</span> <span class="pl-s">"GET"</span>, <span class="pl-s1">strUrl</span>, <span class="pl-c1">False</span>
+    <span class="pl-s1">objHTTP</span>.<span class="pl-c1">Send</span>
+    <span class="pl-v">If</span> <span class="pl-v">Err</span>.<span class="pl-c1">Number</span> <span class="pl-c1">&lt;&gt;</span> <span class="pl-c1">0</span> <span class="pl-v">Then</span>
+        <span class="pl-v">WScript</span>.<span class="pl-c1">Echo</span> <span class="pl-s">"[FAILED] "</span> <span class="pl-c1">&amp;</span> <span class="pl-v">Err</span>.<span class="pl-c1">Description</span>
+        <span class="pl-v">DownloadFile</span> <span class="pl-c1">=</span> <span class="pl-c1">1</span>
+        <span class="pl-v">Exit</span> <span class="pl-v">Function</span>
+    <span class="pl-v">End</span> <span class="pl-v">If</span>
+    <span class="pl-v">If</span> <span class="pl-s1">objHTTP</span>.<span class="pl-c1">Status</span> <span class="pl-c1">&lt;&gt;</span> <span class="pl-c1">200</span> <span class="pl-v">Then</span>
+        <span class="pl-v">WScript</span>.<span class="pl-c1">Echo</span> <span class="pl-s">"[FAILED] HTTP "</span> <span class="pl-c1">&amp;</span> <span class="pl-s1">objHTTP</span>.<span class="pl-c1">Status</span>
+        <span class="pl-v">DownloadFile</span> <span class="pl-c1">=</span> <span class="pl-c1">1</span>
+        <span class="pl-v">Exit</span> <span class="pl-v">Function</span>
+    <span class="pl-v">End</span> <span class="pl-v">If</span>
+    <span class="pl-v">Set</span> <span class="pl-s1">objStream</span> <span class="pl-c1">=</span> <span class="pl-en">CreateObject</span>(<span class="pl-s">"ADODB.Stream"</span>)
+    <span class="pl-s1">objStream</span>.<span class="pl-c1">Type</span> <span class="pl-c1">=</span> <span class="pl-c1">1</span>
+    <span class="pl-s1">objStream</span>.<span class="pl-c1">Open</span>
+    <span class="pl-s1">objStream</span>.<span class="pl-c1">Write</span> <span class="pl-s1">objHTTP</span>.<span class="pl-c1">responseBody</span>
+    <span class="pl-s1">objStream</span>.<span class="pl-c1">SaveToFile</span> <span class="pl-s1">strFile</span>, <span class="pl-c1">2</span>
+    <span class="pl-s1">objStream</span>.<span class="pl-c1">Close</span>
+    <span class="pl-v">If</span> <span class="pl-v">Err</span>.<span class="pl-c1">Number</span> <span class="pl-c1">&lt;&gt;</span> <span class="pl-c1">0</span> <span class="pl-v">Then</span>
+        <span class="pl-v">WScript</span>.<span class="pl-c1">Echo</span> <span class="pl-s">"[FAILED] "</span> <span class="pl-c1">&amp;</span> <span class="pl-v">Err</span>.<span class="pl-c1">Description</span>
+        <span class="pl-v">DownloadFile</span> <span class="pl-c1">=</span> <span class="pl-c1">1</span>
+        <span class="pl-v">Exit</span> <span class="pl-v">Function</span>
+    <span class="pl-v">End</span> <span class="pl-v">If</span>
+    <span class="pl-v">DownloadFile</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>
+<span class="pl-v">End</span> <span class="pl-v">Function</span>
+<span class="pl-v">Call</span> <span class="pl-v">Main</span></pre></div>
+</details>
 <ol start="3">
-<li>使用 Python 3 运行 <code class="notranslate">SCLTK.py</code>，等待 SCLTK 下载完毕。</li>
+<li>运行 <code class="notranslate">SCLTK.vbs</code>。当弹出 “OK!” 时，SCLTK 已下载完毕。</li>
 </ol></div>
 <div style="font-size:small;margin-top:8px;float:right;">如无另外说明，本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">CC BY-NC-SA 4.0</a> 许可</div>
 
