@@ -1,3 +1,4 @@
 User-agent: *
+Disallow: /assets/private
 Allow: /
-Sitemap: https://MaxLHy0424.github.io/rss.xml
+Sitemap: https://maxlhy0424.github.io/rss.xml
