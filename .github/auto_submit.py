@@ -1,72 +1,65 @@
 import requests
-from xml.etree import ElementTree as ET
 from datetime import datetime
 
+GITHUB_OWNER = "MaxLHy0424"
+GITHUB_REPO = "MaxLHy0424.github.io"
 HOST = "MaxLHy0424.github.io"
 KEY = "70f471e35a814770be089b0701799ac2"
 
-def get_posts(rss_url):
+def get_posts():
+    """直接通过GitHub API获取post文件夹下的所有.html文件链接"""
+    api_url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/post"
+    headers = {
+        "Accept": "application/vnd.github.v3+json",
+    }
     try:
-        response = requests.get(rss_url, timeout=10)
+        response = requests.get(api_url, headers=headers, timeout=15)
         response.raise_for_status()
-        root = ET.fromstring(response.content)
-        channel = root.find('channel')
-        if not channel:
-            raise ValueError("cannot find <channel>")
-        posts = []
-        for item in channel.findall('item'):
-            link_elem = item.find('link')
-            pubdate_elem = item.find('pubDate')
-            if not link_elem or not pubdate_elem or not link_elem.text or not pubdate_elem.text:
-                continue
-            url = link_elem.text.strip()
-            pubdate_str = pubdate_elem.text.strip()
-            if "/post/" in url and url.endswith('.html'):
-                try:
-                    pubdate = datetime.strptime(pubdate_str, '%a, %d %b %Y %H:%M:%S %z')
-                    posts.append((url, pubdate))
-                except ValueError:
-                    print(f"cannot parse '{pubdate_str}', skip URL: {url}")
-                    continue
-        posts.sort(key=lambda x: x[1], reverse=True)
-        result = [post[0] for post in posts]
-        return result
+        files = response.json()
+        post_urls = []
+        for file in files:
+            if file["type"] == "file" and file["name"].endswith(".html"):
+                post_url = f"https://{HOST}/post/{file['name']}"
+                post_urls.append(post_url)
+        post_urls.sort(reverse=True)
+        return post_urls
     except requests.exceptions.RequestException as e:
-        print(f"failed to fetch RSS: {str(e)}")
-        return []
-    except ET.ParseError:
-        print(f"{rss_url} is invalid XML")
+        print(f"获取post文件失败：{str(e)}")
         return []
     except Exception as e:
-        print(f"unknown error: {str(e)}")
+        print(f"未知错误：{str(e)}")
         return []
 
 def ping_bing(url_list):
+    if not url_list:
+        print("URL列表为空，无需提交")
+        return None
     url = 'https://www.bing.com/indexnow'
     headers = {
-      'Content-Type': 'application/json; charset=utf-8',
+        'Content-Type': 'application/json; charset=utf-8',
     }
     data = {
-      "host": HOST,
-      "key": KEY,
-      "keyLocation": f"https://{HOST}/{KEY}.txt",
-      "urlList": url_list
+        "host": HOST,
+        "key": KEY,
+        "keyLocation": f"https://{HOST}/{KEY}.txt",
+        "urlList": url_list
     }
     try:
         response = requests.post(url, headers=headers, json=data, timeout=10)
         return response
     except requests.exceptions.RequestException as e:
-        print(f"ping bing failed: {str(e)}")
+        print(f"提交Bing失败：{str(e)}")
         return None
 
 if __name__ == "__main__":
-    sitemap_url = f"https://{HOST}/rss.xml"
-    url_list = get_posts(sitemap_url)
+    url_list = get_posts()
     url_list.insert(0, f'https://{HOST}/')
-    print(url_list)
+    print("待提交的URL列表：")
+    for idx, url in enumerate(url_list, 1):
+        print(f"{idx}. {url}")
     response = ping_bing(url_list)
     if response:
-        print(response.status_code)
-        print(response.text)
+        print(f"\nBing响应状态码：{response.status_code}")
+        print(f"Bing响应内容：{response.text}")
     else:
-        print("Failed to send request to Bing")
+        print("\n提交Bing请求失败")
