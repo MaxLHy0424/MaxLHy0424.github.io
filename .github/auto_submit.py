@@ -2,13 +2,14 @@ import requests
 from xml.etree import ElementTree as ET
 from datetime import datetime
 
-HOST = "https://MaxLHy0424.github.io"
+HOST = "MaxLHy0424.github.io"
 KEY = "70f471e35a814770be089b0701799ac2"
 
-def get_posts(rss_path):
+def get_posts(rss_url):
     try:
-        tree = ET.parse(rss_path)
-        root = tree.getroot()
+        response = requests.get(rss_url, timeout=10)
+        response.raise_for_status()
+        root = ET.fromstring(response.content)
         channel = root.find('channel')
         if not channel:
             raise ValueError("cannot find <channel>")
@@ -30,11 +31,11 @@ def get_posts(rss_path):
         posts.sort(key=lambda x: x[1], reverse=True)
         result = [post[0] for post in posts]
         return result
-    except FileNotFoundError:
-        print(f"cannot find {rss_path}")
+    except requests.exceptions.RequestException as e:
+        print(f"failed to fetch RSS: {str(e)}")
         return []
     except ET.ParseError:
-        print(f"{rss_path} is invalid")
+        print(f"{rss_url} is invalid XML")
         return []
     except Exception as e:
         print(f"unknown error: {str(e)}")
@@ -51,14 +52,21 @@ def ping_bing(url_list):
       "keyLocation": f"https://{HOST}/{KEY}.txt",
       "urlList": url_list
     }
-    response = requests.post(url, headers=headers, json=data)
-    return response
+    try:
+        response = requests.post(url, headers=headers, json=data, timeout=10)
+        return response
+    except requests.exceptions.RequestException as e:
+        print(f"ping bing failed: {str(e)}")
+        return None
 
 if __name__ == "__main__":
-    sitemap_path = f"https://{HOST}/rss.xml"
-    url_list = get_posts(sitemap_path)
+    sitemap_url = f"https://{HOST}/rss.xml"
+    url_list = get_posts(sitemap_url)
     url_list.insert(0, f'https://{HOST}/')
     print(url_list)
     response = ping_bing(url_list)
-    print(response.status_code)
-    print(response.text)
+    if response:
+        print(response.status_code)
+        print(response.text)
+    else:
+        print("Failed to send request to Bing")
