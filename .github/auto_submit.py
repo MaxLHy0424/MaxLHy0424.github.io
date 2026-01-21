@@ -54,7 +54,7 @@ def ping_bing(url_list):
     return response
 
 if __name__ == "__main__":
-    sitemap_path = "../rss.xml"
+    sitemap_path = "./rss.xml"
     url_list = get_posts(sitemap_path)
     url_list.insert(0, f'https://{HOST}/')
     print(url_list)
