@@ -10,9 +10,13 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="使用 Hyper-V 去安装 GNU/Linux 发行版，启用增强会话最令人头大。">
+<meta name="description" content="## 0 引入
+
+使用 Hyper-V 去安装 GNU/Linux 发行版，启用增强会话最令人头大。">
 <meta property="og:title" content="为 Hyper-V 中的 Arch Linux 启用增强会话">
-<meta property="og:description" content="使用 Hyper-V 去安装 GNU/Linux 发行版，启用增强会话最令人头大。">
+<meta property="og:description" content="## 0 引入
+
+使用 Hyper-V 去安装 GNU/Linux 发行版，启用增强会话最令人头大。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/5.html">
 <meta property="og:image" content="/web/avatar.webp">
@@ -83,20 +87,21 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>使用 Hyper-V 去安装 GNU/Linux 发行版，启用增强会话最令人头大。不清楚是不是 Microsoft 有意为之让大家用 WSL 2。但总归，这并不容易。</p>
+<div class="markdown-body" id="postBody"><h2>0 引入</h2>
+<p>使用 Hyper-V 去安装 GNU/Linux 发行版，启用增强会话最令人头大。不清楚是不是 Microsoft 有意为之让大家用 WSL 2。但总归，这并不容易。</p>
 <p>本教程将教您如何为 Hyper-V 中的 Arch Linux 虚拟机启用增强会话。</p>
-<h1>0 准备工作</h1>
+<h2>1 准备工作</h2>
 <div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>请确保您的 Arch Linux 虚拟机是第二代虚拟机，同时使用 pipewire 作声音服务，并且在 Hyper-V 设置中允许使用增强会话。</p>
 </div>
 <p>然后，在主机 Windows OS 下以管理员权限打开 PowerShell，执行（<code class="notranslate">&lt;VM&gt;</code> 改成 Arch Linux 虚拟机的名字，最好加上英文半角双引号）：</p>
 <div class="highlight highlight-source-powershell"><pre class="notranslate"><span class="pl-c1">Set-VM</span> <span class="pl-k">-</span>VMName <span class="pl-k">&lt;</span>VM<span class="pl-k">&gt;</span> <span class="pl-k">-</span>EnhancedSessionTransportType HvSocket</pre></div>
-<h1>1 配置包管理器</h1>
+<h2>2 配置包管理器</h2>
 <p>详见<a href="https://maxlhy0424.github.io/post/2.html" rel="nofollow">这篇教程</a>的第 3 部分和<a href="https://maxlhy0424.github.io/post/10.html" rel="nofollow">另一篇教程</a>。</p>
-<h1>2 安装集成服务</h1>
+<h2>3 安装集成服务</h2>
 <p>执行以下命令：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S hyperv
 <span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {vss,fcopy,kvp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo systemctl <span class="pl-c1">enable</span> hv_<span class="pl-smi">${i}</span>_daemon.service<span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
-<h1>3 安装软件包</h1>
+<h2>4 安装软件包</h2>
 <p>如果没有安装 git，请先执行以下命令：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S git base-devel</pre></div>
 <p>执行以下命令：</p>
@@ -135,7 +140,7 @@ git clone https://aur.archlinux.org/xrdp-devel-git.git  </pre></div>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo ./install-config.sh</pre></div>
 <div class="markdown-alert markdown-alert-warning"><p class="markdown-alert-title"><svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p><p>不要使用 <code class="notranslate">linux-vm-tools/arch</code> 中的 <code class="notranslate">makepkg.sh</code> 脚本，其编译选项并不正确。</p>
 </div>
-<h1>4 解决 XRDP 反复连接问题</h1>
+<h2>5 解决 XRDP 反复连接问题</h2>
 <p>在当前用户的家目录下创建 <code class="notranslate">.xinitrc</code>。</p>
 <p>根据不同的桌面环境添加内容：</p>
 <ul>
@@ -173,7 +178,7 @@ sudo pacman -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<
 <div class="markdown-alert markdown-alert-tip"><p class="markdown-alert-title"><svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p><p>实际上直接关闭弹出的窗口也是可以正常使用的，不过最好还是输入一下账户密码。</p>
 </div>
 <p>至此，一切大功告成！</p>
-<h1>Extra 汉化 SDDM</h1>
+<h2>Extra 汉化 SDDM</h2>
 <p>这一部分和本篇教程没什么关系，了解下就可以。</p>
 <p>如果是以 Systemd 启动 SDDM，可以打开 <code class="notranslate">/usr/lib/systemd/system/sddm.service</code>，在 <code class="notranslate">[Service]</code> 下添加：</p>
 <pre class="notranslate"><code class="notranslate">Environment=LANG=zh_CN.UTF-8
