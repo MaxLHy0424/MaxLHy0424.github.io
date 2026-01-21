@@ -1,8 +1,10 @@
+## 0 引入
+
 使用 Hyper-V 去安装 GNU/Linux 发行版，启用增强会话最令人头大。不清楚是不是 Microsoft 有意为之让大家用 WSL 2。但总归，这并不容易。
 
 本教程将教您如何为 Hyper-V 中的 Arch Linux 虚拟机启用增强会话。
 
-# 0 准备工作
+## 1 准备工作
 
 > [!IMPORTANT]  
 > 请确保您的 Arch Linux 虚拟机是第二代虚拟机，同时使用 pipewire 作声音服务，并且在 Hyper-V 设置中允许使用增强会话。
@@ -13,11 +15,11 @@
 Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 ```
 
-# 1 配置包管理器
+## 2 配置包管理器
 
 详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分和[另一篇教程](https://maxlhy0424.github.io/post/10.html)。
 
-# 2 安装集成服务
+## 3 安装集成服务
 
 执行以下命令：
 
@@ -26,7 +28,7 @@ sudo pacman -S hyperv
 for i in {vss,fcopy,kvp}; do sudo systemctl enable hv_${i}_daemon.service; done
 ```
 
-# 3 安装软件包
+## 4 安装软件包
 
 如果没有安装 git，请先执行以下命令：
 
@@ -95,7 +97,7 @@ sudo ./install-config.sh
 > [!WARNING]  
 > 不要使用 `linux-vm-tools/arch` 中的 `makepkg.sh` 脚本，其编译选项并不正确。
 
-# 4 解决 XRDP 反复连接问题
+## 5 解决 XRDP 反复连接问题
 
 在当前用户的家目录下创建 `.xinitrc`。
 
@@ -147,7 +149,7 @@ sudo pacman -Rcns $(pacman -Qtdq)
 
 至此，一切大功告成！
 
-# Extra 汉化 SDDM
+## Extra 汉化 SDDM
 
 这一部分和本篇教程没什么关系，了解下就可以。
 
