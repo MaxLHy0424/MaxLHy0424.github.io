@@ -1,3 +1,5 @@
+## 0 引入
+
 WSL 2 即使更新到最新预发布版本，Linux Kernel 版本也是 `6.6.xxx`。一部分软件可能会需要更高的内核版本，或者是用户想要测试最新的 Linux Kernel 特性。因此，网上替换 WSL 2 的 Linux Kernel 的教程才会如此涌现。
 
 > [!CAUTION]  
@@ -6,7 +8,7 @@ WSL 2 即使更新到最新预发布版本，Linux Kernel 版本也是 `6.6.xxx`
 > [!TIP]  
 > 如果您在 WSL 2 中使用 Arch Linux，建议先阅读[这篇教程](https://MaxLHy0424.github.io/post/2.html)，对 Arch WSL 进行基本的配置，然后再阅读本教程。
 
-# 1 安装依赖
+## 1 安装依赖
 
 Debian 系：
 
@@ -20,7 +22,7 @@ Arch 系：
 sudo pacman -S base-devel flex bison pahole openssl libelf bc
 ```
 
-# 2 下载 Linux Kernel 源代码
+## 2 下载 Linux Kernel 源代码
 
 访问 [The Linux Kernel Archive](https://kernel.org)，等待加载完成后，可以看到网页中间的 Linux Kernel 源代码存档列表。在此之前，我们需要了解 Linux Kernel 的主要开发分支：
 
@@ -44,7 +46,7 @@ tar xf <File>
 cd <Dir>
 ```
 
-# 3 编译内核
+## 3 编译内核
 
 > [!NOTE]  
 > 如果您在中国大陆，此步骤可能需要使用网络代理。
@@ -63,7 +65,7 @@ make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j$(nproc)
 
 途中的编译配置选择一路按回车即可。
 
-# 4 保存并替换
+## 4 保存并替换
 
 执行以下命令（将 `<PATH>` 替换为 C 盘下的文件路径，例如 `Data/WslLinuxKernel`）：
 
