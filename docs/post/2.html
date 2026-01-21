@@ -10,9 +10,13 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
+<meta name="description" content="## 0 引入
+
+在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
 <meta property="og:title" content="下江小春都能看懂的 Arch WSL 安装与配置指南">
-<meta property="og:description" content="在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
+<meta property="og:description" content="## 0 引入
+
+在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/2.html">
 <meta property="og:image" content="/web/avatar.webp">
@@ -83,12 +87,13 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。</p>
+<div class="markdown-body" id="postBody"><h2>0 引入</h2>
+<p>在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。</p>
 <div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您觉得手动操作有些麻烦，您可以试试博主写的<a href="https://gist.github.com/MaxLHy0424/4254cfd932485a93b3b0b73274858bc9">自动配置脚本</a>。但还是建议看看教程。</p>
 </div>
 <div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>适用于 Windows 11 22H2 及以上版本，其以下的版本可能会出现各种问题。</p>
 </div>
-<h1>0 准备工作</h1>
+<h2>1 准备工作</h2>
 <p>WSL 2 的硬件需求及启用方法在此处不多赘述，请自行查阅。</p>
 <div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您有安装 VMware Workstation Pro 等寄居型虚拟机，推荐改用 Microsoft Hyper-V。否则其运行的虚拟机性能可能会受到影响。</p>
 </div>
@@ -110,9 +115,9 @@ useWindowsDnsCache=true
 </code></pre>
 <p>然后，在 Microsoft Store 中搜索 <code class="notranslate">Arch WSL</code>，安装。</p>
 <p>按照正常流程安装、打开、创建账户。</p>
-<h1>1 修改 root 用户密码</h1>
+<h2>2 修改 root 用户密码</h2>
 <p>通过 <code class="notranslate">sudo passwd root</code> 修改 <code class="notranslate">root</code> 用户密码。</p>
-<h1>2 配置 GNU Nano 文本编辑器</h1>
+<h2>3 配置 GNU Nano 文本编辑器</h2>
 <p>打开 <code class="notranslate">/etc/nanorc</code>，在末尾追加：</p>
 <pre class="notranslate"><code class="notranslate">bind ^X cut main
 bind ^C copy main
@@ -160,7 +165,7 @@ set wordbounds
 set constantshow
 include /usr/share/nano/*.*
 </code></pre>
-<h1>3 配置包管理器</h1>
+<h2>4 配置包管理器</h2>
 <p>打开 <code class="notranslate">/etc/pacman.d/mirrorlist</code>，在顶部添加：</p>
 <pre class="notranslate"><code class="notranslate">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
 </code></pre>
@@ -220,7 +225,7 @@ sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm</pre></div>
 <p>执行以下命令安装 yay 稳定版（安装开发版把 <code class="notranslate">yay</code> 改为 <code class="notranslate">yay-git</code>）：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S yay</pre></div>
 <p>如果您愿意的话，也可以试试 paru，可以参考<a href="https://maxlhy0424.github.io/post/10.html" rel="nofollow">这篇教程</a>。</p>
-<h1>4 汉化</h1>
+<h2>5 汉化</h2>
 <p>打开 <code class="notranslate">/etc/locale.gen</code>，找到：</p>
 <pre class="notranslate"><code class="notranslate">#en_US.UTF-8 UTF-8
 </code></pre>
@@ -238,14 +243,14 @@ export LANGUAGE=zh_CN:en_US
 <p>然后执行以下命令：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
 sudo locale-gen</pre></div>
-<h1>5 解决 WSLg 及 Systemd 问题</h1>
+<h2>6 解决 WSLg 及 Systemd 问题</h2>
 <p>执行：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span># Type Path           Mode UID  GID  Age Argument</span>
 <span class="pl-s">L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/tmpfiles.d/wslg.conf</pre></div>
 <p>如果 Systemd 没有启动，可以试试：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>[boot]</span>
 <span class="pl-s">systemd=true<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/wsl.conf</pre></div>
-<h1>6 善后工作及后续使用注意事项</h1>
+<h2>7 善后工作及后续使用注意事项</h2>
 <p>执行以下命令：</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm
 sudo pacman -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span> --noconfirm
