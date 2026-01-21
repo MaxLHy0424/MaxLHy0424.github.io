@@ -1,3 +1,5 @@
+## 0 引入
+
 在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。
 
 > [!NOTE]  
@@ -6,7 +8,7 @@
 > [!IMPORTANT]  
 > 适用于 Windows 11 22H2 及以上版本，其以下的版本可能会出现各种问题。
 
-# 0 准备工作
+## 1 准备工作
 
 WSL 2 的硬件需求及启用方法在此处不多赘述，请自行查阅。
 
@@ -40,11 +42,11 @@ useWindowsDnsCache=true
 
 按照正常流程安装、打开、创建账户。
 
-# 1 修改 root 用户密码
+## 2 修改 root 用户密码
 
 通过 `sudo passwd root` 修改 `root` 用户密码。
 
-# 2 配置 GNU Nano 文本编辑器
+## 3 配置 GNU Nano 文本编辑器
 
 打开 `/etc/nanorc`，在末尾追加：
 
@@ -96,7 +98,7 @@ set constantshow
 include /usr/share/nano/*.*
 ```
 
-# 3 配置包管理器
+## 4 配置包管理器
 
 打开 `/etc/pacman.d/mirrorlist`，在顶部添加：
 
@@ -182,7 +184,7 @@ sudo pacman -S yay
 
 如果您愿意的话，也可以试试 paru，可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html)。
 
-# 4 汉化
+## 5 汉化
 
 打开 `/etc/locale.gen`，找到：
 
@@ -217,7 +219,7 @@ sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wq
 sudo locale-gen
 ```
 
-# 5 解决 WSLg 及 Systemd 问题
+## 6 解决 WSLg 及 Systemd 问题
 
 执行：
 
@@ -233,7 +235,7 @@ echo '[boot]
 systemd=true' | sudo tee /etc/wsl.conf
 ```
 
-# 6 善后工作及后续使用注意事项
+## 7 善后工作及后续使用注意事项
 
 执行以下命令：
 
