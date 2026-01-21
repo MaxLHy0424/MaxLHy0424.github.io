@@ -8,7 +8,6 @@ KEY = "70f471e35a814770be089b0701799ac2"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 def get_posts():
-    """直接通过GitHub API获取post文件夹下的所有.html文件链接"""
     api_url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/contents/docs/post"
     headers = {
         "Accept": "application/vnd.github.v3+json"
