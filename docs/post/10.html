@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://MaxLHy0424.github.io/post/10.html">
 <meta property="og:image" content="/web/avatar.webp">
 <title>paru：比 yay 更加强大的 AUR 助手</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -86,12 +86,14 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><p><a href="https://github.com/Morganamilo/paru">paru</a> 是 yay 的作者之一 Morganamilo 使用 Rust 编写的另一个 AUR 助手。基本命令与功能与 yay 和 pacman 几乎一样，所以迁移过来不会有任何困难。</p>
 <h2>0 安装</h2>
 <p>如果没有安装其他的 AUR 助手，可以执行以下命令：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S --needed git base-devel
+<pre lang="bash" class="notranslate"><code class="notranslate">sudo pacman -S --needed git base-devel
 git clone https://aur.archlinux.org/paru-git.git  
-<span class="pl-c1">cd</span> paru-git
-makepkg -si</pre></div>
+cd paru-git
+makepkg -si
+</code></pre>
 <p>如果有安装 yay，可以直接执行：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">yay -S paru-git</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">yay -S paru-git
+</code></pre>
 <h2>1 基本用法</h2>
 <h3>1.1 <code class="notranslate">paru</code></h3>
 <p>当什么参数都不加的时候，默认执行 <code class="notranslate">paru -Syu</code>，首先从软件仓库查找更新，然后从 AUR 查找更新。</p>
@@ -169,25 +171,30 @@ makepkg -si</pre></div>
 <p>设置自定义 git 的命令，可以是 PATH 里面的命令或者任意一个绝对路径指向的文件。</p>
 <h3>4.9 <code class="notranslate">--gitflags &lt;flags&gt;</code></h3>
 <p>向 git 传递的参数，每次当 paru 调用 git 的时候都会传递。参数按空格分割，然后用引号包裹起来，即：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">--gitflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">--gitflags "flag1 flag2 flag3"
+</code></pre>
 <h3>4.10 <code class="notranslate">--fmflags &lt;flags&gt;</code></h3>
 <p>向 fm 传递的参数，每次当 paru 调用 gpg 的时候都会传递。参数按空格分割，然后用引号包裹起来。即：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">--fmflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">--fmflags "flag1 flag2 flag3"
+</code></pre>
 <h3>4.11 <code class="notranslate">--asp &lt;command&gt;</code></h3>
 <p>自定义的 <code class="notranslate">asp</code> 命令，可以是 PATH 里面的命令或者任意一个绝对路径指向的文件。</p>
 <h3>4.12 <code class="notranslate">--mflags &lt;flags&gt;</code></h3>
 <p>向 makepkg 传递的参数，每次当 paru 调用 makepkg 的时候都会传递。参数按空格分割，然后用引号包裹起来，即：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">--mflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">--mflags "flag1 flag2 flag3"
+</code></pre>
 <h3>4.13 <code class="notranslate">--bat &lt;command&gt;</code></h3>
 <p>自定义的 <code class="notranslate">bat</code> 命令，可以是 PATH 里面的命令或者任意一个绝对路径指向的文件。</p>
 <h3>4.14 <code class="notranslate">--batflags &lt;flags&gt;</code></h3>
 <p>向 bat 传递的参数，每次当 paru 调用 bat 的时候都会传。参数按空格分割，然后用引号包裹起来，即：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">--batflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">--batflags "flag1 flag2 flag3"
+</code></pre>
 <h3>4.15 <code class="notranslate">--sudo &lt;command&gt;</code></h3>
 <p>自定义的 <code class="notranslate">sudo</code> 命令，可以是 PATH 里面的命令或者任意一个绝对路径指向的文件。<code class="notranslate">--sudoloop</code> 选项不一定能和自定义的 <code class="notranslate">sudo</code> 命令兼容。</p>
 <h3>4.16 <code class="notranslate">--sudoflags &lt;flags&gt;</code></h3>
 <p>向 sudo 传递的参数，每次当 paru 调用 sudo 的时候都会传递。参数按空格分割，然后用引号包裹起来，即：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">--sudoflags <span class="pl-s"><span class="pl-pds">"</span>flag1 flag2 flag3<span class="pl-pds">"</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">--sudoflags "flag1 flag2 flag3"
+</code></pre>
 <h3>4.17 <code class="notranslate">--completioninterval &lt;days&gt;</code></h3>
 <p>刷新补全缓存的时间间隔，设置为 <code class="notranslate">0</code> 表示每次都刷新，<code class="notranslate">-1</code> 表示永不刷新，默认值为 <code class="notranslate">7</code>。</p>
 <h3>4.18 <code class="notranslate">--sortby &lt;votes|popularity|id|baseid|name|base|submitted|modified&gt;</code></h3>
@@ -300,7 +307,8 @@ makepkg -si</pre></div>
 <p>paru 使用 <code class="notranslate">pacman.conf</code> 通过 <code class="notranslate">alpm.rs</code> 或者 paru 本身来设置某些 pacman 选项。大部分的 libalpm 选项和 pacman 选项都被继承了。</p>
 <h2>7 使用 paru 编辑 <code class="notranslate">PKGBUILD</code></h2>
 <p>首先执行以下命令：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S vifm --needed</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">sudo pacman -S vifm --needed
+</code></pre>
 <p>接下来，打开 <code class="notranslate">/etc/paru.conf</code>，找到：</p>
 <pre class="notranslate"><code class="notranslate">#[bin]
 #FileManager = vifm
