@@ -17,7 +17,7 @@
     "urlMode": "issue",
     "style": "",
     "allHead": "<script src='/web/view_count.js'></script>",
-    "script": "<script src='/web/articletoc.js'></script><script src='/web/lightbox.js'></script>",
+    "script": "<script src='/web/articletoc.js'></script><script src='/web/lightbox.js'></script><script src='/web/add_space.js'></script>",
     "filingNum": "<a href=\"https://icp.gov.moe/?keyword=20261023\" target=\"_blank\">萌ICP备20261023号</a>",
     "indexStyle": "",
     "indexScript": "<script src='/web/num_pagination.js'></script>",
