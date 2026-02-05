@@ -21,7 +21,7 @@
     "filingNum": "<a href=\"https://icp.gov.moe/?keyword=20261023\" target=\"_blank\">萌 ICP 备 20261023 号</a>",
     "indexStyle": "",
     "indexScript": "<script src='/web/num_pagination.js'></script>",
-    "showPostSource": 1,
+    "showPostSource": 0,
     "bottomText": "如无另外说明，本文采用 <a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode\">CC BY-NC-SA 4.0</a> 许可",
     "singlePage": [
         "about",
