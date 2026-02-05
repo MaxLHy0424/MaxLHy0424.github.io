@@ -41,9 +41,9 @@ SOFTWARE.
 
 “机房管理助手” 劫持了 `github.com`，为此本站提供 SCLTK 最新版本镜像。您可以点击以下链接获取 SCLTK。
 
-[i686-msvcrt 版本](https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe)
+[i686-msvcrt 版本](/assets/%2325/SCLTK-i686-msvcrt.exe)
 
-[x86_64-ucrt 版本](https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe)
+[x86_64-ucrt 版本](/assets/%2325/SCLTK-x86_64-ucrt.exe)
 
 ## 方法 2 - 调用 Windows API 下载
 
