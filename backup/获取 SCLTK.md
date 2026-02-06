@@ -105,7 +105,7 @@ int main()
 ```
 </details>
 
-3. 编译并运行，等待 SCLTK 下载完毕。当输出 “OK!” 时，SCLTK 已下载完毕。
+3. 编译并运行，等待 SCLTK 下载完毕。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
 
 ## 方法 3 - 借助 Python 3 下载
 
@@ -149,7 +149,7 @@ print("OK!")
 ```
 </details>
 
-1. 使用 Python 3 运行 `SCLTK.py`。当输出 “OK!” 时，SCLTK 已下载完毕。
+1. 使用 Python 3 运行 `SCLTK.py`。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
 
 ## 方法 4 - 借助 VBScript 下载
 
@@ -210,4 +210,23 @@ Call Main
 ```
 </details>
 
-3. 运行 `SCLTK.vbs`。当弹出 “OK!” 时，SCLTK 已下载完毕。
+3. 运行 `SCLTK.vbs`。当弹出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
+
+## 方法 5 - 借助 `certutil` 下载
+
+1. 在 C 盘顶级目录下新建一个文件夹（例如 `C:\SCLTK`）。
+2. 点击文件资源管理器的地址栏。
+
+如果要下载 x86_64-ucrt 版本，请输入：
+
+```batch
+cmd /c echo _ > "SCLTK-x86_64-ucrt.exe" & certutil -urlcache -split -f https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe "SCLTK-x86_64-ucrt.exe" & "SCLTK-x86_64-ucrt.exe"
+```
+
+如果要下载 i686-msvcrt 版本，请输入：
+
+```batch
+cmd /c echo _ > "SCLTK-i686-msvcrt.exe" & certutil -urlcache -split -f https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe "SCLTK-i686-msvcrt.exe" & "SCLTK-i686-msvcrt.exe"
+```
+
+3. 按回车键执行。如果失败，可以多运行几次。
