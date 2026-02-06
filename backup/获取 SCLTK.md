@@ -4,7 +4,7 @@ SCLTK 作为机房控制软件破解工具，饱受各种控制软件的针对�
 
 ## 注意事项
 
-若果您需要开发者的 GnuPG 公钥，请从[此网页](https://MaxLHy0424.github.io/about.html)复制。
+若果您需要开发者的 GnuPG 公钥，请从[此网页](https://MaxLHy0424.is-a.dev/about.html)复制。
 
 下列方法不会一并获取 SCLTK 的开源许可证，请您自行阅读。
 
@@ -67,8 +67,8 @@ int main()
         const wchar_t *file_path;
     };
     const item items[]{
-      {L"https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe", L"SCLTK-x86_64-ucrt.exe"},
-      {L"https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe", L"SCLTK-i686-msvcrt.exe"}
+      {L"https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe", L"SCLTK-x86_64-ucrt.exe"},
+      {L"https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe", L"SCLTK-i686-msvcrt.exe"}
     };
     typedef HRESULT( WINAPI * func_t )( LPUNKNOWN pCaller, LPCWSTR szURL, LPCWSTR szFileName, DWORD dwReserved, LPVOID lpfnCB );
     struct dll_manager
@@ -123,8 +123,8 @@ import ctypes
 from ctypes import wintypes
 print("Downloading...")
 items = [
-    ("https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe", "SCLTK-x86_64-ucrt.exe"),
-    ("https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe", "SCLTK-i686-msvcrt.exe")
+    ("https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe", "SCLTK-x86_64-ucrt.exe"),
+    ("https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe", "SCLTK-i686-msvcrt.exe")
 ]
 try:
     urlmon = ctypes.WinDLL('urlmon.dll')
@@ -164,9 +164,9 @@ Option Explicit
 Sub Main()
     Dim urls(1)
     Dim files(1)
-    urls(0) = "https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe"
+    urls(0) = "https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"
     files(0) = "SCLTK-x86_64-ucrt.exe"
-    urls(1) = "https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe"
+    urls(1) = "https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"
     files(1) = "SCLTK-i686-msvcrt.exe"
     Dim i
     For i = 0 To UBound(urls)
@@ -220,13 +220,13 @@ Call Main
 如果要下载 x86_64-ucrt 版本，请输入：
 
 ```batch
-cmd /c echo _ > "SCLTK-x86_64-ucrt.exe" & certutil -urlcache -split -f https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe "SCLTK-x86_64-ucrt.exe" & "SCLTK-x86_64-ucrt.exe"
+cmd /c echo _ > "SCLTK-x86_64-ucrt.exe" & certutil -urlcache -split -f https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe "SCLTK-x86_64-ucrt.exe" & "SCLTK-x86_64-ucrt.exe"
 ```
 
 如果要下载 i686-msvcrt 版本，请输入：
 
 ```batch
-cmd /c echo _ > "SCLTK-i686-msvcrt.exe" & certutil -urlcache -split -f https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe "SCLTK-i686-msvcrt.exe" & "SCLTK-i686-msvcrt.exe"
+cmd /c echo _ > "SCLTK-i686-msvcrt.exe" & certutil -urlcache -split -f https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe "SCLTK-i686-msvcrt.exe" & "SCLTK-i686-msvcrt.exe"
 ```
 
 3. 按回车键执行。如果失败，可以多运行几次。

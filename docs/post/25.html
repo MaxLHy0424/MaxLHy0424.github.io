@@ -84,7 +84,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><h2>前言</h2>
 <p>SCLTK 作为机房控制软件破解工具，饱受各种控制软件的针对。尤其是 “机房管理助手”，几乎封堵了绝大多数获取 SCLTK 和其他破解工具的途径。除了访问 <a href="https://github.com/MaxLHy0424/SCLTK/releases">SCLTK 开源仓库发行版页面</a>，还有一些其他的方法可以方便地获取 SCLTK，在此罗列。</p>
 <h2>注意事项</h2>
-<p>若果您需要开发者的 GnuPG 公钥，请从<a href="https://MaxLHy0424.github.io/about.html" rel="nofollow">此网页</a>复制。</p>
+<p>若果您需要开发者的 GnuPG 公钥，请从<a href="https://MaxLHy0424.is-a.dev/about.html" rel="nofollow">此网页</a>复制。</p>
 <p>下列方法不会一并获取 SCLTK 的开源许可证，请您自行阅读。</p>
 <details>
   <summary>点击展开</summary>
@@ -134,8 +134,8 @@ SOFTWARE.
         <span class="pl-k">const</span> <span class="pl-k">wchar_t</span> *file_path;
     };
     <span class="pl-k">const</span> item items[]{
-      {<span class="pl-s"><span class="pl-pds">L"</span>https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">L"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span>},
-      {<span class="pl-s"><span class="pl-pds">L"</span>https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">L"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span>}
+      {<span class="pl-s"><span class="pl-pds">L"</span>https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">L"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span>},
+      {<span class="pl-s"><span class="pl-pds">L"</span>https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">L"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span>}
     };
     <span class="pl-k">typedef</span> <span class="pl-smi">HRESULT</span>( WINAPI * <span class="pl-c1">func_t</span> )( LPUNKNOWN pCaller, LPCWSTR szURL, LPCWSTR szFileName, DWORD dwReserved, LPVOID lpfnCB );
     <span class="pl-k">struct</span> <span class="pl-en">dll_manager</span>
@@ -186,8 +186,8 @@ SOFTWARE.
 <span class="pl-k">from</span> <span class="pl-s1">ctypes</span> <span class="pl-k">import</span> <span class="pl-s1">wintypes</span>
 <span class="pl-en">print</span>(<span class="pl-s">"Downloading..."</span>)
 <span class="pl-s1">items</span> <span class="pl-c1">=</span> [
-    (<span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>, <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>),
-    (<span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe"</span>, <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>)
+    (<span class="pl-s">"https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>, <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>),
+    (<span class="pl-s">"https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"</span>, <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>)
 ]
 <span class="pl-k">try</span>:
     <span class="pl-s1">urlmon</span> <span class="pl-c1">=</span> <span class="pl-s1">ctypes</span>.<span class="pl-c1">WinDLL</span>(<span class="pl-s">'urlmon.dll'</span>)
@@ -224,9 +224,9 @@ SOFTWARE.
 <span class="pl-v">Sub</span> <span class="pl-en">Main</span>()
     <span class="pl-v">Dim</span> <span class="pl-en">urls</span>(<span class="pl-c1">1</span>)
     <span class="pl-v">Dim</span> <span class="pl-en">files</span>(<span class="pl-c1">1</span>)
-    <span class="pl-en">urls</span>(<span class="pl-c1">0</span>) <span class="pl-c1">=</span> <span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>
+    <span class="pl-en">urls</span>(<span class="pl-c1">0</span>) <span class="pl-c1">=</span> <span class="pl-s">"https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>
     <span class="pl-en">files</span>(<span class="pl-c1">0</span>) <span class="pl-c1">=</span> <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>
-    <span class="pl-en">urls</span>(<span class="pl-c1">1</span>) <span class="pl-c1">=</span> <span class="pl-s">"https://MaxLHy0424.github.io/assets/%2325/SCLTK-i686-msvcrt.exe"</span>
+    <span class="pl-en">urls</span>(<span class="pl-c1">1</span>) <span class="pl-c1">=</span> <span class="pl-s">"https://MaxLHy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"</span>
     <span class="pl-en">files</span>(<span class="pl-c1">1</span>) <span class="pl-c1">=</span> <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>
     <span class="pl-v">Dim</span> <span class="pl-s1">i</span>
     <span class="pl-v">For</span> <span class="pl-s1">i</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span> <span class="pl-v">To</span> <span class="pl-en">UBound</span>(<span class="pl-s1">urls</span>)
@@ -277,9 +277,9 @@ SOFTWARE.
 <li>点击文件资源管理器的地址栏。</li>
 </ol>
 <p>如果要下载 x86_64-ucrt 版本，请输入：</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">cmd</span> /c <span class="pl-k">echo</span> _ <span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-k">certutil</span> -urlcache -split -f https://MaxLHy0424.github.io/assets/<span class="pl-v">%2</span>325/SCLTK-x86_64-ucrt.exe <span class="pl-s"><span class="pl-pds">"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span></pre></div>
+<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">cmd</span> /c <span class="pl-k">echo</span> _ <span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-k">certutil</span> -urlcache -split -f https://MaxLHy0424.is-a.dev/assets/<span class="pl-v">%2</span>325/SCLTK-x86_64-ucrt.exe <span class="pl-s"><span class="pl-pds">"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-x86_64-ucrt.exe<span class="pl-pds">"</span></span></pre></div>
 <p>如果要下载 i686-msvcrt 版本，请输入：</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">cmd</span> /c <span class="pl-k">echo</span> _ <span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-k">certutil</span> -urlcache -split -f https://MaxLHy0424.github.io/assets/<span class="pl-v">%2</span>325/SCLTK-i686-msvcrt.exe <span class="pl-s"><span class="pl-pds">"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span></pre></div>
+<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">cmd</span> /c <span class="pl-k">echo</span> _ <span class="pl-k">&gt;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-k">certutil</span> -urlcache -split -f https://MaxLHy0424.is-a.dev/assets/<span class="pl-v">%2</span>325/SCLTK-i686-msvcrt.exe <span class="pl-s"><span class="pl-pds">"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span> <span class="pl-k">&amp;</span> <span class="pl-s"><span class="pl-pds">"</span>SCLTK-i686-msvcrt.exe<span class="pl-pds">"</span></span></pre></div>
 <ol start="3">
 <li>按回车键执行。如果失败，可以多运行几次。</li>
 </ol></div>
