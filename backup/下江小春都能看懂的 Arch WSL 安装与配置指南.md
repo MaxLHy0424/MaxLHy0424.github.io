@@ -182,7 +182,7 @@ sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm
 sudo pacman -S yay
 ```
 
-如果您愿意的话，也可以试试 paru，可以参考[这篇教程](https://maxlhy0424.github.io/post/10.html)。
+如果您愿意的话，也可以试试 paru，可以参考[这篇教程](https://maxlhy0424.is-a.dev/post/10.html)。
 
 ## 5 汉化
 

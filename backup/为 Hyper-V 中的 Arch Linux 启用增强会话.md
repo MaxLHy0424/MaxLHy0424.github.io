@@ -17,7 +17,7 @@ Set-VM -VMName <VM> -EnhancedSessionTransportType HvSocket
 
 ## 2 配置包管理器
 
-详见[这篇教程](https://maxlhy0424.github.io/post/2.html)的第 3 部分和[另一篇教程](https://maxlhy0424.github.io/post/10.html)。
+详见[这篇教程](https://maxlhy0424.is-a.dev/post/2.html)的第 3 部分和[另一篇教程](https://maxlhy0424.is-a.dev/post/10.html)。
 
 ## 3 安装集成服务
 
