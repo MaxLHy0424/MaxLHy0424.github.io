@@ -6,7 +6,7 @@ WSL 2 即使更新到最新预发布版本，Linux Kernel 版本也是 `6.6.xxx`
 > 这可能会导致部分 GNU/Linux 发行版不稳定，软件无法运行等问题。所以不建议在生产环境中替换 WSL 2 的 Linux Kernel。
 
 > [!TIP]  
-> 如果您在 WSL 2 中使用 Arch Linux，建议先阅读[这篇教程](https://maxlhy0424.is-a.dev/post/2.html)，对 Arch WSL 进行基本的配置，然后再阅读本教程。
+> 如果您在 WSL 2 中使用 Arch Linux，建议先阅读[这篇教程](/post/2.html)，对 Arch WSL 进行基本的配置，然后再阅读本教程。
 
 ## 1 安装依赖
 
