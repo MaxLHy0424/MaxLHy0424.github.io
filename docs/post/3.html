@@ -21,7 +21,7 @@ WSL 2 即使更新到最新预发布版本，Linux Kernel 版本也是 `6.6.xxx`
 <meta property="og:url" content="https://MaxLHy0424.is-a.dev/post/3.html">
 <meta property="og:image" content="/web/avatar.webp">
 <title>手把手教您编译适用于 WSL 2 的 Linux Kernel</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -89,9 +89,11 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 <h2>1 安装依赖</h2>
 <p>Debian 系：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">sudo apt install build-essential flex bison dwarves libssl-dev libelf-dev
+</code></pre>
 <p>Arch 系：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S base-devel flex bison pahole openssl libelf bc</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">sudo pacman -S base-devel flex bison pahole openssl libelf bc
+</code></pre>
 <h2>2 下载 Linux Kernel 源代码</h2>
 <p>访问 <a href="https://kernel.org" rel="nofollow">The Linux Kernel Archive</a>，等待加载完成后，可以看到网页中间的 Linux Kernel 源代码存档列表。在此之前，我们需要了解 Linux Kernel 的主要开发分支：</p>
 <ul>
@@ -117,29 +119,35 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </ul>
 <p>根据具体需求下载对应的 Linux Kernel，然后通过 Windows 资源管理器复制到前面安装好依赖的 GNU/Linux 发行版的用户家目录中。</p>
 <p>然后执行以下命令（将 <code class="notranslate">&lt;File&gt;</code> 替换为您的 Linux Kernel 压缩包文件名，将 <code class="notranslate">&lt;Dir&gt;</code> 替换为您的 Linux Kernel 压缩包解压后的目录名）：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">cd</span> <span class="pl-k">~</span>
-tar xf <span class="pl-k">&lt;</span>File<span class="pl-k">&gt;</span>
-<span class="pl-c1">cd</span> <span class="pl-k">&lt;</span>Dir<span class="pl-k">&gt;</span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">cd ~
+tar xf &lt;File&gt;
+cd &lt;Dir&gt;
+</code></pre>
 <h2>3 编译内核</h2>
 <div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您在中国大陆，此步骤可能需要使用网络代理。</p>
 </div>
 <p>执行以下命令下载适用于 WSL 2 的 Linux Kernel 构建配置并保存：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">wget https://raw.githubusercontent.com/microsoft/WSL2-Linux-Kernel/linux-msft-wsl-6.1.y/arch/x86/configs/config-wsl -O arch/x86/configs/config-wsl
+</code></pre>
 <p>然后执行以下命令来使用全部线程编译内核：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j<span class="pl-s"><span class="pl-pds">$(</span>nproc<span class="pl-pds">)</span></span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">make KCONFIG_CONFIG=arch/x86/configs/config-wsl -j$(nproc)
+</code></pre>
 <p>途中的编译配置选择一路按回车即可。</p>
 <h2>4 保存并替换</h2>
 <p>执行以下命令（将 <code class="notranslate">&lt;PATH&gt;</code> 替换为 C 盘下的文件路径，例如 <code class="notranslate">Data/WslLinuxKernel</code>）：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">cp arch/x86/boot/bzImage /mnt/c/<span class="pl-k">&lt;</span>PATH<span class="pl-k">&gt;</span></pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">cp arch/x86/boot/bzImage /mnt/c/&lt;PATH&gt;
+</code></pre>
 <p>然后将文件名改为 <code class="notranslate">kernel</code>。</p>
 <p>接着，在当前 Windows 用户目录下创建文件 <code class="notranslate">.wslconfig</code>（有则不用），添加（<code class="notranslate">[wsl2]</code> 无需重复添加；将 <code class="notranslate">C:\\&lt;PATH&gt;\\kernel</code> 替换为您的 Linux Kernel 文件路径；把路径分隔符替换为 <code class="notranslate">\\</code>）：</p>
 <pre class="notranslate"><code class="notranslate">[wsl2]
 kernel=C:\\&lt;PATH&gt;\\kernel
 </code></pre>
 <p>接着，在 Windows Terminal 中执行以下命令：</p>
-<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">wsl</span> --shutdown</pre></div>
+<pre lang="batch" class="notranslate"><code class="notranslate">wsl --shutdown
+</code></pre>
 <p>再次启动 WSL 2 中的 GNU/Linux 发行版，执行：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uname -a</pre></div>
+<pre lang="bash" class="notranslate"><code class="notranslate">uname -a
+</code></pre>
 <p>Linux Kernel 已经成功替换，一切大功告成！</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">如无另外说明，本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">CC BY-NC-SA 4.0</a> 许可</div>
 
