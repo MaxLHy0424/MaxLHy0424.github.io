@@ -244,13 +244,13 @@ WScript.Quit 0
 如果要下载 x86_64-ucrt 版本，请输入：
 
 ```batch
-cmd /c echo _ > "SCLTK-x86_64-ucrt.exe" & certutil -urlcache -split -f "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe" "SCLTK-x86_64-ucrt.exe" & "SCLTK-x86_64-ucrt.exe"
+certutil -urlcache -split -f "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe" "SCLTK-x86_64-ucrt.exe"
 ```
 
 如果要下载 i686-msvcrt 版本，请输入：
 
 ```batch
-cmd /c echo _ > "SCLTK-i686-msvcrt.exe" & certutil -urlcache -split -f "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe" "SCLTK-i686-msvcrt.exe" & "SCLTK-i686-msvcrt.exe"
+certutil -urlcache -split -f "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe" "SCLTK-i686-msvcrt.exe"
 ```
 
 3. 按回车键执行。如果失败，可以多运行几次。
