@@ -202,34 +202,43 @@ SOFTWARE.
 </ol>
 <details>
 <summary>点击展开</summary>
-<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">sys</span>
-<span class="pl-k">import</span> <span class="pl-s1">ctypes</span>
-<span class="pl-k">from</span> <span class="pl-s1">ctypes</span> <span class="pl-k">import</span> <span class="pl-s1">wintypes</span>
-<span class="pl-en">print</span>(<span class="pl-s">"Downloading..."</span>)
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">urllib</span>.<span class="pl-s1">request</span>
+<span class="pl-k">import</span> <span class="pl-s1">ssl</span>
+<span class="pl-k">import</span> <span class="pl-s1">sys</span>
 <span class="pl-s1">items</span> <span class="pl-c1">=</span> [
     (<span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>, <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>),
     (<span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"</span>, <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>)
 ]
-<span class="pl-k">try</span>:
-    <span class="pl-s1">urlmon</span> <span class="pl-c1">=</span> <span class="pl-s1">ctypes</span>.<span class="pl-c1">WinDLL</span>(<span class="pl-s">'urlmon.dll'</span>)
-<span class="pl-k">except</span> <span class="pl-v">OSError</span>:
-    <span class="pl-en">print</span>(<span class="pl-s">f"[FAILED] Cannot load urlmon.dll"</span>, <span class="pl-s1">file</span><span class="pl-c1">=</span><span class="pl-s1">sys</span>.<span class="pl-c1">stderr</span>)
-    <span class="pl-s1">sys</span>.<span class="pl-c1">exit</span>(<span class="pl-c1">1</span>)
-<span class="pl-v">URLDownloadToFileW</span> <span class="pl-c1">=</span> <span class="pl-s1">urlmon</span>.<span class="pl-c1">URLDownloadToFileW</span>
-<span class="pl-v">URLDownloadToFileW</span>.<span class="pl-c1">argtypes</span> <span class="pl-c1">=</span> [
-    <span class="pl-s1">ctypes</span>.<span class="pl-c1">c_void_p</span>,
-    <span class="pl-s1">wintypes</span>.<span class="pl-c1">LPCWSTR</span>,
-    <span class="pl-s1">wintypes</span>.<span class="pl-c1">LPCWSTR</span>,
-    <span class="pl-s1">wintypes</span>.<span class="pl-c1">DWORD</span>,
-    <span class="pl-s1">ctypes</span>.<span class="pl-c1">c_void_p</span>
-]
-<span class="pl-v">URLDownloadToFileW</span>.<span class="pl-c1">restype</span> <span class="pl-c1">=</span> <span class="pl-s1">ctypes</span>.<span class="pl-c1">c_long</span>
-<span class="pl-k">for</span> <span class="pl-s1">url</span>, <span class="pl-s1">file_path</span> <span class="pl-c1">in</span> <span class="pl-s1">items</span>:
-    <span class="pl-s1">hr</span> <span class="pl-c1">=</span> <span class="pl-en">URLDownloadToFileW</span>(<span class="pl-c1">None</span>, <span class="pl-s1">url</span>, <span class="pl-s1">file_path</span>, <span class="pl-c1">0</span>, <span class="pl-c1">None</span>)
-    <span class="pl-k">if</span> <span class="pl-s1">hr</span> <span class="pl-c1">&lt;</span> <span class="pl-c1">0</span>:
-        <span class="pl-en">print</span>(<span class="pl-s">f"[FAILED] <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">hr</span><span class="pl-kos">}</span></span>"</span>, <span class="pl-s1">file</span><span class="pl-c1">=</span><span class="pl-s1">sys</span>.<span class="pl-c1">stderr</span>)
-        <span class="pl-s1">sys</span>.<span class="pl-c1">exit</span>(<span class="pl-c1">1</span>)
-<span class="pl-en">print</span>(<span class="pl-s">"OK!"</span>)</pre></div>
+<span class="pl-k">def</span> <span class="pl-en">download_file_ignore_ssl</span>(<span class="pl-s1">url</span>, <span class="pl-s1">file_path</span>):
+    <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-s1">ssl</span>.<span class="pl-c1">create_default_context</span>()
+    <span class="pl-s1">context</span>.<span class="pl-c1">check_hostname</span> <span class="pl-c1">=</span> <span class="pl-c1">False</span>
+    <span class="pl-s1">context</span>.<span class="pl-c1">verify_mode</span> <span class="pl-c1">=</span> <span class="pl-s1">ssl</span>.<span class="pl-c1">CERT_NONE</span>    
+    <span class="pl-k">try</span>:
+        <span class="pl-k">with</span> <span class="pl-s1">urllib</span>.<span class="pl-c1">request</span>.<span class="pl-c1">urlopen</span>(<span class="pl-s1">url</span>, <span class="pl-s1">context</span><span class="pl-c1">=</span><span class="pl-s1">context</span>) <span class="pl-k">as</span> <span class="pl-s1">response</span>:
+            <span class="pl-k">if</span> <span class="pl-s1">response</span>.<span class="pl-c1">status</span> <span class="pl-c1">==</span> <span class="pl-c1">200</span>:
+                <span class="pl-k">with</span> <span class="pl-en">open</span>(<span class="pl-s1">file_path</span>, <span class="pl-s">'wb'</span>) <span class="pl-k">as</span> <span class="pl-s1">f</span>:
+                    <span class="pl-k">while</span> <span class="pl-c1">True</span>:
+                        <span class="pl-s1">chunk</span> <span class="pl-c1">=</span> <span class="pl-s1">response</span>.<span class="pl-c1">read</span>(<span class="pl-c1">8192</span>)
+                        <span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-s1">chunk</span>:
+                            <span class="pl-k">break</span>
+                        <span class="pl-s1">f</span>.<span class="pl-c1">write</span>(<span class="pl-s1">chunk</span>)
+                <span class="pl-k">return</span> <span class="pl-c1">True</span>
+            <span class="pl-k">else</span>:
+                <span class="pl-en">print</span>(<span class="pl-s">f"[FAILED] HTTP Status: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">response</span>.<span class="pl-c1">status</span><span class="pl-kos">}</span></span>"</span>)
+                <span class="pl-k">return</span> <span class="pl-c1">False</span>
+    <span class="pl-k">except</span> <span class="pl-v">Exception</span> <span class="pl-k">as</span> <span class="pl-s1">e</span>:
+        <span class="pl-en">print</span>(<span class="pl-s">f"[FAILED] <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">e</span><span class="pl-kos">}</span></span>"</span>)
+        <span class="pl-k">return</span> <span class="pl-c1">False</span>
+<span class="pl-k">def</span> <span class="pl-en">main</span>():
+    <span class="pl-en">print</span>(<span class="pl-s">"Downloading..."</span>)
+    <span class="pl-k">for</span> <span class="pl-s1">url</span>, <span class="pl-s1">filename</span> <span class="pl-c1">in</span> <span class="pl-s1">items</span>:
+        <span class="pl-en">print</span>(<span class="pl-s">f"Downloading: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">filename</span><span class="pl-kos">}</span></span>..."</span>)
+        <span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-en">download_file_ignore_ssl</span>(<span class="pl-s1">url</span>, <span class="pl-s1">filename</span>):
+            <span class="pl-s1">sys</span>.<span class="pl-c1">exit</span>(<span class="pl-c1">1</span>)
+    <span class="pl-en">print</span>(<span class="pl-s">"OK!"</span>)
+    <span class="pl-s1">sys</span>.<span class="pl-c1">exit</span>(<span class="pl-c1">0</span>)
+<span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
+    <span class="pl-en">main</span>()</pre></div>
 </details>
 <ol>
 <li>使用 Python 3 运行 <code class="notranslate">SCLTK.py</code>。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。</li>
@@ -241,44 +250,43 @@ SOFTWARE.
 </ol>
 <details>
 <summary>点击展开</summary>
-<div class="highlight highlight-source-vbnet"><pre class="notranslate"><span class="pl-smi">import</span> <span class="pl-smi">urllib.request</span>
-<span class="pl-smi">import</span> <span class="pl-smi">ssl</span>
-<span class="pl-smi">import</span> <span class="pl-smi">sys</span>
-<span class="pl-smi">items</span> <span class="pl-smi">=</span> [
-    <span class="pl-smi">(</span><span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"</span><span class="pl-smi">,</span> <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span><span class="pl-smi">),</span>
-    <span class="pl-smi">(</span><span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"</span><span class="pl-smi">,</span> <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span><span class="pl-smi">)</span>
-]
-
-<span class="pl-smi">def</span> <span class="pl-smi">download_file_ignore_ssl(url,</span> <span class="pl-smi">file_path):</span>
-    <span class="pl-smi">context</span> <span class="pl-smi">=</span> <span class="pl-smi">ssl.create_default_context()</span>
-    <span class="pl-smi">context.check_hostname</span> <span class="pl-smi">=</span> <span class="pl-k">False</span>
-    <span class="pl-smi">context.verify_mode</span> <span class="pl-smi">=</span> <span class="pl-smi">ssl.CERT_NONE</span>    
-    <span class="pl-k">try</span><span class="pl-smi">:</span>
-        <span class="pl-k">with</span> <span class="pl-smi">urllib.request.urlopen(url,</span> <span class="pl-smi">context=context)</span> <span class="pl-k">as</span> <span class="pl-smi">response:</span>
-            <span class="pl-k">if</span> <span class="pl-smi">response.status</span> <span class="pl-smi">==</span> <span class="pl-s">200</span><span class="pl-smi">:</span>
-                <span class="pl-k">with</span> <span class="pl-smi">open(file_path,</span> <span class="pl-c">'wb') as f:</span>
-                    <span class="pl-k">while</span> <span class="pl-k">True</span><span class="pl-smi">:</span>
-                        <span class="pl-smi">chunk</span> <span class="pl-smi">=</span> <span class="pl-smi">response.read(</span><span class="pl-s">8192</span><span class="pl-smi">)</span>
-                        <span class="pl-k">if</span> <span class="pl-k">not</span> <span class="pl-smi">chunk:</span>
-                            <span class="pl-smi">break</span>
-                        <span class="pl-smi">f.write(chunk)</span>
-                <span class="pl-k">return</span> <span class="pl-k">True</span>
-            <span class="pl-k">else</span><span class="pl-smi">:</span>
-                <span class="pl-smi">print(f</span><span class="pl-s">"[FAILED] HTTP Status: {response.status}"</span><span class="pl-smi">)</span>
-                <span class="pl-k">return</span> <span class="pl-k">False</span>
-    <span class="pl-smi">except</span> <span class="pl-smi">Exception</span> <span class="pl-k">as</span> <span class="pl-smi">e:</span>
-        <span class="pl-smi">print(f</span><span class="pl-s">"[FAILED] {e}"</span><span class="pl-smi">)</span>
-        <span class="pl-k">return</span> <span class="pl-k">False</span>
-<span class="pl-smi">def</span> <span class="pl-smi">main():</span>
-    <span class="pl-smi">print(</span><span class="pl-s">"Downloading..."</span><span class="pl-smi">)</span>
-    <span class="pl-k">for</span> <span class="pl-smi">url,</span> <span class="pl-smi">filename</span> <span class="pl-k">in</span> <span class="pl-smi">items:</span>
-        <span class="pl-smi">print(f</span><span class="pl-s">"Downloading: {filename}..."</span><span class="pl-smi">)</span>
-        <span class="pl-k">if</span> <span class="pl-k">not</span> <span class="pl-smi">download_file_ignore_ssl(url,</span> <span class="pl-smi">filename):</span>
-            <span class="pl-smi">sys.exit(</span><span class="pl-s">1</span><span class="pl-smi">)</span>
-    <span class="pl-smi">print(</span><span class="pl-s">"OK!"</span><span class="pl-smi">)</span>
-    <span class="pl-smi">sys.exit(</span><span class="pl-s">0</span><span class="pl-smi">)</span>
-<span class="pl-k">if</span> <span class="pl-smi">__name__</span> <span class="pl-smi">==</span> <span class="pl-s">"__main__"</span><span class="pl-smi">:</span>
-    <span class="pl-smi">main()</span></pre></div>
+<div class="highlight highlight-source-vbnet"><pre class="notranslate"><span class="pl-k">Option Explicit</span>
+<span class="pl-smi">WScript.Echo</span> <span class="pl-s">"Downloading..."</span>
+<span class="pl-k">Dim</span> <span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span>
+<span class="pl-smi">items(</span><span class="pl-s">0</span><span class="pl-smi">,</span> <span class="pl-s">0</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>
+<span class="pl-smi">items(</span><span class="pl-s">0</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>
+<span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">0</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"</span>
+<span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>
+<span class="pl-k">Dim</span> <span class="pl-smi">i</span>
+<span class="pl-k">For</span> <span class="pl-smi">i</span> <span class="pl-smi">=</span> <span class="pl-s">0</span> <span class="pl-k">To</span> <span class="pl-smi">UBound(items,</span> <span class="pl-s">1</span><span class="pl-smi">)</span>
+    <span class="pl-k">On</span> <span class="pl-k">Error</span> <span class="pl-k">Resume</span> <span class="pl-k">Next</span>
+    <span class="pl-k">Dim</span> <span class="pl-smi">http,</span> <span class="pl-smi">stream</span>
+    <span class="pl-k">Set</span> <span class="pl-smi">http</span> <span class="pl-smi">=</span> <span class="pl-smi">CreateObject(</span><span class="pl-s">"MSXML2.ServerXMLHTTP"</span><span class="pl-smi">)</span>
+    <span class="pl-k">Set</span> <span class="pl-smi">stream</span> <span class="pl-smi">=</span> <span class="pl-smi">CreateObject(</span><span class="pl-s">"ADODB.Stream"</span><span class="pl-smi">)</span>
+    <span class="pl-smi">http.setOption</span> <span class="pl-s">2</span><span class="pl-smi">,</span> <span class="pl-s">13056</span>
+    <span class="pl-smi">http.Open</span> <span class="pl-s">"GET"</span><span class="pl-smi">,</span> <span class="pl-smi">items(i,</span> <span class="pl-s">0</span><span class="pl-smi">),</span> <span class="pl-k">False</span>
+    <span class="pl-smi">http.Send</span>    
+    <span class="pl-k">If</span> <span class="pl-smi">Err.Number</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">0</span> <span class="pl-k">Then</span>
+        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] Network Error: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">Err.Description</span>
+        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
+    <span class="pl-k">End</span> <span class="pl-k">If</span>
+    <span class="pl-k">If</span> <span class="pl-smi">http.Status</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">200</span> <span class="pl-k">Then</span>
+        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] HTTP Status: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">http.Status</span>
+        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
+    <span class="pl-k">End</span> <span class="pl-k">If</span>
+    <span class="pl-smi">stream.Type</span> <span class="pl-smi">=</span> <span class="pl-s">1</span> 
+    <span class="pl-smi">stream.Open</span>
+    <span class="pl-smi">stream.Write</span> <span class="pl-smi">http.ResponseBody</span>
+    <span class="pl-smi">stream.SaveToFile</span> <span class="pl-smi">items(i,</span> <span class="pl-s">1</span><span class="pl-smi">),</span> <span class="pl-s">2</span> 
+    <span class="pl-smi">stream.Close</span>
+    <span class="pl-k">If</span> <span class="pl-smi">Err.Number</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">0</span> <span class="pl-k">Then</span>
+        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] File Write Error: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">Err.Description</span>
+        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
+    <span class="pl-k">End</span> <span class="pl-k">If</span>
+    <span class="pl-k">On</span> <span class="pl-k">Error</span> <span class="pl-k">GoTo</span> <span class="pl-s">0</span>
+<span class="pl-k">Next</span>
+<span class="pl-smi">WScript.Echo</span> <span class="pl-s">"OK!"</span>
+<span class="pl-smi">WScript.Quit</span> <span class="pl-s">0</span></pre></div>
 </details>
 <ol start="3">
 <li>运行 <code class="notranslate">SCLTK.vbs</code>。当弹出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。</li>

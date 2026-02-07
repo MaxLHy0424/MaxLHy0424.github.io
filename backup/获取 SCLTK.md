@@ -143,48 +143,6 @@ int main()
 <summary>点击展开</summary>
 
 ```python
-import sys
-import ctypes
-from ctypes import wintypes
-print("Downloading...")
-items = [
-    ("https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe", "SCLTK-x86_64-ucrt.exe"),
-    ("https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe", "SCLTK-i686-msvcrt.exe")
-]
-try:
-    urlmon = ctypes.WinDLL('urlmon.dll')
-except OSError:
-    print(f"[FAILED] Cannot load urlmon.dll", file=sys.stderr)
-    sys.exit(1)
-URLDownloadToFileW = urlmon.URLDownloadToFileW
-URLDownloadToFileW.argtypes = [
-    ctypes.c_void_p,
-    wintypes.LPCWSTR,
-    wintypes.LPCWSTR,
-    wintypes.DWORD,
-    ctypes.c_void_p
-]
-URLDownloadToFileW.restype = ctypes.c_long
-for url, file_path in items:
-    hr = URLDownloadToFileW(None, url, file_path, 0, None)
-    if hr < 0:
-        print(f"[FAILED] {hr}", file=sys.stderr)
-        sys.exit(1)
-print("OK!")
-```
-</details>
-
-1. 使用 Python 3 运行 `SCLTK.py`。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
-
-## 方法 4 - 借助 VBScript 下载
-
-1. 在 C 盘顶级目录下新建一个文件夹（例如 `C:\SCLTK`），在文件夹内创建文件 `SCLTK.vbs`。
-2. 使用文本编辑器打开 `SCLTK.vbs`，复制如下代码并保存：
-
-<details>
-<summary>点击展开</summary>
-
-```vbs
 import urllib.request
 import ssl
 import sys
@@ -192,7 +150,6 @@ items = [
     ("https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe", "SCLTK-x86_64-ucrt.exe"),
     ("https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe", "SCLTK-i686-msvcrt.exe")
 ]
-
 def download_file_ignore_ssl(url, file_path):
     context = ssl.create_default_context()
     context.check_hostname = False
@@ -223,6 +180,57 @@ def main():
     sys.exit(0)
 if __name__ == "__main__":
     main()
+```
+</details>
+
+1. 使用 Python 3 运行 `SCLTK.py`。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
+
+## 方法 4 - 借助 VBScript 下载
+
+1. 在 C 盘顶级目录下新建一个文件夹（例如 `C:\SCLTK`），在文件夹内创建文件 `SCLTK.vbs`。
+2. 使用文本编辑器打开 `SCLTK.vbs`，复制如下代码并保存：
+
+<details>
+<summary>点击展开</summary>
+
+```vbs
+Option Explicit
+WScript.Echo "Downloading..."
+Dim items(1, 1)
+items(0, 0) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"
+items(0, 1) = "SCLTK-x86_64-ucrt.exe"
+items(1, 0) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"
+items(1, 1) = "SCLTK-i686-msvcrt.exe"
+Dim i
+For i = 0 To UBound(items, 1)
+    On Error Resume Next
+    Dim http, stream
+    Set http = CreateObject("MSXML2.ServerXMLHTTP")
+    Set stream = CreateObject("ADODB.Stream")
+    http.setOption 2, 13056
+    http.Open "GET", items(i, 0), False
+    http.Send    
+    If Err.Number <> 0 Then
+        WScript.Echo "[FAILED] Network Error: " & Err.Description
+        WScript.Quit 1
+    End If
+    If http.Status <> 200 Then
+        WScript.Echo "[FAILED] HTTP Status: " & http.Status
+        WScript.Quit 1
+    End If
+    stream.Type = 1 
+    stream.Open
+    stream.Write http.ResponseBody
+    stream.SaveToFile items(i, 1), 2 
+    stream.Close
+    If Err.Number <> 0 Then
+        WScript.Echo "[FAILED] File Write Error: " & Err.Description
+        WScript.Quit 1
+    End If
+    On Error GoTo 0
+Next
+WScript.Echo "OK!"
+WScript.Quit 0
 ```
 </details>
 
