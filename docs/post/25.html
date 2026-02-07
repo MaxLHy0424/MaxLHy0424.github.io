@@ -120,7 +120,54 @@ SOFTWARE.
 <p>“机房管理助手” 劫持了 <code class="notranslate">github.com</code>，为此本站提供 SCLTK 最新版本镜像。您可以点击以下链接获取 SCLTK。</p>
 <p><a href="/assets/%2325/SCLTK-x86_64-ucrt.exe">x86_64-ucrt 版本</a></p>
 <p><a href="/assets/%2325/SCLTK-i686-msvcrt.exe">i686-msvcrt 版本</a></p>
-<h2>方法 2 - 借助 C++ 与 Windows API 下载</h2>
+<h2>方法 2 - 借助 VBScript 下载</h2>
+<ol>
+<li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.vbs</code>。</li>
+<li>使用文本编辑器打开 <code class="notranslate">SCLTK.vbs</code>，复制如下代码并保存：</li>
+</ol>
+<details>
+<summary>点击展开</summary>
+<div class="highlight highlight-source-vbnet"><pre class="notranslate"><span class="pl-k">Option Explicit</span>
+<span class="pl-k">Dim</span> <span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span>
+<span class="pl-smi">items(</span><span class="pl-s">0</span><span class="pl-smi">,</span> <span class="pl-s">0</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>
+<span class="pl-smi">items(</span><span class="pl-s">0</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>
+<span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">0</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"</span>
+<span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>
+<span class="pl-k">Dim</span> <span class="pl-smi">i</span>
+<span class="pl-k">For</span> <span class="pl-smi">i</span> <span class="pl-smi">=</span> <span class="pl-s">0</span> <span class="pl-k">To</span> <span class="pl-smi">UBound(items,</span> <span class="pl-s">1</span><span class="pl-smi">)</span>
+    <span class="pl-k">On</span> <span class="pl-k">Error</span> <span class="pl-k">Resume</span> <span class="pl-k">Next</span>
+    <span class="pl-k">Dim</span> <span class="pl-smi">http,</span> <span class="pl-smi">stream</span>
+    <span class="pl-k">Set</span> <span class="pl-smi">http</span> <span class="pl-smi">=</span> <span class="pl-smi">CreateObject(</span><span class="pl-s">"MSXML2.ServerXMLHTTP"</span><span class="pl-smi">)</span>
+    <span class="pl-k">Set</span> <span class="pl-smi">stream</span> <span class="pl-smi">=</span> <span class="pl-smi">CreateObject(</span><span class="pl-s">"ADODB.Stream"</span><span class="pl-smi">)</span>
+    <span class="pl-smi">http.setOption</span> <span class="pl-s">2</span><span class="pl-smi">,</span> <span class="pl-s">13056</span>
+    <span class="pl-smi">http.Open</span> <span class="pl-s">"GET"</span><span class="pl-smi">,</span> <span class="pl-smi">items(i,</span> <span class="pl-s">0</span><span class="pl-smi">),</span> <span class="pl-k">False</span>
+    <span class="pl-smi">http.Send</span>    
+    <span class="pl-k">If</span> <span class="pl-smi">Err.Number</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">0</span> <span class="pl-k">Then</span>
+        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] Network Error: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">Err.Description</span>
+        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
+    <span class="pl-k">End</span> <span class="pl-k">If</span>
+    <span class="pl-k">If</span> <span class="pl-smi">http.Status</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">200</span> <span class="pl-k">Then</span>
+        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] HTTP Status: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">http.Status</span>
+        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
+    <span class="pl-k">End</span> <span class="pl-k">If</span>
+    <span class="pl-smi">stream.Type</span> <span class="pl-smi">=</span> <span class="pl-s">1</span> 
+    <span class="pl-smi">stream.Open</span>
+    <span class="pl-smi">stream.Write</span> <span class="pl-smi">http.ResponseBody</span>
+    <span class="pl-smi">stream.SaveToFile</span> <span class="pl-smi">items(i,</span> <span class="pl-s">1</span><span class="pl-smi">),</span> <span class="pl-s">2</span> 
+    <span class="pl-smi">stream.Close</span>
+    <span class="pl-k">If</span> <span class="pl-smi">Err.Number</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">0</span> <span class="pl-k">Then</span>
+        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] File Write Error: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">Err.Description</span>
+        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
+    <span class="pl-k">End</span> <span class="pl-k">If</span>
+    <span class="pl-k">On</span> <span class="pl-k">Error</span> <span class="pl-k">GoTo</span> <span class="pl-s">0</span>
+<span class="pl-k">Next</span>
+<span class="pl-smi">WScript.Echo</span> <span class="pl-s">"OK!"</span>
+<span class="pl-smi">WScript.Quit</span> <span class="pl-s">0</span></pre></div>
+</details>
+<ol start="3">
+<li>运行 <code class="notranslate">SCLTK.vbs</code>。当弹出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。</li>
+</ol>
+<h2>方法 3 - 借助 C++ 与 Windows API 下载</h2>
 <p>“机房管理助手” 在最近的更新中提供了禁止浏览器下载文件的功能。不过仍有方法可以方便的获取 SCLTK，具体请参考如下步骤：</p>
 <ol>
 <li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.cpp</code>。</li>
@@ -194,7 +241,7 @@ SOFTWARE.
 <ol start="3">
 <li>在编译选项中添加 <code class="notranslate">-lwininet</code>，编译并运行。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。</li>
 </ol>
-<h2>方法 3 - 借助 Python 3 下载</h2>
+<h2>方法 4 - 借助 Python 3 下载</h2>
 <p>该方法与上一个方法相似，步骤如下：</p>
 <ol>
 <li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.py</code>。</li>
@@ -242,54 +289,6 @@ SOFTWARE.
 </details>
 <ol>
 <li>使用 Python 3 运行 <code class="notranslate">SCLTK.py</code>。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。</li>
-</ol>
-<h2>方法 4 - 借助 VBScript 下载</h2>
-<ol>
-<li>在 C 盘顶级目录下新建一个文件夹（例如 <code class="notranslate">C:\SCLTK</code>），在文件夹内创建文件 <code class="notranslate">SCLTK.vbs</code>。</li>
-<li>使用文本编辑器打开 <code class="notranslate">SCLTK.vbs</code>，复制如下代码并保存：</li>
-</ol>
-<details>
-<summary>点击展开</summary>
-<div class="highlight highlight-source-vbnet"><pre class="notranslate"><span class="pl-k">Option Explicit</span>
-<span class="pl-smi">WScript.Echo</span> <span class="pl-s">"Downloading..."</span>
-<span class="pl-k">Dim</span> <span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span>
-<span class="pl-smi">items(</span><span class="pl-s">0</span><span class="pl-smi">,</span> <span class="pl-s">0</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"</span>
-<span class="pl-smi">items(</span><span class="pl-s">0</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"SCLTK-x86_64-ucrt.exe"</span>
-<span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">0</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"</span>
-<span class="pl-smi">items(</span><span class="pl-s">1</span><span class="pl-smi">,</span> <span class="pl-s">1</span><span class="pl-smi">)</span> <span class="pl-smi">=</span> <span class="pl-s">"SCLTK-i686-msvcrt.exe"</span>
-<span class="pl-k">Dim</span> <span class="pl-smi">i</span>
-<span class="pl-k">For</span> <span class="pl-smi">i</span> <span class="pl-smi">=</span> <span class="pl-s">0</span> <span class="pl-k">To</span> <span class="pl-smi">UBound(items,</span> <span class="pl-s">1</span><span class="pl-smi">)</span>
-    <span class="pl-k">On</span> <span class="pl-k">Error</span> <span class="pl-k">Resume</span> <span class="pl-k">Next</span>
-    <span class="pl-k">Dim</span> <span class="pl-smi">http,</span> <span class="pl-smi">stream</span>
-    <span class="pl-k">Set</span> <span class="pl-smi">http</span> <span class="pl-smi">=</span> <span class="pl-smi">CreateObject(</span><span class="pl-s">"MSXML2.ServerXMLHTTP"</span><span class="pl-smi">)</span>
-    <span class="pl-k">Set</span> <span class="pl-smi">stream</span> <span class="pl-smi">=</span> <span class="pl-smi">CreateObject(</span><span class="pl-s">"ADODB.Stream"</span><span class="pl-smi">)</span>
-    <span class="pl-smi">http.setOption</span> <span class="pl-s">2</span><span class="pl-smi">,</span> <span class="pl-s">13056</span>
-    <span class="pl-smi">http.Open</span> <span class="pl-s">"GET"</span><span class="pl-smi">,</span> <span class="pl-smi">items(i,</span> <span class="pl-s">0</span><span class="pl-smi">),</span> <span class="pl-k">False</span>
-    <span class="pl-smi">http.Send</span>    
-    <span class="pl-k">If</span> <span class="pl-smi">Err.Number</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">0</span> <span class="pl-k">Then</span>
-        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] Network Error: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">Err.Description</span>
-        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
-    <span class="pl-k">End</span> <span class="pl-k">If</span>
-    <span class="pl-k">If</span> <span class="pl-smi">http.Status</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">200</span> <span class="pl-k">Then</span>
-        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] HTTP Status: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">http.Status</span>
-        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
-    <span class="pl-k">End</span> <span class="pl-k">If</span>
-    <span class="pl-smi">stream.Type</span> <span class="pl-smi">=</span> <span class="pl-s">1</span> 
-    <span class="pl-smi">stream.Open</span>
-    <span class="pl-smi">stream.Write</span> <span class="pl-smi">http.ResponseBody</span>
-    <span class="pl-smi">stream.SaveToFile</span> <span class="pl-smi">items(i,</span> <span class="pl-s">1</span><span class="pl-smi">),</span> <span class="pl-s">2</span> 
-    <span class="pl-smi">stream.Close</span>
-    <span class="pl-k">If</span> <span class="pl-smi">Err.Number</span> <span class="pl-smi">&lt;&gt;</span> <span class="pl-s">0</span> <span class="pl-k">Then</span>
-        <span class="pl-smi">WScript.Echo</span> <span class="pl-s">"[FAILED] File Write Error: "</span> <span class="pl-smi">&amp;</span> <span class="pl-smi">Err.Description</span>
-        <span class="pl-smi">WScript.Quit</span> <span class="pl-s">1</span>
-    <span class="pl-k">End</span> <span class="pl-k">If</span>
-    <span class="pl-k">On</span> <span class="pl-k">Error</span> <span class="pl-k">GoTo</span> <span class="pl-s">0</span>
-<span class="pl-k">Next</span>
-<span class="pl-smi">WScript.Echo</span> <span class="pl-s">"OK!"</span>
-<span class="pl-smi">WScript.Quit</span> <span class="pl-s">0</span></pre></div>
-</details>
-<ol start="3">
-<li>运行 <code class="notranslate">SCLTK.vbs</code>。当弹出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。</li>
 </ol>
 <h2>方法 5 - 借助 <code class="notranslate">certutil</code> 下载</h2>
 <ol>

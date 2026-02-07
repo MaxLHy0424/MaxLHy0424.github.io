@@ -54,7 +54,57 @@ SOFTWARE.
 
 [i686-msvcrt 版本](/assets/%2325/SCLTK-i686-msvcrt.exe)
 
-## 方法 2 - 借助 C++ 与 Windows API 下载
+## 方法 2 - 借助 VBScript 下载
+
+1. 在 C 盘顶级目录下新建一个文件夹（例如 `C:\SCLTK`），在文件夹内创建文件 `SCLTK.vbs`。
+2. 使用文本编辑器打开 `SCLTK.vbs`，复制如下代码并保存：
+
+<details>
+<summary>点击展开</summary>
+
+```vbs
+Option Explicit
+Dim items(1, 1)
+items(0, 0) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"
+items(0, 1) = "SCLTK-x86_64-ucrt.exe"
+items(1, 0) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"
+items(1, 1) = "SCLTK-i686-msvcrt.exe"
+Dim i
+For i = 0 To UBound(items, 1)
+    On Error Resume Next
+    Dim http, stream
+    Set http = CreateObject("MSXML2.ServerXMLHTTP")
+    Set stream = CreateObject("ADODB.Stream")
+    http.setOption 2, 13056
+    http.Open "GET", items(i, 0), False
+    http.Send    
+    If Err.Number <> 0 Then
+        WScript.Echo "[FAILED] Network Error: " & Err.Description
+        WScript.Quit 1
+    End If
+    If http.Status <> 200 Then
+        WScript.Echo "[FAILED] HTTP Status: " & http.Status
+        WScript.Quit 1
+    End If
+    stream.Type = 1 
+    stream.Open
+    stream.Write http.ResponseBody
+    stream.SaveToFile items(i, 1), 2 
+    stream.Close
+    If Err.Number <> 0 Then
+        WScript.Echo "[FAILED] File Write Error: " & Err.Description
+        WScript.Quit 1
+    End If
+    On Error GoTo 0
+Next
+WScript.Echo "OK!"
+WScript.Quit 0
+```
+</details>
+
+3. 运行 `SCLTK.vbs`。当弹出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
+
+## 方法 3 - 借助 C++ 与 Windows API 下载
 
 “机房管理助手” 在最近的更新中提供了禁止浏览器下载文件的功能。不过仍有方法可以方便的获取 SCLTK，具体请参考如下步骤：
 
@@ -132,7 +182,7 @@ int main()
 
 3. 在编译选项中添加 `-lwininet`，编译并运行。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
 
-## 方法 3 - 借助 Python 3 下载
+## 方法 4 - 借助 Python 3 下载
 
 该方法与上一个方法相似，步骤如下：
 
@@ -184,57 +234,6 @@ if __name__ == "__main__":
 </details>
 
 1. 使用 Python 3 运行 `SCLTK.py`。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
-
-## 方法 4 - 借助 VBScript 下载
-
-1. 在 C 盘顶级目录下新建一个文件夹（例如 `C:\SCLTK`），在文件夹内创建文件 `SCLTK.vbs`。
-2. 使用文本编辑器打开 `SCLTK.vbs`，复制如下代码并保存：
-
-<details>
-<summary>点击展开</summary>
-
-```vbs
-Option Explicit
-WScript.Echo "Downloading..."
-Dim items(1, 1)
-items(0, 0) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"
-items(0, 1) = "SCLTK-x86_64-ucrt.exe"
-items(1, 0) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"
-items(1, 1) = "SCLTK-i686-msvcrt.exe"
-Dim i
-For i = 0 To UBound(items, 1)
-    On Error Resume Next
-    Dim http, stream
-    Set http = CreateObject("MSXML2.ServerXMLHTTP")
-    Set stream = CreateObject("ADODB.Stream")
-    http.setOption 2, 13056
-    http.Open "GET", items(i, 0), False
-    http.Send    
-    If Err.Number <> 0 Then
-        WScript.Echo "[FAILED] Network Error: " & Err.Description
-        WScript.Quit 1
-    End If
-    If http.Status <> 200 Then
-        WScript.Echo "[FAILED] HTTP Status: " & http.Status
-        WScript.Quit 1
-    End If
-    stream.Type = 1 
-    stream.Open
-    stream.Write http.ResponseBody
-    stream.SaveToFile items(i, 1), 2 
-    stream.Close
-    If Err.Number <> 0 Then
-        WScript.Echo "[FAILED] File Write Error: " & Err.Description
-        WScript.Quit 1
-    End If
-    On Error GoTo 0
-Next
-WScript.Echo "OK!"
-WScript.Quit 0
-```
-</details>
-
-3. 运行 `SCLTK.vbs`。当弹出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
 
 ## 方法 5 - 借助 `certutil` 下载
 
