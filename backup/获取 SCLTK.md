@@ -54,7 +54,7 @@ SOFTWARE.
 
 [i686-msvcrt 版本](/assets/%2325/SCLTK-i686-msvcrt.exe)
 
-## 方法 2 - 调用 Windows API 下载
+## 方法 2 - 借助 C++ 与 Windows API 下载
 
 “机房管理助手” 在最近的更新中提供了禁止浏览器下载文件的功能。不过仍有方法可以方便的获取 SCLTK，具体请参考如下步骤：
 
@@ -66,45 +66,61 @@ SOFTWARE.
 
 ```cpp
 #include <windows.h>
+#include <wininet.h>
+#include <fstream>
 #include <iostream>
+#include <vector>
+bool download_file_ignore_ssl( const wchar_t* url, const wchar_t* file_path )
+{
+    HINTERNET internet_handle = InternetOpenW( L"MyDownloader", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0 );
+    HINTERNET url_handle      = NULL;
+    bool success              = false;
+    if ( internet_handle == NULL ) {
+        std::wcerr << L"InternetOpen failed. Error: " << GetLastError() << std::endl;
+        return false;
+    }
+    DWORD flags
+      = INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID | INTERNET_FLAG_IGNORE_REDIRECT_TO_HTTP
+      | INTERNET_FLAG_IGNORE_REDIRECT_TO_HTTPS | INTERNET_FLAG_SECURE | INTERNET_FLAG_RELOAD;
+    url_handle = InternetOpenUrlW( internet_handle, url, NULL, 0, flags, 0 );
+    if ( url_handle == NULL ) {
+        std::wcerr << L"InternetOpenUrl failed. Error: " << GetLastError() << std::endl;
+        InternetCloseHandle( internet_handle );
+        return false;
+    }
+    std::ofstream output( file_path, std::ios::binary );
+    if ( output.is_open() ) {
+        const DWORD BUFFER_SIZE = 8192;
+        BYTE buffer[ BUFFER_SIZE ];
+        DWORD bytesRead = 0;
+        while ( InternetReadFile( url_handle, buffer, BUFFER_SIZE, &bytesRead ) && bytesRead > 0 ) {
+            output.write( ( char* ) buffer, bytesRead );
+        }
+        output.close();
+        success = true;
+    } else {
+        std::wcerr << L"Failed to create local file: " << file_path << std::endl;
+    }
+    InternetCloseHandle( url_handle );
+    InternetCloseHandle( internet_handle );
+    return success;
+}
 int main()
 {
     std::cout << "Downloading...\n";
     struct item
     {
-        const wchar_t *url;
-        const wchar_t *file_path;
+        const wchar_t* url;
+        const wchar_t* file_path;
     };
-    const item items[]{
+    const item items[] = {
       {L"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe", L"SCLTK-x86_64-ucrt.exe"},
       {L"https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe", L"SCLTK-i686-msvcrt.exe"}
     };
-    typedef HRESULT( WINAPI * func_t )( LPUNKNOWN pCaller, LPCWSTR szURL, LPCWSTR szFileName, DWORD dwReserved, LPVOID lpfnCB );
-    struct dll_manager
-    {
-        HMODULE dll;
-        dll_manager( HMODULE dll_handle )
-          : dll( dll_handle )
-        { }
-        ~dll_manager()
-        {
-            FreeLibrary( dll );
-        }
-    };
-    const dll_manager url_mon = LoadLibraryW( L"urlmon.dll" );
-    if ( !url_mon.dll ) {
-        std::cerr << "[FAILED] " << HRESULT_FROM_WIN32( GetLastError() ) << '\n';
-        return 1;
-    }
-    func_t url_download_to_file_w = reinterpret_cast< func_t >( GetProcAddress( url_mon.dll, "URLDownloadToFileW" ) );
-    if ( !url_download_to_file_w ) {
-        std::cerr << "[FAILED] " << HRESULT_FROM_WIN32( GetLastError() ) << '\n';
-        return 1;
-    }
     for ( std::size_t i = 0; i < sizeof( items ) / sizeof( item ); ++i ) {
-        HRESULT hr = url_download_to_file_w( NULL, items[ i ].url, items[ i ].file_path, 0, NULL );
-        if ( FAILED( hr ) ) {
-            std::cerr << "[FAILED] " << hr << '\n';
+        std::wcout << L"Downloading: " << items[ i ].file_path << L"..." << std::endl;
+        if ( !download_file_ignore_ssl( items[ i ].url, items[ i ].file_path ) ) {
+            std::cerr << "[FAILED] Could not download file.\n";
             return 1;
         }
     }
@@ -114,7 +130,7 @@ int main()
 ```
 </details>
 
-3. 编译并运行，等待 SCLTK 下载完毕。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
+3. 在编译选项中添加 `-lwininet`，编译并运行。当输出 “OK!” 时，SCLTK 已下载完毕。如果失败，可以多运行几次。
 
 ## 方法 3 - 借助 Python 3 下载
 
@@ -168,54 +184,45 @@ print("OK!")
 <details>
 <summary>点击展开</summary>
 
-```python
-Option Explicit
-Sub Main()
-    Dim urls(1)
-    Dim files(1)
-    urls(0) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe"
-    files(0) = "SCLTK-x86_64-ucrt.exe"
-    urls(1) = "https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe"
-    files(1) = "SCLTK-i686-msvcrt.exe"
-    Dim i
-    For i = 0 To UBound(urls)
-        If DownloadFile(urls(i), files(i)) <> 0 Then
-            WScript.Quit 1
-        End If
-    Next
-    WScript.Echo "OK!"
-    WScript.Quit 0
-End Sub
-Function DownloadFile(strUrl, strFile)
-    On Error Resume Next
-    Dim objHTTP, objStream
-    Set objHTTP = CreateObject("MSXML2.XMLHTTP")
-    objHTTP.Open "GET", strUrl, False
-    objHTTP.Send
-    If Err.Number <> 0 Then
-        WScript.Echo "[FAILED] " & Err.Description
-        DownloadFile = 1
-        Exit Function
-    End If
-    If objHTTP.Status <> 200 Then
-        WScript.Echo "[FAILED] HTTP " & objHTTP.Status
-        DownloadFile = 1
-        Exit Function
-    End If
-    Set objStream = CreateObject("ADODB.Stream")
-    objStream.Type = 1
-    objStream.Open
-    objStream.Write objHTTP.responseBody
-    objStream.SaveToFile strFile, 2
-    objStream.Close
-    If Err.Number <> 0 Then
-        WScript.Echo "[FAILED] " & Err.Description
-        DownloadFile = 1
-        Exit Function
-    End If
-    DownloadFile = 0
-End Function
-Call Main
+```vbs
+import urllib.request
+import ssl
+import sys
+items = [
+    ("https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-x86_64-ucrt.exe", "SCLTK-x86_64-ucrt.exe"),
+    ("https://maxlhy0424.is-a.dev/assets/%2325/SCLTK-i686-msvcrt.exe", "SCLTK-i686-msvcrt.exe")
+]
+
+def download_file_ignore_ssl(url, file_path):
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE    
+    try:
+        with urllib.request.urlopen(url, context=context) as response:
+            if response.status == 200:
+                with open(file_path, 'wb') as f:
+                    while True:
+                        chunk = response.read(8192)
+                        if not chunk:
+                            break
+                        f.write(chunk)
+                return True
+            else:
+                print(f"[FAILED] HTTP Status: {response.status}")
+                return False
+    except Exception as e:
+        print(f"[FAILED] {e}")
+        return False
+def main():
+    print("Downloading...")
+    for url, filename in items:
+        print(f"Downloading: {filename}...")
+        if not download_file_ignore_ssl(url, filename):
+            sys.exit(1)
+    print("OK!")
+    sys.exit(0)
+if __name__ == "__main__":
+    main()
 ```
 </details>
 
