@@ -266,7 +266,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     test2{}.<span class="pl-c1">f</span>();
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
-<h1>4 总结</h1>
+<h2>4 总结</h2>
 <p>CRTP 作为自 C++ 模板机制诞生起就存在的惯用法，存在其独特的历史价值。善用这一机制，可以更好地践行 C++ 零成本抽象的设计哲学。然而，由于 C++ 的基类生命周期与派生类生命周期不同，所以要格外关注这方面的问题，<strong>在 CRTP 的基类的构造函数和析构函数中，不要访问派生类的非静态成员，与之相关的一切都是未定义行为。</strong></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">如无另外说明，本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">CC BY-NC-SA 4.0</a> 许可</div>
 
