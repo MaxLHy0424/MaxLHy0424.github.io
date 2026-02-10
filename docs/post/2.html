@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light_colorblind" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='/web/view_count.js'></script>
+    <link rel="icon" href="/web/avatar.webp"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="## 0 引入
+
+在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
+<meta property="og:title" content="下江小春都能看懂的 Arch WSL 安装与配置指南">
+<meta property="og:description" content="## 0 引入
+
+在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://MaxLHy0424.is-a.dev/post/2.html">
+<meta property="og:image" content="/web/avatar.webp">
+<title>下江小春都能看懂的 Arch WSL 安装与配置指南</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+<style>.markdown-alert{padding:0.5rem 1rem;margin-bottom:1rem;border-left:.25em solid var(--borderColor-default,var(--color-border-default));}.markdown-alert .markdown-alert-title {display:flex;font-weight:var(--base-text-weight-medium,500);align-items:center;line-height:1;}.markdown-alert>:first-child {margin-top:0;}.markdown-alert>:last-child {margin-bottom:0;}</style><style>.markdown-alert.markdown-alert-note {border-left-color:var(--borderColor-accent-emphasis, var(--color-accent-emphasis));background-color:var(--color-accent-subtle);}.markdown-alert.markdown-alert-note .markdown-alert-title {color: var(--fgColor-accent,var(--color-accent-fg));}</style><style>.markdown-alert.markdown-alert-important {border-left-color:var(--borderColor-done-emphasis, var(--color-done-emphasis));background-color:var(--color-done-subtle);}.markdown-alert.markdown-alert-important .markdown-alert-title {color: var(--fgColor-done,var(--color-done-fg));}</style>
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">下江小春都能看懂的 Arch WSL 安装与配置指南</h1>
+<div class="title-right">
+    <a href="https://MaxLHy0424.is-a.dev" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h2>0 引入</h2>
+<p>在 Windows OS 上开发 GNU/Linux 软件时，WSL 2 常为不二之选。但是，WSL 2 上开箱即用的 GNU/Linux 发行版，几乎只有 Ubuntu。想要在 WSL 2 上使用 Arch Linux，配置较为麻烦。本教程将帮助您在 WSL 2 上安装并配置 Arch Linux。</p>
+<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>适用于 Windows 11 22H2 及以上版本，其以下的版本可能会出现各种问题。</p>
+</div>
+<h2>1 准备工作</h2>
+<p>WSL 2 的硬件需求及启用方法在此处不多赘述，请自行查阅。</p>
+<div class="markdown-alert markdown-alert-note"><p class="markdown-alert-title"><svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p><p>如果您有安装 VMware Workstation Pro 等寄居型虚拟机，推荐改用 Microsoft Hyper-V。否则其运行的虚拟机性能可能会受到影响。</p>
+</div>
+<p>启用后，在 Windows Terminal（管理员权限）中执行以下命令：</p>
+<div class="highlight highlight-source-batchfile"><pre class="notranslate"><span class="pl-k">wsl</span> --update
+<span class="pl-k">wsl</span> --update --pre-release</pre></div>
+<p>接着，在当前的 Windows OS 用户目录下创建文件 <code class="notranslate">.wslconfig</code>，在文件中添加以下内容：</p>
+<pre class="notranslate"><code class="notranslate">[wsl2]
+ipv6=true
+networkingMode=mirrored
+dnsTunneling=true
+firewall=true
+autoProxy=true
+defaultVhdSize=137438953472
+[experimental]
+autoMemoryReclaim=gradual
+bestEffortDnsParsing=true
+useWindowsDnsCache=true
+</code></pre>
+<p>然后，在 Microsoft Store 中搜索 <code class="notranslate">Arch WSL</code>，安装。</p>
+<p>按照正常流程安装、打开、创建账户。</p>
+<h2>2 修改 root 用户密码</h2>
+<p>通过 <code class="notranslate">sudo passwd root</code> 修改 <code class="notranslate">root</code> 用户密码。</p>
+<h2>3 配置 GNU Nano 文本编辑器</h2>
+<p>打开 <code class="notranslate">/etc/nanorc</code>，在末尾追加：</p>
+<pre class="notranslate"><code class="notranslate">bind ^X cut main
+bind ^C copy main
+bind ^V paste all
+bind ^Q exit all
+bind ^S savefile main
+bind ^W writeout main
+bind ^O insert main
+bind ^H help all
+bind ^H exit help
+bind ^F whereis all
+bind ^G findnext all
+bind ^B wherewas all
+bind ^D findprevious all
+bind ^R replace main
+unbind ^U all
+unbind ^N main
+unbind ^Y all
+unbind M-J main
+unbind M-T main
+bind ^A mark main
+bind ^P location main
+bind ^T gotoline main
+bind ^T gotodir browser
+bind ^T cutrestoffile execute
+bind ^L linter execute
+bind ^E execute main
+bind ^K "{mark}{end}{zap}" main
+bind ^U "{mark}{home}{zap}" main
+bind ^Z undo main
+bind ^Y redo main
+set tabsize 4
+set autoindent
+set noconvert
+set smarthome
+set tabstospaces
+set mouse
+set linenumbers
+set casesensitive
+set multibuffer
+set nonewlines
+set magic
+set softwrap
+set wordbounds
+set constantshow
+include /usr/share/nano/*.*
+</code></pre>
+<h2>4 配置包管理器</h2>
+<p>打开 <code class="notranslate">/etc/pacman.d/mirrorlist</code>，在顶部添加：</p>
+<pre class="notranslate"><code class="notranslate">Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+</code></pre>
+<p>打开 <code class="notranslate">/etc/pacman.conf</code>，找到：</p>
+<pre class="notranslate"><code class="notranslate">#UseSyslog
+#Color
+NoProgressBar
+</code></pre>
+<p>换成：</p>
+<pre class="notranslate"><code class="notranslate">UseSyslog
+Color
+#NoProgressBar
+</code></pre>
+<p>然后找到这一行：</p>
+<pre class="notranslate"><code class="notranslate">ParallelDownloads = 5
+</code></pre>
+<p>将后面的 <code class="notranslate">5</code> 修改成您想要同时下载的软件包的数量。</p>
+<p>接着把后面的软件源全部删掉，换成下面的：</p>
+<pre class="notranslate"><code class="notranslate">[testing]
+Include = /etc/pacman.d/mirrorlist
+[staging]
+Include = /etc/pacman.d/mirrorlist
+[core-testing]
+Include = /etc/pacman.d/mirrorlist
+[core-staging]
+Include = /etc/pacman.d/mirrorlist
+[core]
+Include = /etc/pacman.d/mirrorlist
+[extra-testing]
+Include = /etc/pacman.d/mirrorlist
+[extra-staging]
+Include = /etc/pacman.d/mirrorlist
+[extra]
+Include = /etc/pacman.d/mirrorlist
+[community-testing]
+Include = /etc/pacman.d/mirrorlist
+[community-staging]
+Include = /etc/pacman.d/mirrorlist
+[community]
+Include = /etc/pacman.d/mirrorlist
+[multilib-testing]
+Include = /etc/pacman.d/mirrorlist
+[multilib-staging]
+Include = /etc/pacman.d/mirrorlist
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+[archlinuxcn]
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+[blackarch]
+SigLevel = Never
+Server = https://mirrors.tuna.tsinghua.edu.cn/blackarch/$repo/os/$arch
+</code></pre>
+<p>执行以下命令：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman-key --init
+sudo pacman-key --lsign-key <span class="pl-s"><span class="pl-pds">'</span>farseerfc@archlinux.org<span class="pl-pds">'</span></span>
+sudo pacman -Sy archlinuxcn-keyring blackarch-keyring --noconfirm</pre></div>
+<p>执行以下命令安装 yay 稳定版（安装开发版把 <code class="notranslate">yay</code> 改为 <code class="notranslate">yay-git</code>）：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S yay</pre></div>
+<p>如果您愿意的话，也可以试试 paru，可以参考<a href="/post/10.html">这篇教程</a>。</p>
+<h2>5 汉化</h2>
+<p>打开 <code class="notranslate">/etc/locale.gen</code>，找到：</p>
+<pre class="notranslate"><code class="notranslate">#en_US.UTF-8 UTF-8
+</code></pre>
+<pre class="notranslate"><code class="notranslate">#zh_CN.UTF-8 UTF-8
+</code></pre>
+<p>将前面的 <code class="notranslate">#</code> 去掉。</p>
+<p>打开 <code class="notranslate">/etc/locale.conf</code>，将所有文本替换为：</p>
+<pre class="notranslate"><code class="notranslate">LANG=en_US.UTF-8
+</code></pre>
+<p>打开 <code class="notranslate">/etc/profile</code>，在末尾追加：</p>
+<pre class="notranslate"><code class="notranslate">export LC_ALL=zh_CN.UTF-8
+export LANG=zh_CN.UTF-8
+export LANGUAGE=zh_CN:en_US
+</code></pre>
+<p>然后执行以下命令：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -S adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts wqy-microhei wqy-microhei-lite ttf-hannom wqy-zenhei wqy-bitmapfont ttf-arphic-ukai ttf-arphic-uming ttf-hannom noto-fonts opendesktop-fonts noto-fonts-emoji --noconfirm
+sudo locale-gen</pre></div>
+<h2>6 解决 WSLg 及 Systemd 问题</h2>
+<p>执行：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span># Type Path           Mode UID  GID  Age Argument</span>
+<span class="pl-s">L+     /tmp/.X11-unix -    -    -    -   /mnt/wslg/.X11-unix<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/tmpfiles.d/wslg.conf</pre></div>
+<p>如果 Systemd 没有启动，可以试试：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>[boot]</span>
+<span class="pl-s">systemd=true<span class="pl-pds">'</span></span> <span class="pl-k">|</span> sudo tee /etc/wsl.conf</pre></div>
+<h2>7 善后工作及后续使用注意事项</h2>
+<p>执行以下命令：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo pacman -Syyu base base-devel git zip unzip net-tools tree python wget btop fastfetch --needed --noconfirm
+sudo pacman -Rcns <span class="pl-s"><span class="pl-pds">$(</span>pacman -Qtdq<span class="pl-pds">)</span></span> --noconfirm
+sudo pacman -Scc --noconfirm
+sudo rm -rf /tmp/<span class="pl-k">*</span>
+<span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {font,ICE,X11,XIM}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo rm -rf /tmp/.<span class="pl-smi">${i}</span>-unix<span class="pl-k">;</span> <span class="pl-k">done</span>
+<span class="pl-k">for</span> <span class="pl-smi">i</span> <span class="pl-k">in</span> {cache,log,tmp}<span class="pl-k">;</span> <span class="pl-k">do</span> sudo rm -rf /var/<span class="pl-smi">${i}</span>/<span class="pl-k">*</span><span class="pl-k">;</span> <span class="pl-k">done</span></pre></div>
+<div class="markdown-alert markdown-alert-important"><p class="markdown-alert-title"><svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm1.75-.25a.25.25 0 0 0-.25.25v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25Zm7 2.25v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Important</p><p>如果后续安装软件包缺少依赖，可以临时注释掉 <code class="notranslate">/etc/pacman.conf</code> 中所有后缀为 <code class="notranslate">testing</code> 或 <code class="notranslate">staging</code> 的软件源，完成后使用 <code class="notranslate">sudo pacman -Syyu</code> 更新依赖即可。</p>
+</div></div>
+<div style="font-size:small;margin-top:8px;float:right;">如无另外说明，本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode">CC BY-NC-SA 4.0</a> 许可</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://MaxLHy0424.is-a.dev">MaxLHy0424</a></div>
+<div id="footer2"><span id="filingNum"><a href="https://beian.miit.gov.cn/" target="_blank"><a href="https://icp.gov.moe/?keyword=20264096" target="_blank">萌 ICP 备 20264096 号</a></a> • </span>
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("06/20/2024"!=""){
+    var startSite=new Date("06/20/2024");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","MaxLHy0424/MaxLHy0424.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='/web/articletoc.js'></script><script src='/web/lightbox.js'></script>
+
+</html>

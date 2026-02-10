@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /assets/private
+Allow: /
+Sitemap: https://maxlhy0424.is-a.dev/rss.xml
