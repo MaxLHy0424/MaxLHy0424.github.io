@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://maxlhy0424.is-a.dev/rss.xml
