@@ -1,0 +1,26 @@
+{
+	"plugins": ["prettier-plugin-astro", "prettier-plugin-svelte"],
+
+	"printWidth": 80,
+	"tabWidth": 4,
+	"useTabs": true,
+
+	"semi": true,
+	"singleQuote": false,
+	"quoteProps": "as-needed",
+	"trailingComma": "all",
+	"bracketSpacing": true,
+	"arrowParens": "always",
+	"endOfLine": "crlf",
+
+	"overrides": [
+		{
+			"files": ["**/*.css"],
+			"options": {
+				"printWidth": 200,
+				"tabWidth": 2,
+				"useTabs": false
+			}
+		}
+	]
+}
